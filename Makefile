@@ -8,4 +8,4 @@ update:
 	conda env update -f environment.yml
 
 test:
-	pytest -vv --flakes --cov $(MODULE) --cov-report html .
+	pytest -vv --flakes --cov $(MODULE) --cov-report html

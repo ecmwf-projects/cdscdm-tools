@@ -21,6 +21,31 @@ def sampledir():
     return pathlib.Path(__file__).parent
 
 
+def test_check_dataset_attrs(log_output):
+    cdm.check_dataset_attrs({})
+    assert len(log_output.entries) == 7
+    assert "Conventions" in log_output.entries[0]["event"]
+    assert "title" in log_output.entries[1]["event"]
+
+    global_attrs = {
+        "Conventions": "CF-1.8",
+        "title": "Test data",
+        "history": "test data",
+        "institution": "B-Open",
+        "source": "B-Open",
+        "comment": "No comment",
+        "references": "No reference",
+    }
+    cdm.check_dataset_attrs({**global_attrs, "Conventions": "0.1"})
+    assert len(log_output.entries) == 8
+    assert "Conventions" in log_output.entries[7]["event"]
+
+    cdm.check_dataset_attrs(global_attrs)
+    assert len(log_output.entries) == 8
+
+    assert all(e["log_level"] == "warning" for e in log_output.entries)
+
+
 def test_check_variable_attrs(log_output):
     cdm.check_variable_attrs({})
     assert len(log_output.entries) == 2
@@ -55,6 +80,7 @@ def test_check_variable_attrs(log_output):
 
 def test_open_netcdf_dataset(sampledir):
     cdm.open_netcdf_dataset(sampledir / "cdm_simple.nc")
+    cdm.open_netcdf_dataset(sampledir / "bad_two-physical-variables.nc")
 
     with pytest.raises(OSError):
         cdm.open_netcdf_dataset(sampledir / "bad_wrong-file-format.nc")

@@ -12,6 +12,15 @@ CDM_VARIABLES = {
     "air_temperature": {"units": "K", "long_name": "temperature",},
 }
 
+CDM_GLOBAL_ATTRIBUTES = [
+    "title",
+    "history",
+    "institution",
+    "source",
+    "comment",
+    "references",
+]
+
 
 class CommonDataModelError(Exception):
     pass
@@ -19,6 +28,18 @@ class CommonDataModelError(Exception):
 
 def check_coordinates(coords, log=LOGGER):
     pass
+
+
+def check_dataset_attrs(attrs, log=LOGGER):
+    conventions = attrs.get("Conventions")
+    if conventions is None:
+        log.warning("missing required 'Conventions' global attribute")
+    elif conventions not in ["CF-1.8", "CF-1,7", "CF-1.6"]:
+        log.warning("invalid 'Conventions' value", conventions=conventions)
+
+    for attr_name in CDM_GLOBAL_ATTRIBUTES:
+        if attr_name not in attrs:
+            log.warning(f"missing recommended global attribute '{attr_name}'")
 
 
 def check_variable_attrs(attrs, log=LOGGER):
@@ -49,16 +70,18 @@ def check_variable_attrs(attrs, log=LOGGER):
                 log.warning("'units' attribute not equal to the expected")
 
 
+def check_variable(data_var, data_var_name=None, log=LOGGER):
+    log = log.bind(data_var_name=data_var_name)
+    check_variable_attrs(data_var.attrs, log=log)
+
+
 def check_dataset(dataset, log=LOGGER):
     data_vars = list(dataset.data_vars)
     if len(data_vars) > 1:
-        log.error(
-            "dataset must have at most one physical variable", data_vars=data_vars,
-        )
+        log.error("file must have at most one variable", data_vars=data_vars)
+    check_dataset_attrs(dataset.attrs)
     for data_var_name, data_var in dataset.data_vars.items():
-        log = log.bind(data_var_name=data_var_name)
-        check_variable_attrs(data_var.attrs, log=log)
-    check_coordinates(dataset.coords, log=log)
+        check_variable(data_var, data_var_name=data_var_name)
 
 
 def open_netcdf_dataset(file_path):
@@ -70,7 +93,7 @@ def check_file(file_path, log=LOGGER):
         dataset = open_netcdf_dataset(file_path)
     except OSError:
         raise CommonDataModelError("Cannot open file as netCDF4 data")
-    check_dataset(dataset, log=log)
+    check_dataset(dataset)
 
 
 @click.command()
