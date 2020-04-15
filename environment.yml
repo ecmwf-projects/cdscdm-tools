@@ -1,0 +1,10 @@
+name: cdstoolbox-env
+channels:
+  - defaults
+dependencies:
+  - python=3.7.7
+  - black
+  - netcdf4
+  - pytest
+  - pytest-cov
+  - xarray
