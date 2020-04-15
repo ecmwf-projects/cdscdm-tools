@@ -48,7 +48,7 @@ setuptools.setup(
     url="https://github.com/bopen/cdstoolbox",
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=["netcdf4", "xarray"],
+    install_requires=["netcdf4", "structlog", "xarray"],
     python_requires=">=3.6",
     zip_safe=True,
     keywords="GRIB netCDF xarray",
@@ -65,6 +65,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     entry_points={
-        "console_scripts": ["cdscdm-checker=cdstoolbox.cdm:cdscdm_checker_cli"]
+        "console_scripts": ["cdscdm-check-file=cdstoolbox.cdm:check_file_cli"]
     },
 )
