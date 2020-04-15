@@ -8,10 +8,6 @@ import xarray as xr
 
 LOGGER = structlog.get_logger()
 
-CDM_VARIABLES = {
-    "air_temperature": {"units": "K", "long_name": "temperature",},
-}
-
 CDM_GLOBAL_ATTRIBUTES = [
     "title",
     "history",
@@ -20,13 +16,19 @@ CDM_GLOBAL_ATTRIBUTES = [
     "comment",
     "references",
 ]
+CDM_VARIABLES = {
+    "air_temperature": {"units": "K", "long_name": "temperature",},
+}
+CDM_COORDINATES = {
+    "lon": {},
+    "lat": {},
+    "time": {},
+    "obs": {},
+    "plev": {"stored_direction": "decreasing"},
+}
 
 
 class CommonDataModelError(Exception):
-    pass
-
-
-def check_coordinates(coords, log=LOGGER):
     pass
 
 
@@ -70,9 +72,33 @@ def check_variable_attrs(attrs, log=LOGGER):
                 log.warning("'units' attribute not equal to the expected")
 
 
-def check_variable(data_var, data_var_name=None, log=LOGGER):
-    log = log.bind(data_var_name=data_var_name)
+def check_coordinate_data(coord_name, coord, increasing=True, log=LOGGER):
+    log = log.bind(coord_name=coord_name)
+    diffs = coord.diff(coord_name).values
+    if increasing:
+        if (diffs <= 0).any():
+            log.error("coordinate stored direction is not 'increasing'")
+    else:
+        if (diffs >= 0).any():
+            log.error("coordinate stored direction is not 'decreasing'")
+
+
+def check_variable_data(data_var, log=LOGGER):
+    for dim in data_var.dims:
+        if dim not in CDM_COORDINATES:
+            log.warning(f"unknown coordinate '{dim}'")
+        elif dim not in data_var.coords:
+            log.error(f"dimension with no associated coordinate '{dim}'")
+        else:
+            coord_definition = CDM_COORDINATES.get(dim, {})
+            stored_direction = coord_definition.get("stored_direction", "increasing")
+            increasing = stored_direction == "increasing"
+            check_coordinate_data(dim, data_var.coords[dim], increasing, log=log)
+
+
+def check_variable(data_var, log=LOGGER):
     check_variable_attrs(data_var.attrs, log=log)
+    check_variable_data(data_var, log=log)
 
 
 def check_dataset(dataset, log=LOGGER):
@@ -81,7 +107,7 @@ def check_dataset(dataset, log=LOGGER):
         log.error("file must have at most one variable", data_vars=data_vars)
     check_dataset_attrs(dataset.attrs)
     for data_var_name, data_var in dataset.data_vars.items():
-        check_variable(data_var, data_var_name=data_var_name)
+        check_variable(data_var, log=log.bind(data_var_name=data_var_name))
 
 
 def open_netcdf_dataset(file_path):
