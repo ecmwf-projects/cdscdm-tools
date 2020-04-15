@@ -17,19 +17,19 @@ CDM_GLOBAL_ATTRIBUTES = [
     "references",
 ]
 CDM_VARIABLES = {
-    "air_temperature": {"units": "K", "long_name": "temperature",},
+    "air_temperature": {"units": "K", "long_name": "temperature"},
 }
 CDM_COORDINATES = {
-    "lon": {},
-    "lat": {},
-    "time": {},
-    "obs": {},
-    "plev": {"stored_direction": "decreasing"},
+    "lon": {"standard_name": "longitude", "units": "degrees_east"},
+    "lat": {"standard_name": "latitude", "units": "degrees_north"},
+    "time": {"standard_name": "time"},
+    "obs": {"units": "1"},
+    "plev": {
+        "standard_name": "air_pressure",
+        "units": "Pa",
+        "stored_direction": "decreasing",
+    },
 }
-
-
-class CommonDataModelError(Exception):
-    pass
 
 
 def check_dataset_attrs(attrs, log=LOGGER):
@@ -47,6 +47,9 @@ def check_dataset_attrs(attrs, log=LOGGER):
 def check_variable_attrs(attrs, log=LOGGER):
     standard_name = attrs.get("standard_name")
     units = attrs.get("units")
+
+    if standard_name is not None:
+        log = log.bind(standard_name=standard_name)
 
     expected_attrs = CDM_VARIABLES.get(standard_name, {})
     expected_units = expected_attrs.get("units")
@@ -70,6 +73,45 @@ def check_variable_attrs(attrs, log=LOGGER):
                 log.warning("'units' attribute not equivalent to the expected")
             elif not cf_units.equals(expected_cf_units):
                 log.warning("'units' attribute not equal to the expected")
+
+
+def check_coordinate_attrs(coord_name, attrs, log=LOGGER):
+    log = log.bind(coord_name=coord_name)
+
+    standard_name = attrs.get("standard_name")
+    if standard_name is not None:
+        log = log.bind(standard_name=standard_name)
+
+    units = attrs.get("units")
+
+    definition = {}
+    if coord_name in CDM_COORDINATES:
+        definition = CDM_COORDINATES[coord_name]
+    elif standard_name is not None:
+        for expected_name, coord_def in CDM_COORDINATES.items():
+            if coord_def.get("standard_name") == standard_name:
+                definition = coord_def
+                log.error("wrong name for coordinate", expected_name=expected_name)
+
+    if definition == {}:
+        log.error("coordinate not found in CDM")
+
+    expected_units = definition.get("units", "1")
+
+    if "long_name" not in attrs:
+        log.warning("missing recommended attribute 'long_name'")
+
+    if "units" not in attrs:
+        log.error("missing required attribute 'units'")
+    else:
+        cf_units = cfunits.Units(units)
+        if not cf_units.isvalid:
+            log.error("'units' attribute not valid", units=units)
+        else:
+            expected_cf_units = cfunits.Units(expected_units)
+            log = log.bind(units=units, expected_units=expected_units)
+            if not cf_units.equals(expected_cf_units):
+                log.error("'units' attribute not equal to the expected")
 
 
 def check_coordinate_data(coord_name, coord, increasing=True, log=LOGGER):
@@ -96,6 +138,10 @@ def check_variable_data(data_var, log=LOGGER):
             check_coordinate_data(dim, data_var.coords[dim], increasing, log=log)
 
 
+def open_netcdf_dataset(file_path):
+    return xr.open_dataset(file_path, engine="netcdf4")
+
+
 def check_variable(data_var, log=LOGGER):
     check_variable_attrs(data_var.attrs, log=log)
     check_variable_data(data_var, log=log)
@@ -108,17 +154,12 @@ def check_dataset(dataset, log=LOGGER):
     check_dataset_attrs(dataset.attrs)
     for data_var_name, data_var in dataset.data_vars.items():
         check_variable(data_var, log=log.bind(data_var_name=data_var_name))
-
-
-def open_netcdf_dataset(file_path):
-    return xr.open_dataset(file_path, engine="netcdf4")
+    for coord_name, coord in dataset.coords.items():
+        check_coordinate_attrs(coord_name, coord.attrs, log=log)
 
 
 def check_file(file_path, log=LOGGER):
-    try:
-        dataset = open_netcdf_dataset(file_path)
-    except OSError:
-        raise CommonDataModelError("Cannot open file as netCDF4 data")
+    dataset = open_netcdf_dataset(file_path)
     check_dataset(dataset)
 
 

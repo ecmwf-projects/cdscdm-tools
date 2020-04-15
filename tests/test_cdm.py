@@ -74,9 +74,38 @@ def test_check_variable_attrs(log_output):
     assert "units" in log_output.entries[4]["event"]
 
     cdm.check_variable_attrs({**tas_attrs, "standard_name": "*"})
+    print(log_output.entries)
     assert len(log_output.entries) == 5
 
     assert all(e["log_level"] == "warning" for e in log_output.entries)
+
+
+def test_check_coordinate_attrs(log_output):
+    attrs = {
+        "standard_name": "latitude",
+        "long_name": "latitude",
+        "units": "degrees_north",
+    }
+    cdm.check_coordinate_attrs("lat", attrs)
+    assert len(log_output.entries) == 0
+
+    cdm.check_coordinate_attrs("latitude", attrs)
+    assert len(log_output.entries) == 1
+    assert "coordinate" in log_output.entries[0]["event"]
+
+    cdm.check_coordinate_attrs("latitude", {})
+    assert len(log_output.entries) == 4
+    assert "CDM" in log_output.entries[1]["event"]
+    assert "long_name" in log_output.entries[2]["event"]
+    assert "units" in log_output.entries[3]["event"]
+
+    cdm.check_coordinate_attrs("lat", {**attrs, "units": "*"})
+    assert len(log_output.entries) == 5
+    assert "units" in log_output.entries[4]["event"]
+
+    cdm.check_coordinate_attrs("lat", {**attrs, "units": "m"})
+    assert len(log_output.entries) == 6
+    assert "units" in log_output.entries[5]["event"]
 
 
 def test_check_coordinate_data(log_output):
@@ -113,7 +142,25 @@ def test_check_variable_data(log_output):
 
 def test_open_netcdf_dataset(sampledir):
     cdm.open_netcdf_dataset(sampledir / "cdm_grid_simple.nc")
-    cdm.open_netcdf_dataset(sampledir / "bad_two-physical-variables.nc")
+    cdm.open_netcdf_dataset(sampledir / "bad_grid_simple.nc")
 
     with pytest.raises(OSError):
         cdm.open_netcdf_dataset(sampledir / "bad_wrong-file-format.nc")
+
+
+def test_check_dataset(log_output, sampledir):
+    cdm_grid_simple = cdm.open_netcdf_dataset(sampledir / "cdm_grid_simple.nc")
+    cdm.check_dataset(cdm_grid_simple)
+    assert len(log_output.entries) == 0
+
+    bad_grid_simple = cdm.open_netcdf_dataset(sampledir / "bad_grid_simple.nc")
+    cdm.check_dataset(bad_grid_simple)
+    assert len(log_output.entries) == 14
+
+
+def test_check_file(log_output, sampledir):
+    cdm.check_file(sampledir / "cdm_grid_simple.nc")
+    assert len(log_output.entries) == 0
+
+    with pytest.raises(OSError):
+        cdm.check_file(sampledir / "bad_wrong-file-format.nc")
