@@ -36,7 +36,7 @@ def check_dataset_attrs(attrs, log=LOGGER):
     conventions = attrs.get("Conventions")
     if conventions is None:
         log.warning("missing required 'Conventions' global attribute")
-    elif conventions not in ["CF-1.8", "CF-1,7", "CF-1.6"]:
+    elif conventions not in ["CF-1.8", "CF-1.7", "CF-1.6"]:
         log.warning("invalid 'Conventions' value", conventions=conventions)
 
     for attr_name in CDM_GLOBAL_ATTRIBUTES:
@@ -139,7 +139,8 @@ def check_variable_data(data_var, log=LOGGER):
 
 
 def open_netcdf_dataset(file_path):
-    return xr.open_dataset(file_path, engine="netcdf4")
+    bare_dataset = xr.open_dataset(file_path, engine="netcdf4", decode_cf=False)
+    return xr.decode_cf(bare_dataset, use_cftime=False)
 
 
 def check_variable(data_var, log=LOGGER):
