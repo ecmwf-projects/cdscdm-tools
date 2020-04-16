@@ -52,14 +52,10 @@ def check_variable_attrs(attrs, log=LOGGER):
     standard_name = attrs.get("standard_name")
     units = attrs.get("units")
 
-    if standard_name is not None:
-        log = log.bind(standard_name=standard_name)
+    log = log.bind(standard_name=standard_name)
 
     expected_attrs = CDM_VARIABLES.get(standard_name, {})
     expected_units = expected_attrs.get("units")
-
-    if standard_name is not None:
-        log = log.bind(standard_name=standard_name)
 
     if "long_name" not in attrs:
         log.warning("missing recommended attribute 'long_name'")
@@ -70,7 +66,7 @@ def check_variable_attrs(attrs, log=LOGGER):
         cf_units = cfunits.Units(units)
         if not cf_units.isvalid:
             log.warning("'units' attribute not valid", units=units)
-        elif expected_units is not None:
+        else:
             expected_cf_units = cfunits.Units(expected_units)
             log = log.bind(units=units, expected_units=expected_units)
             if not cf_units.equivalent(expected_cf_units):
@@ -83,10 +79,9 @@ def check_coordinate_attrs(coord_name, attrs, dtype_name=None, log=LOGGER):
     log = log.bind(coord_name=coord_name)
 
     standard_name = attrs.get("standard_name")
-    if standard_name is not None:
-        log = log.bind(standard_name=standard_name)
-
     units = attrs.get("units")
+
+    log = log.bind(standard_name=standard_name)
 
     definition = {}
     if coord_name in CDM_COORDINATES:
