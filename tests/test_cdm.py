@@ -44,20 +44,9 @@ CDM_PLEV_ATTRS = {
     "units": "Pa",
 }
 CDM_TIME_ATTRS = {"standard_name": "time", "long_name": "time"}
-BAD_TA_ATTRS = {
-    "standard_name": "air_temperature",
-    "long_name": "temperature",
-    "units": "Celsius",
-}
 
-CDM_GRID_SIMPLE = xr.Dataset(
-    {
-        "tas": (
-            ("plev", "time", "leadtime"),
-            np.ones((2, 3, 4), "float32"),
-            CDM_TAS_ATTRS,
-        )
-    },
+CDM_GRID_DATASET = xr.Dataset(
+    {"tas": (("plev", "time", "leadtime"), np.ones((2, 3, 4)), CDM_TAS_ATTRS,)},
     coords={
         "plev": ("plev", np.arange(1000, 800 - 1, -200), CDM_PLEV_ATTRS),
         "time": ("time", pd.date_range("2020-01-01", periods=3), CDM_TIME_ATTRS),
@@ -69,9 +58,22 @@ CDM_GRID_SIMPLE = xr.Dataset(
     },
     attrs=CDM_DATASET_ATTRS,
 )
+CDM_OBS_DATASET = xr.Dataset(
+    {"ta": (("obs",), np.ones(4, dtype="float32"), CDM_TAS_ATTRS)},
+    coords={
+        "obs": ("obs", np.arange(4), {"long_name": "observation", "units": "1"}),
+        "lon": ("obs", -np.arange(4), {"long_name": "lon", "units": "degrees_east"},),
+        "lat": ("obs", -np.arange(4), {"long_name": "lat", "units": "degrees_north"},),
+    },
+    attrs=CDM_DATASET_ATTRS,
+)
 
-
-BAD_GRID_SIMPLE = xr.Dataset(
+BAD_TA_ATTRS = {
+    "standard_name": "air_temperature",
+    "long_name": "temperature",
+    "units": "Celsius",
+}
+BAD_GRID_DATASET = xr.Dataset(
     {
         "tprate": (
             ("lon1", "time"),
@@ -159,7 +161,7 @@ def test_check_coordinate_attrs(log_output):
 
 
 def test_check_coordinate_data(log_output):
-    coords = CDM_GRID_SIMPLE
+    coords = CDM_GRID_DATASET
 
     cdm.check_coordinate_data("time", coords["time"])
     assert len(log_output.entries) == 0
@@ -175,15 +177,15 @@ def test_check_coordinate_data(log_output):
 
 
 def test_check_variable_data(log_output):
-    cdm.check_variable_data(CDM_GRID_SIMPLE)
+    cdm.check_variable_data(CDM_GRID_DATASET)
     assert len(log_output.entries) == 0
 
-    cdm.check_variable_data(CDM_GRID_SIMPLE.rename(time="time1"))
+    cdm.check_variable_data(CDM_GRID_DATASET.rename(time="time1"))
     assert len(log_output.entries) == 1
     assert "time1" in log_output.entries[0]["event"]
     assert log_output.entries[0]["log_level"] == "warning"
 
-    cdm.check_variable_data(CDM_GRID_SIMPLE.drop_vars("plev"))
+    cdm.check_variable_data(CDM_GRID_DATASET.drop_vars("plev"))
     assert len(log_output.entries) == 2
     assert "plev" in log_output.entries[1]["event"]
     assert log_output.entries[1]["log_level"] == "error"
@@ -198,10 +200,13 @@ def test_open_netcdf_dataset(sampledir):
 
 
 def test_check_dataset(log_output):
-    cdm.check_dataset(CDM_GRID_SIMPLE)
+    cdm.check_dataset(CDM_GRID_DATASET)
     assert len(log_output.entries) == 0
 
-    cdm.check_dataset(BAD_GRID_SIMPLE)
+    cdm.check_dataset(CDM_OBS_DATASET)
+    assert len(log_output.entries) == 0
+
+    cdm.check_dataset(BAD_GRID_DATASET)
     assert len(log_output.entries) == 13
 
 
