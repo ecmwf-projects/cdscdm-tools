@@ -2,6 +2,7 @@ import logging
 
 import cfunits
 import click
+import numpy as np
 import structlog
 import xarray as xr
 
@@ -23,6 +24,8 @@ CDM_COORDINATES = {
     "lon": {"standard_name": "longitude", "units": "degrees_east"},
     "lat": {"standard_name": "latitude", "units": "degrees_north"},
     "time": {"standard_name": "time"},
+    "forecast_reference_time": {"standard_name": "forecast_reference_time"},
+    "leadtime": {"standard_name": "forecast_period"},
     "obs": {"units": "1"},
     "plev": {
         "standard_name": "air_pressure",
@@ -30,6 +33,7 @@ CDM_COORDINATES = {
         "stored_direction": "decreasing",
     },
 }
+TIME_DTYPE_NAMES = {"datetime64[ns]", "timedelta64[ns]"}
 
 
 def check_dataset_attrs(attrs, log=LOGGER):
@@ -75,7 +79,7 @@ def check_variable_attrs(attrs, log=LOGGER):
                 log.warning("'units' attribute not equal to the expected")
 
 
-def check_coordinate_attrs(coord_name, attrs, log=LOGGER):
+def check_coordinate_attrs(coord_name, attrs, dtype_name=None, log=LOGGER):
     log = log.bind(coord_name=coord_name)
 
     standard_name = attrs.get("standard_name")
@@ -101,6 +105,9 @@ def check_coordinate_attrs(coord_name, attrs, log=LOGGER):
     if "long_name" not in attrs:
         log.warning("missing recommended attribute 'long_name'")
 
+    if dtype_name in TIME_DTYPE_NAMES:
+        return
+
     if "units" not in attrs:
         log.error("missing required attribute 'units'")
     else:
@@ -117,11 +124,14 @@ def check_coordinate_attrs(coord_name, attrs, log=LOGGER):
 def check_coordinate_data(coord_name, coord, increasing=True, log=LOGGER):
     log = log.bind(coord_name=coord_name)
     diffs = coord.diff(coord_name).values
+    zero = 0
+    if coord.dtype.name in TIME_DTYPE_NAMES:
+        zero = np.timedelta64(0, "ns")
     if increasing:
-        if (diffs <= 0).any():
+        if (diffs <= zero).any():
             log.error("coordinate stored direction is not 'increasing'")
     else:
-        if (diffs >= 0).any():
+        if (diffs >= zero).any():
             log.error("coordinate stored direction is not 'decreasing'")
 
 
@@ -156,7 +166,7 @@ def check_dataset(dataset, log=LOGGER):
     for data_var_name, data_var in dataset.data_vars.items():
         check_variable(data_var, log=log.bind(data_var_name=data_var_name))
     for coord_name, coord in dataset.coords.items():
-        check_coordinate_attrs(coord_name, coord.attrs, log=log)
+        check_coordinate_attrs(coord_name, coord.attrs, coord.dtype.name, log=log)
 
 
 def check_file(file_path, log=LOGGER):
