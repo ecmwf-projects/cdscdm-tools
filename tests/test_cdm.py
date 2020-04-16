@@ -19,9 +19,7 @@ def fixture_configure_structlog(log_output):
     structlog.configure(processors=[log_output])
 
 
-@pytest.fixture()
-def sampledir():
-    return pathlib.Path(__file__).parent
+SAMPLEDIR = pathlib.Path(__file__).parent
 
 
 CDM_DATASET_ATTRS = {
@@ -95,6 +93,12 @@ BAD_GRID_DATASET = xr.Dataset(
         "comment": "No comment",
     },
 )
+
+
+def save_sample_files():
+    CDM_GRID_DATASET.to_netcdf(SAMPLEDIR / 'cdm_grid.nc')
+    CDM_OBS_DATASET.to_netcdf(SAMPLEDIR / 'cdm_obs.nc')
+    BAD_GRID_DATASET.to_netcdf(SAMPLEDIR / 'bad_grid.nc')
 
 
 def test_check_dataset_attrs(log_output):
@@ -191,12 +195,11 @@ def test_check_variable_data(log_output):
     assert log_output.entries[1]["log_level"] == "error"
 
 
-def test_open_netcdf_dataset(sampledir):
-    cdm.open_netcdf_dataset(sampledir / "cdm_grid_simple.nc")
-    cdm.open_netcdf_dataset(sampledir / "bad_grid_simple.nc")
+def test_open_netcdf_dataset():
+    cdm.open_netcdf_dataset(SAMPLEDIR / "cdm_grid.nc")
 
     with pytest.raises(OSError):
-        cdm.open_netcdf_dataset(sampledir / "bad_wrong-file-format.nc")
+        cdm.open_netcdf_dataset(SAMPLEDIR / "bad_wrong-file-format.nc")
 
 
 def test_check_dataset(log_output):
@@ -210,9 +213,9 @@ def test_check_dataset(log_output):
     assert len(log_output.entries) == 13
 
 
-def test_check_file(log_output, sampledir):
-    cdm.check_file(sampledir / "cdm_grid_simple.nc")
+def test_check_file(log_output):
+    cdm.check_file(SAMPLEDIR / "cdm_grid.nc")
     assert len(log_output.entries) == 0
 
     with pytest.raises(OSError):
-        cdm.check_file(sampledir / "bad_wrong-file-format.nc")
+        cdm.check_file(SAMPLEDIR / "bad_wrong-file-format.nc")
