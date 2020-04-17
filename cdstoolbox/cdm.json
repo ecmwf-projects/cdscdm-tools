@@ -13,8 +13,7 @@
    "units":"m"
   },
   "custom":{
-   "long_name":"custom coordinate",
-   "units":""
+   "long_name":"custom coordinate"
   },
   "dayofyear":{
    "long_name":"day of year",
@@ -39,12 +38,10 @@
    "units":"m"
   },
   "icoads_timeseries_index":{
-   "long_name":"icoads timeseries index",
-   "units":""
+   "long_name":"icoads timeseries index"
   },
   "icoads_uid":{
-   "long_name":"icoads unique identifier",
-   "units":""
+   "long_name":"icoads unique identifier"
   },
   "lat":{
    "standard_name":"latitude",
@@ -70,20 +67,16 @@
    "units":"1"
   },
   "nuts_level0":{
-   "long_name":"NUTS 2016 region level 0",
-   "units":""
+   "long_name":"NUTS 2016 region level 0"
   },
   "nuts_level1":{
-   "long_name":"NUTS 2016 region level 1",
-   "units":""
+   "long_name":"NUTS 2016 region level 1"
   },
   "nuts_level2":{
-   "long_name":"NUTS 2016 region level 2",
-   "units":""
+   "long_name":"NUTS 2016 region level 2"
   },
   "nuts_level3":{
-   "long_name":"NUTS 2016 region level 3",
-   "units":""
+   "long_name":"NUTS 2016 region level 3"
   },
   "obs":{
    "long_name":"observation",
