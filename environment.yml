@@ -6,6 +6,7 @@ dependencies:
   - python=3.7.7
   - black
   - cfunits
+  - check-manifest
   - colorama
   - netcdf4
   - notebook

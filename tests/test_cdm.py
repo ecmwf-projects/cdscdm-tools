@@ -96,9 +96,9 @@ BAD_GRID_DATASET = xr.Dataset(
 
 
 def save_sample_files():
-    CDM_GRID_DATASET.to_netcdf(SAMPLEDIR / 'cdm_grid.nc')
-    CDM_OBS_DATASET.to_netcdf(SAMPLEDIR / 'cdm_obs.nc')
-    BAD_GRID_DATASET.to_netcdf(SAMPLEDIR / 'bad_grid.nc')
+    CDM_GRID_DATASET.to_netcdf(SAMPLEDIR / "cdm_grid.nc")
+    CDM_OBS_DATASET.to_netcdf(SAMPLEDIR / "cdm_obs.nc")
+    BAD_GRID_DATASET.to_netcdf(SAMPLEDIR / "bad_grid.nc")
 
 
 def test_check_dataset_attrs(log_output):

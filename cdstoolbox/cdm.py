@@ -1,4 +1,6 @@
 import logging
+import json
+import pkgutil
 
 import cfunits
 import click
@@ -9,30 +11,11 @@ import xarray as xr
 
 LOGGER = structlog.get_logger()
 
-CDM_GLOBAL_ATTRIBUTES = [
-    "title",
-    "history",
-    "institution",
-    "source",
-    "comment",
-    "references",
-]
-CDM_VARIABLES = {
-    "air_temperature": {"units": "K", "long_name": "temperature"},
-}
-CDM_COORDINATES = {
-    "lon": {"standard_name": "longitude", "units": "degrees_east"},
-    "lat": {"standard_name": "latitude", "units": "degrees_north"},
-    "time": {"standard_name": "time"},
-    "forecast_reference_time": {"standard_name": "forecast_reference_time"},
-    "leadtime": {"standard_name": "forecast_period"},
-    "obs": {"units": "1"},
-    "plev": {
-        "standard_name": "air_pressure",
-        "units": "Pa",
-        "stored_direction": "decreasing",
-    },
-}
+CDM = json.loads(pkgutil.get_data(__name__, "cdm.json"))
+CDM_ATTRS = CDM["attrs"]
+CDM_COORDS = CDM["coords"]
+CDM_DATA_VARS = CDM["data_vars"]
+
 TIME_DTYPE_NAMES = {"datetime64[ns]", "timedelta64[ns]"}
 
 
@@ -43,7 +26,7 @@ def check_dataset_attrs(attrs, log=LOGGER):
     elif conventions not in ["CF-1.8", "CF-1.7", "CF-1.6"]:
         log.warning("invalid 'Conventions' value", conventions=conventions)
 
-    for attr_name in CDM_GLOBAL_ATTRIBUTES:
+    for attr_name in CDM_ATTRS:
         if attr_name not in attrs:
             log.warning(f"missing recommended global attribute '{attr_name}'")
 
@@ -54,7 +37,7 @@ def check_variable_attrs(attrs, log=LOGGER):
 
     log = log.bind(standard_name=standard_name)
 
-    expected_attrs = CDM_VARIABLES.get(standard_name, {})
+    expected_attrs = CDM_DATA_VARS.get(standard_name, {})
     expected_units = expected_attrs.get("units")
 
     if "long_name" not in attrs:
@@ -84,10 +67,10 @@ def check_coordinate_attrs(coord_name, attrs, dtype_name=None, log=LOGGER):
     log = log.bind(standard_name=standard_name)
 
     definition = {}
-    if coord_name in CDM_COORDINATES:
-        definition = CDM_COORDINATES[coord_name]
+    if coord_name in CDM_COORDS:
+        definition = CDM_COORDS[coord_name]
     elif standard_name is not None:
-        for expected_name, coord_def in CDM_COORDINATES.items():
+        for expected_name, coord_def in CDM_COORDS.items():
             if coord_def.get("standard_name") == standard_name:
                 definition = coord_def
                 log.error("wrong name for coordinate", expected_name=expected_name)
@@ -132,12 +115,12 @@ def check_coordinate_data(coord_name, coord, increasing=True, log=LOGGER):
 
 def check_variable_data(data_var, log=LOGGER):
     for dim in data_var.dims:
-        if dim not in CDM_COORDINATES:
+        if dim not in CDM_COORDS:
             log.warning(f"unknown coordinate '{dim}'")
         elif dim not in data_var.coords:
             log.error(f"dimension with no associated coordinate '{dim}'")
         else:
-            coord_definition = CDM_COORDINATES.get(dim, {})
+            coord_definition = CDM_COORDS.get(dim, {})
             stored_direction = coord_definition.get("stored_direction", "increasing")
             increasing = stored_direction == "increasing"
             check_coordinate_data(dim, data_var.coords[dim], increasing, log=log)
@@ -167,6 +150,16 @@ def check_dataset(dataset, log=LOGGER):
 def check_file(file_path, log=LOGGER):
     dataset = open_netcdf_dataset(file_path)
     check_dataset(dataset)
+
+
+def cmor_tables_to_cdm(cmor_tables_dir, cdm_path):
+    cdm = {
+        "attrs": CDM_ATTRS,
+        "coords": CDM_COORDS,
+        "data_vars": CDM_DATA_VARS,
+    }
+    with open(cdm_path, "w") as fp:
+        json.dump(cdm, fp, separators=(",", ":"), indent=1)
 
 
 @click.command()

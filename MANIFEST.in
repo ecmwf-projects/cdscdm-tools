@@ -1,0 +1,7 @@
+include *.sh
+include *.yml
+include LICENSE
+include Makefile
+recursive-include cdstoolbox *.json
+recursive-include tests *.nc
+recursive-include tests *.py
