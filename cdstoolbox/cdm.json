@@ -8,30 +8,131 @@
   "references"
  ],
  "coords":{
-  "lon":{
-   "standard_name":"longitude",
-   "units":"degrees_east"
+  "altitude":{
+   "long_name":"Altitude",
+   "units":"m"
+  },
+  "custom":{
+   "long_name":"custom coordinate",
+   "units":""
+  },
+  "dayofyear":{
+   "long_name":"day of year",
+   "units":"1"
+  },
+  "depth":{
+   "standard_name":"depth",
+   "long_name":"depth",
+   "units":"m"
+  },
+  "dir":{
+   "long_name":"from direction compass angle",
+   "units":"degree"
+  },
+  "forecast_reference_time":{
+   "standard_name":"forecast_reference_time",
+   "long_name":"initial time of forecast"
+  },
+  "height":{
+   "standard_name":"height",
+   "long_name":"height",
+   "units":"m"
+  },
+  "icoads_timeseries_index":{
+   "long_name":"icoads timeseries index",
+   "units":""
+  },
+  "icoads_uid":{
+   "long_name":"icoads unique identifier",
+   "units":""
   },
   "lat":{
    "standard_name":"latitude",
+   "long_name":"latitude",
    "units":"degrees_north"
   },
-  "time":{
-   "standard_name":"time"
-  },
-  "forecast_reference_time":{
-   "standard_name":"forecast_reference_time"
-  },
   "leadtime":{
-   "standard_name":"forecast_period"
+   "standard_name":"forecast_period",
+   "long_name":"hours since forecast_reference_time",
+   "units":"hours"
+  },
+  "leadtime_month":{
+   "long_name":"months since forecast_reference_time",
+   "units":"1"
+  },
+  "lon":{
+   "standard_name":"longitude",
+   "long_name":"longitude",
+   "units":"degrees_east"
+  },
+  "month":{
+   "long_name":"month of year",
+   "units":"1"
+  },
+  "nuts_level0":{
+   "long_name":"NUTS 2016 region level 0",
+   "units":""
+  },
+  "nuts_level1":{
+   "long_name":"NUTS 2016 region level 1",
+   "units":""
+  },
+  "nuts_level2":{
+   "long_name":"NUTS 2016 region level 2",
+   "units":""
+  },
+  "nuts_level3":{
+   "long_name":"NUTS 2016 region level 3",
+   "units":""
   },
   "obs":{
+   "long_name":"observation",
    "units":"1"
   },
   "plev":{
    "standard_name":"air_pressure",
+   "long_name":"pressure",
    "units":"Pa",
    "stored_direction":"decreasing"
+  },
+  "power_coord":{
+   "long_name":"power",
+   "units":"W"
+  },
+  "realization":{
+   "standard_name":"realization",
+   "long_name":"realization",
+   "units":"1"
+  },
+  "season":{
+   "long_name":"season of year",
+   "units":"1"
+  },
+  "shape_id_int":{
+   "standard_name":"shape_id_int",
+   "long_name":"shape_id_int",
+   "units":"1"
+  },
+  "shape_id_str":{
+   "standard_name":"shape_id_str",
+   "long_name":"shape_id_str",
+   "units":"1"
+  },
+  "speed_coord":{
+   "long_name":"speed",
+   "units":"m s-1"
+  },
+  "time":{
+   "standard_name":"time",
+   "long_name":"time"
+  },
+  "weekofyear":{
+   "long_name":"week of year",
+   "units":"1"
+  },
+  "year":{
+   "long_name":"year",
+   "units":"1"
   }
  },
  "data_vars":{

@@ -1,5 +1,6 @@
 import logging
 import json
+import pathlib
 import pkgutil
 
 import cfunits
@@ -153,9 +154,22 @@ def check_file(file_path, log=LOGGER):
 
 
 def cmor_tables_to_cdm(cmor_tables_dir, cdm_path):
+    cmor_tables_dir = pathlib.Path(cmor_tables_dir)
+    with open(cmor_tables_dir / "CDS_coordinate.json") as fp:
+        axis_entry = json.load(fp).get("axis_entry", {})
+
+    cdm_coords = {}
+    for coord in sorted(axis_entry.values(), key=lambda x: x["out_name"]):
+        cdm_coord = {k: v for k, v in coord.items() if v and k in {"standard_name", "long_name"}}
+        if "since" not in coord.get("units", "since"):
+            cdm_coord["units"] = coord["units"]
+        if coord.get("stored_direction", "") not in {"increasing", ""}:
+            cdm_coord["stored_direction"] = coord["stored_direction"]
+        cdm_coords[coord["out_name"]] = cdm_coord
+
     cdm = {
-        "attrs": CDM_ATTRS,
-        "coords": CDM_COORDS,
+        "attrs": ["title", "history", "institution", "source", "comment", "references"],
+        "coords": cdm_coords,
         "data_vars": CDM_DATA_VARS,
     }
     with open(cdm_path, "w") as fp:
