@@ -18,3 +18,8 @@ cd cdstoolbox
 conda activate cdstoolbox-env
 conda env update -f environment.yml
 ```
+
+Usage:
+```
+cdscdm-check-file myfile.nc
+```
