@@ -1,4 +1,5 @@
 # cdstoolbox
+
 Remote API to the Climate Data Store Toolbox
 
 # Develop
@@ -23,3 +24,7 @@ Usage:
 ```
 cdscdm-check-file myfile.nc
 ```
+
+# Project resources
+
+![unit-tests](https://github.com/bopen/cdstoolbox/workflows/unit-tests/badge.svg)
