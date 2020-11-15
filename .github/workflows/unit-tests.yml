@@ -40,7 +40,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install package and dependencies
       run: |
-        sudo chown 501:20 -R /usr/local/miniconda
+        sudo chown -R 501:20 /usr/local/miniconda
         $CONDA/bin/conda env update -f tests/environment-macos-${{ matrix.python-version }}.yml -n base
         $CONDA/bin/python --version
         $CONDA/bin/python -m pip install -e .
