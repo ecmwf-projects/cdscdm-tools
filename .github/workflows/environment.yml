@@ -1,4 +1,4 @@
-name: environmet
+name: environment
 
 on:
   push:
