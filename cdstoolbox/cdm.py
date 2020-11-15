@@ -168,8 +168,10 @@ def cmor_tables_to_cdm(cmor_tables_dir, cdm_path):
 
     cdm_coords = {}
     for coord in sorted(axis_entry.values(), key=lambda x: x["out_name"]):
-        cdm_coord = {k: v for k, v in coord.items() if v and k in {"standard_name", "long_name"}}
-        if coord.get("units", "") and 'since' not in coord["units"]:
+        cdm_coord = {
+            k: v for k, v in coord.items() if v and k in {"standard_name", "long_name"}
+        }
+        if coord.get("units", "") and "since" not in coord["units"]:
             cdm_coord["units"] = coord["units"]
         if coord.get("stored_direction", "") not in {"increasing", ""}:
             cdm_coord["stored_direction"] = coord["stored_direction"]
@@ -180,8 +182,10 @@ def cmor_tables_to_cdm(cmor_tables_dir, cdm_path):
 
     cdm_data_vars = {}
     for coord in sorted(variable_entry.values(), key=lambda x: x["out_name"]):
-        cdm_data_var = {k: v for k, v in coord.items() if v and k in {"standard_name", "long_name"}}
-        if coord.get("units", "") and 'since' not in coord["units"]:
+        cdm_data_var = {
+            k: v for k, v in coord.items() if v and k in {"standard_name", "long_name"}
+        }
+        if coord.get("units", "") and "since" not in coord["units"]:
             cdm_data_var["units"] = coord["units"]
         cdm_data_vars[coord["out_name"]] = cdm_data_var
 
