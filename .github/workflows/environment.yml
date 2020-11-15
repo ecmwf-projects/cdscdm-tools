@@ -1,6 +1,7 @@
 name: environment
 
 on:
+  push:
   schedule:
     - cron:  '0 9 * * 1'
 
@@ -16,11 +17,14 @@ jobs:
     - uses: actions/checkout@v2
     - name: Create conda envirnoment ubuntu-${{ matrix.python-version }}
       run: |
+        $CONDA/bin/conda init bash
         $CONDA/bin/conda create -n ubuntu-${{ matrix.python-version }} python=${{ matrix.python-version }}
-    - name: Install package and dependencies
+    - name: Install dependencies and package
+      shell: bash -l {0}
       run: |
-        $CONDA/bin/conda env update -n ubuntu-${{ matrix.python-version }} -f environment.in.yml
-        $CONDA/bin/conda env export -n ubuntu-${{ matrix.python-version }} --no-build | grep -v "prefix: " > environment-ubuntu-${{ matrix.python-version }}.yml
+        $CONDA/bin/conda activate ubuntu-${{ matrix.python-version }}
+        conda env update -n ubuntu-${{ matrix.python-version }} -f environment.in.yml
+        conda env export -n ubuntu-${{ matrix.python-version }} --no-build | grep -v "prefix: " > environment-ubuntu-${{ matrix.python-version }}.yml
     - name: Archive environment-ubuntu-${{ matrix.python-version }}.yml
       uses: actions/upload-artifact@v2
       with:
