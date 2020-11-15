@@ -40,11 +40,12 @@ jobs:
     - name: Setup environment ${{ matrix.os-version }}-${{ matrix.python-version }}
       run: |
         C:\Miniconda\condabin\conda.bat env update -n base -f tests/environment-${{ matrix.os-version }}-${{ matrix.python-version }}.yml
+        C:\Miniconda\condabin\conda.bat init powershell
     - name: Test with pytest
       run: |
+        C:\Miniconda\condabin\conda.bat activate base
         C:\Miniconda\condabin\conda.bat install pytest
-        dir C:\Miniconda\condabin
-        C:\Miniconda\condabin\pytest.bat -v .
+        pytest -v .
 
   code-quality:
     runs-on: ubuntu-latest
