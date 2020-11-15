@@ -48,6 +48,7 @@ dependencies:
   - pycparser=2.20
   - pyopenssl=19.1.0
   - pysocks=1.7.1
+  - python=3.8.5
   - python-dateutil=2.8.1
   - pytz=2020.1
   - readline=8.0
