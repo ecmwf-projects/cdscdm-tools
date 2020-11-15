@@ -6,6 +6,6 @@ dependencies:
   - cfunits
   - click
   - netcdf4
-  - python=3.8
+  - python=3.7
   - structlog
   - xarray
