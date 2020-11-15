@@ -21,7 +21,6 @@ jobs:
         # work around a permission bug in macos-latest conda setup
         [ '${{ matrix.os-version }}' == macos ] && sudo chown -R 501:20 /usr/local/miniconda
         $CONDA/bin/conda env update -n base -f tests/environment-${{ matrix.os-version }}-${{ matrix.python-version }}.yml
-        $CONDA/bin/python -m pip install -e .
     - name: Test with pytest
       run: |
         $CONDA/bin/conda install pytest
