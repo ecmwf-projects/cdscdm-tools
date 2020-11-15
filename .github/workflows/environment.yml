@@ -19,17 +19,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Create conda envirnoment ${{ matrix.os }}-${{ matrix.python }}
-      run: |
-        # work around a permission bug in macos-latest conda setup
-        [ '${{ matrix.os }}' == macos ] && sudo chown -R 501:20 /usr/local/miniconda
-        $CONDA/bin/conda init bash
-        $CONDA/bin/conda create -n ${{ matrix.os }}-${{ matrix.python }} python=${{ matrix.python }}
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: ${{ matrix.python }}
+          activate-environment: ${{ matrix.os }}-${{ matrix.python }}
     - name: Install dependencies and package
       shell: bash -l {0}
       run: |
-        source $HOME/.bashrc
-        $CONDA/bin/conda activate ${{ matrix.os }}-${{ matrix.python }}
         conda env update -n ${{ matrix.os }}-${{ matrix.python }} -f environment.in.yml
         conda env export -n ${{ matrix.os }}-${{ matrix.python }} --no-build | grep -v "prefix: " > environment-${{ matrix.os }}-${{ matrix.python }}.yml
     - name: Archive environment-${{ matrix.os }}-${{ matrix.python }}.yml
