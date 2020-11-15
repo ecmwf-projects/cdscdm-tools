@@ -12,7 +12,7 @@ jobs:
         os-version: [ubuntu]
         include:
           - python-version: 3.8
-            os-version: [macos]
+            os-version: macos
 
     steps:
     - uses: actions/checkout@v2
