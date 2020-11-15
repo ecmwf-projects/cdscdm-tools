@@ -28,6 +28,7 @@ jobs:
     - name: Install dependencies and package
       shell: bash -l {0}
       run: |
+        source $HOME/.bashrc
         $CONDA/bin/conda activate ${{ matrix.os }}-${{ matrix.python }}
         conda env update -n ${{ matrix.os }}-${{ matrix.python }} -f environment.in.yml
         conda env export -n ${{ matrix.os }}-${{ matrix.python }} --no-build | grep -v "prefix: " > environment-${{ matrix.os }}-${{ matrix.python }}.yml
