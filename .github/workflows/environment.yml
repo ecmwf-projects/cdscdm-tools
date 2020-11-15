@@ -1,31 +1,38 @@
-name: environment
+name: weekly
 
 on:
+  push:
   schedule:
     - cron:  '0 9 * * 1'
 
 jobs:
-  ubuntu:
-    runs-on: ubuntu-latest
+  environment:
+    runs-on: ${{ matrix.os }}-latest
     strategy:
       max-parallel: 5
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        os: [ubuntu]
+        python: [3.6, 3.7, 3.8, 3.9]
+        include:
+          - os: macos
+            python: 3.8
 
     steps:
     - uses: actions/checkout@v2
-    - name: Create conda envirnoment ubuntu-${{ matrix.python-version }}
+    - name: Create conda envirnoment ${{ matrix.os }}-${{ matrix.python }}
       run: |
+        # work around a permission bug in macos-latest conda setup
+        [ '${{ matrix.os }}' == macos ] && sudo chown -R 501:20 /usr/local/miniconda
         $CONDA/bin/conda init bash
-        $CONDA/bin/conda create -n ubuntu-${{ matrix.python-version }} python=${{ matrix.python-version }}
+        $CONDA/bin/conda create -n ${{ matrix.os }}-${{ matrix.python }} python=${{ matrix.python }}
     - name: Install dependencies and package
       shell: bash -l {0}
       run: |
-        $CONDA/bin/conda activate ubuntu-${{ matrix.python-version }}
-        conda env update -n ubuntu-${{ matrix.python-version }} -f environment.in.yml
-        conda env export -n ubuntu-${{ matrix.python-version }} --no-build | grep -v "prefix: " > environment-ubuntu-${{ matrix.python-version }}.yml
-    - name: Archive environment-ubuntu-${{ matrix.python-version }}.yml
+        $CONDA/bin/conda activate ${{ matrix.os }}-${{ matrix.python }}
+        conda env update -n ${{ matrix.os }}-${{ matrix.python }} -f environment.in.yml
+        conda env export -n ${{ matrix.os }}-${{ matrix.python }} --no-build | grep -v "prefix: " > environment-${{ matrix.os }}-${{ matrix.python }}.yml
+    - name: Archive environment-${{ matrix.os }}-${{ matrix.python }}.yml
       uses: actions/upload-artifact@v2
       with:
-        name: environment-ubuntu-${{ matrix.python-version }}.yml
-        path: environment-ubuntu-${{ matrix.python-version }}.yml
+        name: environment-${{ matrix.os }}-${{ matrix.python }}.yml
+        path: environment-${{ matrix.os }}-${{ matrix.python }}.yml
