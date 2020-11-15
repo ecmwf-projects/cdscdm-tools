@@ -118,23 +118,23 @@ def test_check_dataset_attrs(log_output):
 
 
 def test_check_variable_attrs(log_output):
-    cdm.check_variable_attrs('tas', CDM_TAS_ATTRS)
+    cdm.check_variable_attrs("tas", CDM_TAS_ATTRS)
     assert len(log_output.entries) == 0
 
-    cdm.check_variable_attrs('tas', {})
+    cdm.check_variable_attrs("tas", {})
     assert len(log_output.entries) == 2
     assert "long_name" in log_output.entries[0]["event"]
     assert "units" in log_output.entries[1]["event"]
 
-    cdm.check_variable_attrs('tas', {**CDM_TAS_ATTRS, "units": "*"})
+    cdm.check_variable_attrs("tas", {**CDM_TAS_ATTRS, "units": "*"})
     assert len(log_output.entries) == 3
     assert "units" in log_output.entries[2]["event"]
 
-    cdm.check_variable_attrs('tas', {**CDM_TAS_ATTRS, "units": "m"})
+    cdm.check_variable_attrs("tas", {**CDM_TAS_ATTRS, "units": "m"})
     assert len(log_output.entries) == 4
     assert "units" in log_output.entries[3]["event"]
 
-    cdm.check_variable_attrs('ta', BAD_TA_ATTRS)
+    cdm.check_variable_attrs("ta", BAD_TA_ATTRS)
     assert len(log_output.entries) == 5
     assert "units" in log_output.entries[4]["event"]
 
