@@ -18,10 +18,11 @@ jobs:
     - name: Create conda envirnoment linux-${{ matrix.python-version }}
       run: |
         $CONDA/bin/conda init bash
-        $CONDA/bin/conda env create -n linux-${{ matrix.python-version }} python=${{ matrix.python-version }}
+        cat /home/runner/.bashrc
+        . /home/runner/.bashrc
+        $CONDA/bin/conda env create -n linux-${{ matrix.python-version }} python=${{ matrix.python-version }} -f environment.yml
     - name: Install package and dependencies
       run: |
-        $CONDA/bin/conda env update -f environment.yml -n linux-${{ matrix.python-version }}
         $CONDA/bin/conda activate linux-${{ matrix.python-version }}
         $CONDA/bin/python -m pip install -e .
         $CONDA/bin/conda env export --no-build | grep -v "prefix: " > environment-linux-${{ matrix.python-version }}.yml
