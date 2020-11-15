@@ -8,13 +8,12 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.6, 3.7, 3.8]
 
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       run: |
-        $CONDA/bin/conda update --name base conda
         $CONDA/bin/conda install --name base python=${{ matrix.python-version }}
     - name: Install package and dependencies
       run: |
