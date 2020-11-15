@@ -12,13 +12,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Create conda envirnoment linux-${{ matrix.python-version }}
-      run: |
-        $CONDA/bin/conda env create -n linux-${{ matrix.python-version }} python=${{ matrix.python-version }}
     - name: Install package and dependencies
       run: |
-        $CONDA/bin/conda env update -f tests/environment-linux-${{ matrix.python-version }}.yml -n linux-${{ matrix.python-version }}
-        $CONDA/bin/conda activate linux-${{ matrix.python-version }}
+        $CONDA/bin/conda env update -n base -f tests/environment-linux-${{ matrix.python-version }}.yml
         $CONDA/bin/python --version
         $CONDA/bin/python -m pip install -e .
     - name: Lint with flake8
