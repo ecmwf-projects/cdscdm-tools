@@ -1,7 +1,7 @@
 name: ubuntu-3.9
 channels:
-  - conda-forge
   - defaults
+  - conda-forge
 dependencies:
   - _libgcc_mutex=0.1
   - bzip2=1.0.8
