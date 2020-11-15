@@ -28,7 +28,7 @@ jobs:
         $CONDA/bin/conda install pytest
         $CONDA/bin/pytest -v --doctest-glob="*.rst" .
 
-  flake8:
+  code-analysis:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
@@ -43,7 +43,7 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         $CONDA/bin/flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-  black:
+  code-style:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
@@ -53,4 +53,8 @@ jobs:
     - name: Check code style with black
       run: |
         $CONDA/bin/conda install black
-        $CONDA/bin/black .
+        $CONDA/bin/black --check .
+    - name: Check code style with isort
+      run: |
+        $CONDA/bin/conda install isort
+        $CONDA/bin/isort --check .

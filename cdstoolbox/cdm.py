@@ -1,5 +1,5 @@
-import logging
 import json
+import logging
 import pathlib
 import pkgutil
 
@@ -8,7 +8,6 @@ import click
 import numpy as np
 import structlog
 import xarray as xr
-
 
 LOGGER = structlog.get_logger()
 
