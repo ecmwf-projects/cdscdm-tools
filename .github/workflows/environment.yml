@@ -21,8 +21,8 @@ jobs:
     - name: Install package and dependencies
       run: |
         $CONDA/bin/conda init bash
-        cat /home/runner/.bashrc
         . /home/runner/.bashrc
+        echo "$SHELL"
         $CONDA/bin/conda activate linux-${{ matrix.python-version }}
         $CONDA/bin/python -m pip install -e .
         $CONDA/bin/conda env export --no-build | grep -v "prefix: " > environment-linux-${{ matrix.python-version }}.yml
