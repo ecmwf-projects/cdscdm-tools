@@ -1,9 +1,9 @@
-name: unit-tests
+name: on-push
 
 on: [push]
 
 jobs:
-  posix:
+  unit-tests-posix:
     runs-on: ${{ matrix.os-version }}-latest
     strategy:
       max-parallel: 5
@@ -18,10 +18,23 @@ jobs:
     - uses: actions/checkout@v2
     - name: Setup environment ${{ matrix.os-version }}-${{ matrix.python-version }}
       run: |
+        # work around a permission bug in macos-latest conda setup
         [ '${{ matrix.os-version }}' == macos ] && sudo chown -R 501:20 /usr/local/miniconda
         $CONDA/bin/conda env update -n base -f tests/environment-${{ matrix.os-version }}-${{ matrix.python-version }}.yml
         $CONDA/bin/python --version
         $CONDA/bin/python -m pip install -e .
+    - name: Test with pytest
+      run: |
+        $CONDA/bin/conda install pytest
+        $CONDA/bin/pytest -v --doctest-glob="*.rst" .
+
+  code-analysis:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v2
     - name: Lint with flake8
       run: |
         $CONDA/bin/conda install flake8
@@ -29,7 +42,3 @@ jobs:
         $CONDA/bin/flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         $CONDA/bin/flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        $CONDA/bin/conda install pytest
-        $CONDA/bin/pytest -v --doctest-glob="*.rst" .
