@@ -30,7 +30,7 @@ jobs:
         $CONDA/bin/pytest -v --doctest-glob="*.rst" .
 
   macos:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       max-parallel: 5
       matrix:
@@ -40,7 +40,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install package and dependencies
       run: |
-        $CONDA/bin/conda env update -f tests/environment-linux-${{ matrix.python-version }}.yml -n base
+        $CONDA/bin/conda env update -f tests/environment-macos-${{ matrix.python-version }}.yml -n base
         $CONDA/bin/python --version
         $CONDA/bin/python -m pip install -e .
     - name: Lint with flake8
