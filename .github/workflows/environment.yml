@@ -20,6 +20,7 @@ jobs:
         $CONDA/bin/conda env create -n linux-${{ matrix.python-version }} python=${{ matrix.python-version }}
     - name: Install package and dependencies
       run: |
+        $CONDA/bin/conda env update -n linux-${{ matrix.python-version }} -f environment.in.yml
         $CONDA/bin/conda env export -n linux-${{ matrix.python-version }} --no-build | grep -v "prefix: " > environment-linux-${{ matrix.python-version }}.yml
     - name: Archive environment-linux-${{ matrix.python-version }}.yml
       uses: actions/upload-artifact@v2
