@@ -16,6 +16,7 @@ jobs:
     - name: Install package and dependencies
       run: |
         $CONDA/bin/conda env update --file environment.in.yml --name base
+        $CONDA/bin/python --version
         $CONDA/bin/python -m pip install -e .
         $CONDA/bin/conda env export --name base --no-build | grep -v "\- python=" > environment-linux.yml
     - name: Archive environment-linux.yml
