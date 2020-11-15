@@ -1,4 +1,4 @@
-name: linux-3.7
+name: ubuntu-3.7
 channels:
   - conda-forge
   - defaults

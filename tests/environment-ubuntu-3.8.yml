@@ -1,4 +1,4 @@
-name: linux-3.8
+name: ubuntu-3.8
 channels:
   - conda-forge
   - defaults

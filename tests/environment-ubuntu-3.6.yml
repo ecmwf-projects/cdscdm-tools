@@ -1,4 +1,4 @@
-name: linux-3.6
+name: ubuntu-3.6
 channels:
   - conda-forge
   - defaults
