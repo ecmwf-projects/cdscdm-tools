@@ -51,3 +51,4 @@ dependencies:
   - xarray=0.16.1
   - xz=5.2.5
   - zlib=1.2.11
+prefix: /usr/share/miniconda/envs/ubuntu-3.9

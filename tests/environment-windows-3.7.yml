@@ -45,3 +45,4 @@ dependencies:
   - wincertstore=0.2
   - xarray=0.16.1
   - zlib=1.2.11
+prefix: C:\Miniconda\envs\windows-3.7
