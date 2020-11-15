@@ -14,17 +14,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Update conda
+    - name: Create conda envirnoment test_env-${{ matrix.python-version }}
       run: |
-        $CONDA/bin/conda update -n base -c defaults conda
-    - name: Set up Python ${{ matrix.python-version }}
-      run: |
-        $CONDA/bin/conda install -n base -c defaults python=${{ matrix.python-version }}
+        $CONDA/bin/conda env create -n test_env-${{ matrix.python-version }} -c defaults python=${{ matrix.python-version }}
     - name: Install package and dependencies
       run: |
-        $CONDA/bin/conda env update -f environment.yml -n base
+        $CONDA/bin/conda env update -f environment.yml -n test_env-${{ matrix.python-version }}
         $CONDA/bin/python -m pip install -e .
-        $CONDA/bin/conda env export -n base --no-build > environment-linux-${{ matrix.python-version }}.yml
+        $CONDA/bin/conda env export -n test_env-${{ matrix.python-version }} --no-build | grep -v "prefix: " > environment-linux-${{ matrix.python-version }}.yml
     - name: Archive environment-linux-${{ matrix.python-version }}.yml
       uses: actions/upload-artifact@v2
       with:
