@@ -42,7 +42,7 @@ jobs:
         C:\Miniconda\condabin\conda.bat init powershell
         C:\Miniconda\condabin\conda.bat env update -n base -f tests/environment-${{ matrix.os-version }}-${{ matrix.python-version }}.yml
         C:\Miniconda\condabin\conda.bat activate base
-        python -m pip install -e .
+        pip install -e .
     - name: Test with pytest
       run: |
         C:\Miniconda\condabin\conda.bat activate base
