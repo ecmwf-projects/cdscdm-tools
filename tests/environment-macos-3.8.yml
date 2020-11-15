@@ -1,4 +1,4 @@
-name: CDSTOOLBOX
+name: macos-3.8
 channels:
   - conda-forge
   - defaults
@@ -63,4 +63,3 @@ dependencies:
   - xz=5.2.5
   - yaml=0.2.5
   - zlib=1.2.11
-prefix: /usr/local/Caskroom/miniconda/base/envs/CDSTOOLBOX

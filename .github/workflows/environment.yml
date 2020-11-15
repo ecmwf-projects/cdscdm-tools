@@ -17,12 +17,14 @@ jobs:
     - uses: actions/checkout@v2
     - name: Create conda envirnoment linux-${{ matrix.python-version }}
       run: |
+        $CONDA/bin/conda init
         $CONDA/bin/conda env create -n linux-${{ matrix.python-version }} python=${{ matrix.python-version }}
     - name: Install package and dependencies
       run: |
         $CONDA/bin/conda env update -f environment.yml -n linux-${{ matrix.python-version }}
+        $CONDA/bin/conda activate linux-${{ matrix.python-version }}
         $CONDA/bin/python -m pip install -e .
-        $CONDA/bin/conda env export -n linux-${{ matrix.python-version }} --no-build | grep -v "prefix: " > environment-linux-${{ matrix.python-version }}.yml
+        $CONDA/bin/conda env export --no-build | grep -v "prefix: " > environment-linux-${{ matrix.python-version }}.yml
     - name: Archive environment-linux-${{ matrix.python-version }}.yml
       uses: actions/upload-artifact@v2
       with:
