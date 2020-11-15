@@ -1,6 +1,7 @@
 name: CDSTOOLBOX
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - cfunits
   - click
