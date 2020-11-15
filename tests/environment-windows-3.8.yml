@@ -1,0 +1,11 @@
+name: CDSTOOLBOX
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - cfunits
+  - click
+  - netcdf4
+  - python=3.8
+  - structlog
+  - xarray
