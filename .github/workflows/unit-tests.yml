@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Fix conda permissions on Mac OS
-      if: ${{ matrix.os-version == 'macos }}
+      if: ${{ matrix.os-version == 'macos' }}
       run: sudo chown -R 501:20 /usr/local/miniconda
     - name: Setup environment ${{ matrix.os-version }}-${{ matrix.python-version }}
       run: |
