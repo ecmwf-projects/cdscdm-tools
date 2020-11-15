@@ -31,17 +31,19 @@ jobs:
     runs-on: windows-latest
     strategy:
       max-parallel: 5
+      matrix:
+        os-version: [windows]
+        python-version: [3.8]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup environment windows-3.8
+    - name: Setup environment ${{ matrix.os-version }}-${{ matrix.python-version }}
       run: |
-        $CONDA/bin/conda env update -n base -f tests/environment-windows-3.8.yml
-        $CONDA/bin/python -m pip install -e .
+        C:\Miniconda\condabin\conda.bat env update -n base -f tests/environment-${{ matrix.os-version }}-${{ matrix.python-version }}.yml
     - name: Test with pytest
       run: |
-        $CONDA/bin/conda install pytest
-        $CONDA/bin/pytest -v .
+        C:\Miniconda\condabin\conda.bat install pytest
+        pytest -v .
 
   code-quality:
     runs-on: ubuntu-latest
