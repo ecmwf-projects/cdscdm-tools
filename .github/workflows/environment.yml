@@ -1,7 +1,6 @@
 name: environment
 
 on:
-  push:
   schedule:
     - cron:  '0 9 * * 1'
 
@@ -10,16 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
 
     steps:
     - uses: actions/checkout@v2
+    - name: Update conda
+      run: |
+        $CONDA/bin/conda update -n base -c defaults conda
+    - name: Set up Python ${{ matrix.python-version }}
+      run: |
+        $CONDA/bin/conda install -n base -c defaults python=${{ matrix.python-version }}
     - name: Install package and dependencies
       run: |
-        $CONDA/bin/conda env update --file environment.in.yml --name base
+        $CONDA/bin/conda env update -f environment.yml -n base
         $CONDA/bin/python -m pip install -e .
-        $CONDA/bin/conda env export --name base --no-build | grep -v "\- python=" > environment-linux.yml
-    - name: Archive environment-linux.yml
+        $CONDA/bin/conda env export -n base --no-build > environment-linux-${{ matrix.python-version }}.yml
+    - name: Archive environment-linux-${{ matrix.python-version }}.yml
       uses: actions/upload-artifact@v2
       with:
-        name: environment-linux.yml
-        path: environment-linux.yml
+        name: environment-linux-${{ matrix.python-version }}.yml
+        path: environment-linux-${{ matrix.python-version }}.yml
