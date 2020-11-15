@@ -16,6 +16,8 @@ jobs:
         include:
           - os: macos
             python: 3.8
+          - os: windows
+            python: 3.7
 
     steps:
     - uses: actions/checkout@v2
@@ -27,7 +29,7 @@ jobs:
       shell: bash -l {0}
       run: |
         conda env update -n ${{ matrix.os }}-${{ matrix.python }} -f environment.in.yml
-        conda env export -n ${{ matrix.os }}-${{ matrix.python }} --no-build | grep -v "prefix: " > environment-${{ matrix.os }}-${{ matrix.python }}.yml
+        conda env export --no-build -f environment-${{ matrix.os }}-${{ matrix.python }}.yml
     - name: Archive environment-${{ matrix.os }}-${{ matrix.python }}.yml
       uses: actions/upload-artifact@v2
       with:
