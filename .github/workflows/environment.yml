@@ -31,10 +31,10 @@ jobs:
       shell: bash -l {0}
       run: |
         conda update --all
-        conda env export --no-build -f environment-${{ matrix.os }}-${{ matrix.python }}.yml
-        diff -u test/environment-${{ matrix.os }}-${{ matrix.python }}.yml environment-${{ matrix.os }}-${{ matrix.python }}.yml
+        conda env export --no-build -f tests/environment-${{ matrix.os }}-${{ matrix.python }}.yml
+        git diff
     - name: Archive environment-${{ matrix.os }}-${{ matrix.python }}.yml
       uses: actions/upload-artifact@v2
       with:
         name: environment-${{ matrix.os }}-${{ matrix.python }}.yml
-        path: environment-${{ matrix.os }}-${{ matrix.python }}.yml
+        path: tests/environment-${{ matrix.os }}-${{ matrix.python }}.yml
