@@ -23,11 +23,9 @@ dependencies:
   - libffi=3.3
   - libgfortran=3.0.1
   - libnetcdf=4.7.3
+  - libopenblas=0.3.10
   - libssh2=1.9.0
   - mkl=2020.2
-  - mkl-service=2.3.0
-  - mkl_fft=1.2.0
-  - mkl_random=1.1.1
   - ncurses=6.2
   - netcdf4=1.5.3
   - numpy=1.19.2
