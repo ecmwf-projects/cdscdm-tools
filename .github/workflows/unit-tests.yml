@@ -3,7 +3,7 @@ name: unit-tests
 on: [push]
 
 jobs:
-  linux:
+  posix:
     runs-on: ${{ matrix.os-version }}-latest
     strategy:
       max-parallel: 5
