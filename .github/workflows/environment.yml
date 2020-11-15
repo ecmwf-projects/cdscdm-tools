@@ -20,7 +20,7 @@ jobs:
         $CONDA/bin/conda update -n base -c defaults conda
     - name: Set up Python ${{ matrix.python-version }}
       run: |
-        $CONDA/bin/conda update -n base -c defaults python=${{ matrix.python-version }}
+        $CONDA/bin/conda install -n base -c defaults python=${{ matrix.python-version }}
     - name: Install package and dependencies
       run: |
         $CONDA/bin/conda env update -f environment.in.yml -n base
