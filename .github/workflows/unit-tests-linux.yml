@@ -12,11 +12,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      run: |
+        $CONDA/bin/conda install --name base python=${{ matrix.python-version }}
     - name: Install package and dependencies
       run: |
-        $CONDA/bin/conda install python=${{ matrix.python-version }}
-        $CONDA/bin/conda env update --file environment-linux.yml --name base
         $CONDA/bin/python --version
+        $CONDA/bin/conda env update --file environment-linux.yml --name base
         $CONDA/bin/python -m pip install -e .
     - name: Lint with flake8
       run: |
