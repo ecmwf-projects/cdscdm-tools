@@ -4,6 +4,7 @@ channels:
   - conda-forge
 dependencies:
   - cfunits
+  - click
   - netcdf4
   - structlog
   - xarray
