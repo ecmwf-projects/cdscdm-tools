@@ -28,7 +28,7 @@ jobs:
         $CONDA/bin/conda install pytest
         $CONDA/bin/pytest -v --doctest-glob="*.rst" .
 
-  code-analysis:
+  code-quality:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
