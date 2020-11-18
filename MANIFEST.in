@@ -5,3 +5,4 @@ include Makefile
 recursive-include cdstoolbox *.json
 recursive-include tests *.nc
 recursive-include tests *.py
+recursive-include tests *.yml
