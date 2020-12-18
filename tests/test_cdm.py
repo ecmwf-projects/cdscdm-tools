@@ -23,7 +23,7 @@ def fixture_configure_structlog(log_output: T.Any) -> None:
 SAMPLEDIR = pathlib.Path(__file__).parent
 
 
-CDM_DATASET_ATTRS = {
+CDM_DATASET_ATTRS: T.Dict[T.Hashable, str] = {
     "Conventions": "CF-1.8",
     "title": "Test data",
     "history": "test data",
@@ -32,17 +32,17 @@ CDM_DATASET_ATTRS = {
     "comment": "No comment",
     "references": "No reference",
 }
-CDM_TAS_ATTRS = {
+CDM_TAS_ATTRS: T.Dict[T.Hashable, str] = {
     "standard_name": "air_temperature",
     "long_name": "near-surface air temperature",
     "units": "K",
 }
-CDM_PLEV_ATTRS = {
+CDM_PLEV_ATTRS: T.Dict[T.Hashable, str] = {
     "standard_name": "air_pressure",
     "long_name": "pressure",
     "units": "Pa",
 }
-CDM_TIME_ATTRS = {"standard_name": "time", "long_name": "time"}
+CDM_TIME_ATTRS: T.Dict[T.Hashable, str] = {"standard_name": "time", "long_name": "time"}
 
 CDM_GRID_DATASET = xr.Dataset(
     {"tas": (("plev", "time", "leadtime"), np.ones((2, 3, 4)), CDM_TAS_ATTRS,)},
@@ -67,7 +67,7 @@ CDM_OBS_DATASET = xr.Dataset(
     attrs=CDM_DATASET_ATTRS,
 )
 
-BAD_TA_ATTRS = {
+BAD_TA_ATTRS: T.Dict[T.Hashable, str] = {
     "standard_name": "air_temperature",
     "long_name": "temperature",
     "units": "Celsius",
