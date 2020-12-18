@@ -8,7 +8,7 @@ First time setup:
 ```
 git clone https://github.com/bopen/cdstoolbox
 cd cdstoolbox
-conda env create -f environment.in.yml
+conda env create -n CDSTOOLBOX -f environment.in.yml
 conda activate CDSTOOLBOX
 pip install -e .
 ```
