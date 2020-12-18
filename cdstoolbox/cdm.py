@@ -35,7 +35,9 @@ def check_dataset_attrs(
 
 
 def check_variable_attrs(
-    name: T.Hashable, attrs: T.Dict[T.Hashable, T.Any], log: structlog.BoundLogger = LOGGER
+    name: T.Hashable,
+    attrs: T.Dict[T.Hashable, T.Any],
+    log: structlog.BoundLogger = LOGGER,
 ) -> None:
     standard_name = attrs.get("standard_name")
     units = attrs.get("units")
@@ -154,20 +156,22 @@ def check_variable_data(
             check_coordinate_data(dim, data_var.coords[dim], increasing, log=log)
 
 
-def open_netcdf_dataset(file_path: str) -> xr.Dataset:
+def open_netcdf_dataset(file_path: T.Union[str, pathlib.Path]) -> xr.Dataset:
     bare_dataset = xr.open_dataset(file_path, engine="netcdf4", decode_cf=False)  # type: ignore
     return xr.decode_cf(bare_dataset, use_cftime=False)  # type: ignore
 
 
 def check_variable(
-    data_var_name: T.Hashable, data_var: xr.DataArray, log: structlog.BoundLogger = LOGGER
+    data_var_name: T.Hashable,
+    data_var: xr.DataArray,
+    log: structlog.BoundLogger = LOGGER,
 ) -> None:
     log.bind(data_var_name=data_var_name)
     check_variable_attrs(data_var_name, data_var.attrs, log=log)
     check_variable_data(data_var, log=log)
 
 
-def check_dataset(dataset: xr.Dataset, log: structlog.BoundLogger=LOGGER) -> None:
+def check_dataset(dataset: xr.Dataset, log: structlog.BoundLogger = LOGGER) -> None:
     data_vars = list(dataset.data_vars)
     if len(data_vars) > 1:
         log.error("file must have at most one variable", data_vars=data_vars)
@@ -178,15 +182,17 @@ def check_dataset(dataset: xr.Dataset, log: structlog.BoundLogger=LOGGER) -> Non
         check_coordinate_attrs(coord_name, coord.attrs, coord.dtype.name, log=log)
 
 
-def check_file(file_path: str, log: structlog.BoundLogger=LOGGER) -> None:
+def check_file(
+    file_path: T.Union[str, pathlib.Path], log: structlog.BoundLogger = LOGGER
+) -> None:
     dataset = open_netcdf_dataset(file_path)
     check_dataset(dataset)
 
 
-def cmor_tables_to_cdm(cmor_tables_dir: str, cdm_path: str) -> None:
-    cmor_tables_path = pathlib.Path(cmor_tables_dir)
+def cmor_tables_to_cdm(cmor_tables_dir: T.Union[str, pathlib.Path], cdm_path: str) -> None:
+    cmor_tables_dir = pathlib.Path(cmor_tables_dir)
     axis_entry: T.Dict[str, T.Dict[str, str]]
-    with open(cmor_tables_path / "CDS_coordinate.json") as fp:
+    with open(cmor_tables_dir / "CDS_coordinate.json") as fp:
         axis_entry = json.load(fp).get("axis_entry", {})
 
     cdm_coords: T.Dict[str, T.Any] = {}
@@ -201,7 +207,7 @@ def cmor_tables_to_cdm(cmor_tables_dir: str, cdm_path: str) -> None:
         cdm_coords[coord["out_name"]] = cdm_coord
 
     variable_entry: T.Dict[str, T.Dict[str, str]]
-    with open(cmor_tables_path / "CDS_variable.json") as fp:
+    with open(cmor_tables_dir / "CDS_variable.json") as fp:
         variable_entry = json.load(fp).get("variable_entry", {})
 
     cdm_data_vars = {}

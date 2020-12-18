@@ -1,21 +1,22 @@
 import pathlib
+import typing as T
 
-import numpy as np
-import pandas as pd
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 import pytest
-import structlog
+import structlog  # type: ignore
 import xarray as xr
 
 from cdstoolbox import cdm
 
 
 @pytest.fixture(name="log_output")
-def fixture_log_output():
+def fixture_log_output() -> T.Any:
     return structlog.testing.LogCapture()
 
 
 @pytest.fixture(autouse=True)
-def fixture_configure_structlog(log_output):
+def fixture_configure_structlog(log_output: T.Any) -> None:
     structlog.configure(processors=[log_output])
 
 
@@ -95,13 +96,13 @@ BAD_GRID_DATASET = xr.Dataset(
 )
 
 
-def save_sample_files():
+def save_sample_files() -> None:
     CDM_GRID_DATASET.to_netcdf(SAMPLEDIR / "cdm_grid.nc")
     CDM_OBS_DATASET.to_netcdf(SAMPLEDIR / "cdm_obs.nc")
     BAD_GRID_DATASET.to_netcdf(SAMPLEDIR / "bad_grid.nc")
 
 
-def test_check_dataset_attrs(log_output):
+def test_check_dataset_attrs(log_output: T.Any) -> None:
     cdm.check_dataset_attrs(CDM_DATASET_ATTRS)
     assert len(log_output.entries) == 0
 
@@ -117,7 +118,7 @@ def test_check_dataset_attrs(log_output):
     assert all(e["log_level"] == "warning" for e in log_output.entries)
 
 
-def test_check_variable_attrs(log_output):
+def test_check_variable_attrs(log_output: T.Any) -> None:
     cdm.check_variable_attrs("tas", CDM_TAS_ATTRS)
     assert len(log_output.entries) == 0
 
@@ -141,7 +142,7 @@ def test_check_variable_attrs(log_output):
     assert all(e["log_level"] == "warning" for e in log_output.entries)
 
 
-def test_check_coordinate_attrs(log_output):
+def test_check_coordinate_attrs(log_output: T.Any) -> None:
     cdm.check_coordinate_attrs("plev", CDM_PLEV_ATTRS)
     assert len(log_output.entries) == 0
 
@@ -164,7 +165,7 @@ def test_check_coordinate_attrs(log_output):
     assert "units" in log_output.entries[5]["event"]
 
 
-def test_check_coordinate_data(log_output):
+def test_check_coordinate_data(log_output: T.Any) -> None:
     coords = CDM_GRID_DATASET
 
     cdm.check_coordinate_data("time", coords["time"])
@@ -180,29 +181,31 @@ def test_check_coordinate_data(log_output):
     assert len(log_output.entries) == 2
 
 
-def test_check_variable_data(log_output):
-    cdm.check_variable_data(CDM_GRID_DATASET)
+def test_check_variable_data(log_output: T.Any) -> None:
+    data = CDM_GRID_DATASET["tas"]
+
+    cdm.check_variable_data(data)
     assert len(log_output.entries) == 0
 
-    cdm.check_variable_data(CDM_GRID_DATASET.rename(time="time1"))
+    cdm.check_variable_data(data.rename(time="time1"))
     assert len(log_output.entries) == 1
     assert "time1" in log_output.entries[0]["event"]
     assert log_output.entries[0]["log_level"] == "warning"
 
-    cdm.check_variable_data(CDM_GRID_DATASET.drop_vars("plev"))
+    cdm.check_variable_data(data.drop_vars("plev"))
     assert len(log_output.entries) == 2
     assert "plev" in log_output.entries[1]["event"]
     assert log_output.entries[1]["log_level"] == "error"
 
 
-def test_open_netcdf_dataset():
+def test_open_netcdf_dataset() -> None:
     cdm.open_netcdf_dataset(SAMPLEDIR / "cdm_grid.nc")
 
     with pytest.raises(OSError):
         cdm.open_netcdf_dataset(SAMPLEDIR / "bad_wrong-file-format.nc")
 
 
-def test_check_dataset(log_output):
+def test_check_dataset(log_output: T.Any) -> None:
     cdm.check_dataset(CDM_GRID_DATASET)
     assert len(log_output.entries) == 0
 
@@ -213,7 +216,7 @@ def test_check_dataset(log_output):
     assert len(log_output.entries) == 13
 
 
-def test_check_file(log_output):
+def test_check_file(log_output: T.Any) -> None:
     cdm.check_file(SAMPLEDIR / "cdm_grid.nc")
     assert len(log_output.entries) == 0
 
