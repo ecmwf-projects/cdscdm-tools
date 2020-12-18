@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import pathlib
 import pkgutil
 import typing as T
@@ -156,7 +157,7 @@ def check_variable_data(
             check_coordinate_data(dim, data_var.coords[dim], increasing, log=log)
 
 
-def open_netcdf_dataset(file_path: T.Union[str, pathlib.Path]) -> xr.Dataset:
+def open_netcdf_dataset(file_path: T.Union[str, "os.PathLike[str]"]) -> xr.Dataset:
     bare_dataset = xr.open_dataset(file_path, engine="netcdf4", decode_cf=False)  # type: ignore
     return xr.decode_cf(bare_dataset, use_cftime=False)  # type: ignore
 
@@ -183,13 +184,16 @@ def check_dataset(dataset: xr.Dataset, log: structlog.BoundLogger = LOGGER) -> N
 
 
 def check_file(
-    file_path: T.Union[str, pathlib.Path], log: structlog.BoundLogger = LOGGER
+    file_path: T.Union[str, "os.PathLike[str]"], log: structlog.BoundLogger = LOGGER
 ) -> None:
     dataset = open_netcdf_dataset(file_path)
     check_dataset(dataset)
 
 
-def cmor_tables_to_cdm(cmor_tables_dir: T.Union[str, pathlib.Path], cdm_path: str) -> None:
+def cmor_tables_to_cdm(
+    cmor_tables_dir: T.Union[str, "os.PathLike[str]"],
+    cdm_path: T.Union[str, "os.PathLike[str]"],
+) -> None:
     cmor_tables_dir = pathlib.Path(cmor_tables_dir)
     axis_entry: T.Dict[str, T.Dict[str, str]]
     with open(cmor_tables_dir / "CDS_coordinate.json") as fp:
