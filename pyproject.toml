@@ -1,0 +1,12 @@
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+norecursedirs = [
+    "build",
+    "docs",
+]
+
+[tool.coverage.run]
+branch = true
+omit = ["setup.py"]

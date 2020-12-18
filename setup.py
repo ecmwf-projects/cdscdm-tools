@@ -18,17 +18,17 @@ import io
 import os
 import re
 
-import setuptools
+import setuptools  # type: ignore
 
 
-def read(path):
+def read(path: str) -> str:
     file_path = os.path.join(os.path.dirname(__file__), *path.split("/"))
     return io.open(file_path, encoding="utf-8").read()
 
 
 # single-sourcing the package version using method 1 of:
 #   https://packaging.python.org/guides/single-sourcing-package-version/
-def parse_version_from(path):
+def parse_version_from(path: str) -> str:
     version_file = read(path)
     version_match = re.search(r'^version = "(.*)"', version_file, re.M)
     if version_match is None or len(version_match.groups()) > 1:
