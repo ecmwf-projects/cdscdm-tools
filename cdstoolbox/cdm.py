@@ -35,34 +35,53 @@ def check_dataset_attrs(
             log.warning(f"missing recommended global attribute '{attr_name}'")
 
 
-def check_variable_attrs(
+def get_definition(
     name: T.Hashable,
+    attrs: T.Dict[T.Hashable, str],
+    definitions: T.Dict[str, T.Dict[str, str]],
+    log: structlog.BoundLogger = LOGGER,
+) -> T.Dict[str, str]:
+    if name in definitions:
+        assert isinstance(name, str)
+        return definitions[name]
+    else:
+        log.warning("unexpected name for variable")
+        standard_name = attrs.get("standard_name")
+        if standard_name is not None:
+            log = log.bind(standard_name=standard_name)
+            matching_variables = []
+            for var_name, var_def in definitions.items():
+                if var_def.get("standard_name") == standard_name:
+                    matching_variables.append(var_name)
+            if len(matching_variables) == 0:
+                log.warning("'standard_name' attribute not valid")
+            elif len(matching_variables) == 1:
+                expected_name = matching_variables[0]
+                log.warning("wrong name for variable", expected_name=expected_name)
+                return definitions[expected_name]
+            else:
+                log.warning(
+                    "variables with matching 'standard_name':",
+                    matching_variables=matching_variables,
+                )
+    return {}
+
+
+def check_variable_attrs(
     attrs: T.Dict[T.Hashable, T.Any],
+    definition: T.Dict[str, str],
     log: structlog.BoundLogger = LOGGER,
 ) -> None:
-    standard_name = attrs.get("standard_name")
-    units = attrs.get("units")
-
-    log = log.bind(standard_name=standard_name)
-
-    definition = {}
-    if name in CDM_DATA_VARS:
-        assert isinstance(name, str)
-        definition = CDM_DATA_VARS[name]
-    elif standard_name is not None:
-        for expected_name, coord_def in CDM_DATA_VARS.items():
-            if coord_def.get("standard_name") == standard_name:
-                definition = coord_def
-                log.error("wrong name for coordinate", expected_name=expected_name)
-
-    expected_units = definition.get("units")
-
     if "long_name" not in attrs:
         log.warning("missing recommended attribute 'long_name'")
 
     if "units" not in attrs:
         log.warning("missing recommended attribute 'units'")
-    else:
+
+    units = attrs.get("units")
+    expected_units = definition.get("units")
+    if expected_units is not None:
+        log = log.bind(expected_units=expected_units)
         cf_units = cfunits.Units(units)
         if not cf_units.isvalid:
             log.warning("'units' attribute not valid", units=units)
@@ -73,6 +92,17 @@ def check_variable_attrs(
                 log.warning("'units' attribute not equivalent to the expected")
             elif not cf_units.equals(expected_cf_units):
                 log.warning("'units' attribute not equal to the expected")
+
+    standard_name = attrs.get("standard_name")
+    expected_standard_name = definition.get("standard_name")
+    if expected_standard_name is not None:
+        log = log.bind(expected_standard_name=expected_standard_name)
+        if standard_name is None:
+            log.warning("missing expected attribute 'standard_name'")
+        elif standard_name != expected_standard_name:
+            log.warning(
+                "'standard_name' attribute not valid", standard_name=standard_name
+            )
 
 
 def check_coordinate_attrs(
@@ -158,7 +188,7 @@ def check_variable_data(
 
 
 def open_netcdf_dataset(file_path: T.Union[str, "os.PathLike[str]"]) -> xr.Dataset:
-    bare_dataset = xr.open_dataset(file_path, engine="netcdf4", decode_cf=False)  # type: ignore
+    bare_dataset = xr.open_dataset(file_path, decode_cf=False)  # type: ignore
     return xr.decode_cf(bare_dataset, use_cftime=False)  # type: ignore
 
 
@@ -168,7 +198,8 @@ def check_variable(
     log: structlog.BoundLogger = LOGGER,
 ) -> None:
     log.bind(data_var_name=data_var_name)
-    check_variable_attrs(data_var_name, data_var.attrs, log=log)
+    definition = get_definition(data_var_name, data_var.attrs, CDM_DATA_VARS, log)
+    check_variable_attrs(data_var.attrs, definition, log=log)
     check_variable_data(data_var, log=log)
 
 
