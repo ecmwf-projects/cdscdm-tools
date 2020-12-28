@@ -187,11 +187,6 @@ def check_variable_data(
             check_coordinate_data(dim, data_var.coords[dim], increasing, log=log)
 
 
-def open_netcdf_dataset(file_path: T.Union[str, "os.PathLike[str]"]) -> xr.Dataset:
-    bare_dataset = xr.open_dataset(file_path, decode_cf=False)  # type: ignore
-    return xr.decode_cf(bare_dataset, use_cftime=False)  # type: ignore
-
-
 def check_variable(
     data_var_name: T.Hashable,
     data_var: xr.DataArray,
@@ -212,6 +207,11 @@ def check_dataset(dataset: xr.Dataset, log: structlog.BoundLogger = LOGGER) -> N
         check_variable(data_var_name, data_var, log=log)
     for coord_name, coord in dataset.coords.items():
         check_coordinate_attrs(coord_name, coord.attrs, coord.dtype.name, log=log)
+
+
+def open_netcdf_dataset(file_path: T.Union[str, "os.PathLike[str]"]) -> xr.Dataset:
+    bare_dataset = xr.open_dataset(file_path, decode_cf=False)  # type: ignore
+    return xr.decode_cf(bare_dataset, use_cftime=False)  # type: ignore
 
 
 def check_file(
