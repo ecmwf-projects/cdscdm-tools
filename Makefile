@@ -1,11 +1,15 @@
 
 MODULE := cdstoolbox
-
-create:
-	conda env create -f environment.yml
-
-update:
-	conda env update -f environment.yml
+ENV := CDSTOOLBOX
 
 test:
-	pytest -vv --flakes --cov $(MODULE) --cov-report html
+	pytest -v --cov=. --cov-report=html .
+
+create:
+	conda env create -n $(ENV) -f environment.in.yml
+	conda install -n $(ENV) pytest pytest-cov
+
+update:
+	conda env update -n $(ENV) -f environment.in.yml
+	conda install -n $(ENV) pytest pytest-cov
+
