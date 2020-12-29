@@ -58,13 +58,17 @@ CDM_GRID_DATASET = xr.Dataset(
     {
         "tas": (
             ("time", "leadtime", "plev"),
-            np.ones((3, 4, 2), dtype='float32'),
+            np.ones((3, 4, 2), dtype="float32"),
             {**CDM_TAS_ATTRS, "grid_mapping": "crs"},
         ),
         "crs": ((), 1, {"grid_mapping_name": "latitude_longitude"}),
     },
     coords={
-        "plev": ("plev", np.arange(1000, 800 - 1, -200, dtype='float32'), CDM_PLEV_ATTRS),
+        "plev": (
+            "plev",
+            np.arange(1000, 800 - 1, -200, dtype="float32"),
+            CDM_PLEV_ATTRS,
+        ),
         "time": (
             "time",
             pd.date_range("2020-01-01", periods=3),
@@ -86,8 +90,8 @@ CDM_OBS_DATASET = xr.Dataset(
     {"ta": (("obs",), np.ones(4, dtype="float32"), CDM_TAS_ATTRS)},
     coords={
         "obs": ("obs", np.arange(4), {"long_name": "observation", "units": "1"}),
-        "lon": ("obs", -np.arange(4, dtype='float32'), CDM_LON_ATTRS),
-        "lat": ("obs", -np.arange(4, dtype='float32'), CDM_LAT_ATTRS),
+        "lon": ("obs", -np.arange(4, dtype="float32"), CDM_LON_ATTRS),
+        "lat": ("obs", -np.arange(4, dtype="float32"), CDM_LAT_ATTRS),
     },
     attrs=CDM_DATASET_ATTRS,
 )
@@ -180,6 +184,9 @@ def test_check_variable_attrs(log_output: T.Any) -> None:
     cdm.check_variable_attrs(CDM_TIME_ATTRS, CDM_TIME_ATTRS, dtype="datetime64[ns]")
     assert len(log_output.entries) == 0
 
+    cdm.check_variable_attrs(CDM_TAS_ATTRS, {**CDM_TAS_ATTRS, "units": None})
+    assert len(log_output.entries) == 0
+
     cdm.check_variable_attrs({}, {})
     assert len(log_output.entries) == 2
     assert "long_name" in log_output.entries[0]["event"]
@@ -219,6 +226,18 @@ def test_check_variable_data(log_output: T.Any) -> None:
     assert len(log_output.entries) == 2
     assert "plev" in log_output.entries[1]["event"]
     assert log_output.entries[1]["log_level"] == "error"
+
+
+def test_check_variable(log_output: T.Any) -> None:
+    data = CDM_GRID_DATASET["tas"]
+
+    cdm.check_variable("tas", data, cdm.CDM_DATA_VARS)
+    assert len(log_output.entries) == 0
+
+    cdm.check_variable("dummy", data, cdm.CDM_DATA_VARS)
+    assert len(log_output.entries) == 2
+    assert "unexpected name" in log_output.entries[0]["event"]
+    assert "variables with" in log_output.entries[1]["event"]
 
 
 def test_check_coordinate_data(log_output: T.Any) -> None:
