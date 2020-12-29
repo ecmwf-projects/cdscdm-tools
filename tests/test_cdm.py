@@ -172,6 +172,23 @@ def test_check_variable_attrs(log_output: T.Any) -> None:
     assert all(e["log_level"] == "warning" for e in log_output.entries)
 
 
+def test_check_variable_data(log_output: T.Any) -> None:
+    data = CDM_GRID_DATASET["tas"]
+
+    cdm.check_variable_data(data)
+    assert len(log_output.entries) == 0
+
+    cdm.check_variable_data(data.rename(time="time1"))
+    assert len(log_output.entries) == 1
+    assert "time1" in log_output.entries[0]["event"]
+    assert log_output.entries[0]["log_level"] == "warning"
+
+    cdm.check_variable_data(data.drop_vars("plev"))
+    assert len(log_output.entries) == 2
+    assert "plev" in log_output.entries[1]["event"]
+    assert log_output.entries[1]["log_level"] == "error"
+
+
 def test_check_coordinate_attrs(log_output: T.Any) -> None:
     cdm.check_coordinate_attrs("plev", CDM_PLEV_ATTRS)
     assert len(log_output.entries) == 0
@@ -211,23 +228,6 @@ def test_check_coordinate_data(log_output: T.Any) -> None:
     assert len(log_output.entries) == 2
 
 
-def test_check_variable_data(log_output: T.Any) -> None:
-    data = CDM_GRID_DATASET["tas"]
-
-    cdm.check_variable_data(data)
-    assert len(log_output.entries) == 0
-
-    cdm.check_variable_data(data.rename(time="time1"))
-    assert len(log_output.entries) == 1
-    assert "time1" in log_output.entries[0]["event"]
-    assert log_output.entries[0]["log_level"] == "warning"
-
-    cdm.check_variable_data(data.drop_vars("plev"))
-    assert len(log_output.entries) == 2
-    assert "plev" in log_output.entries[1]["event"]
-    assert log_output.entries[1]["log_level"] == "error"
-
-
 def test_open_netcdf_dataset() -> None:
     cdm.open_netcdf_dataset(SAMPLEDIR / "cdm_grid.nc")
 
@@ -243,7 +243,7 @@ def test_check_dataset(log_output: T.Any) -> None:
     assert len(log_output.entries) == 0
 
     cdm.check_dataset(BAD_GRID_DATASET)
-    assert len(log_output.entries) == 14
+    assert len(log_output.entries) == 12
 
 
 def test_check_file(log_output: T.Any) -> None:

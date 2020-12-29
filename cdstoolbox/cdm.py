@@ -118,6 +118,55 @@ def check_variable_attrs(
             )
 
 
+def check_variable_data(
+    data_var: xr.DataArray, log: structlog.BoundLogger = LOGGER
+) -> None:
+    for dim in data_var.dims:
+        if dim not in CDM_COORDS:
+            log.warning(f"unknown dimension '{dim}'")
+        elif dim not in data_var.coords:
+            log.error(f"dimension with no associated coordinate '{dim}'")
+
+
+def check_variable(
+    data_var_name: str,
+    data_var: xr.DataArray,
+    ancillary_vars: T.Dict[str, xr.DataArray],
+    log: structlog.BoundLogger = LOGGER,
+) -> None:
+    log = log.bind(data_var_name=data_var_name)
+    attrs = sanitise_mapping(data_var.attrs, log)
+    if data_var_name in CDM_DATA_VARS:
+        definition = CDM_DATA_VARS[data_var_name]
+    else:
+        log.warning("unexpected name for variable")
+        definition = guess_definition(attrs, CDM_DATA_VARS, log)
+    check_variable_attrs(data_var.attrs, definition, log=log)
+    check_variable_data(data_var, log=log)
+
+
+def check_dataset_data_vars(
+    dataset_data_vars: T.Mapping[T.Hashable, xr.DataArray],
+    log: structlog.BoundLogger = LOGGER,
+) -> T.Tuple[T.Dict[str, xr.DataArray], T.Dict[str, xr.DataArray]]:
+    data_vars = sanitise_mapping(dataset_data_vars, log)
+    payload_vars = {}
+    ancillary_vars = {}
+    for name, var in data_vars.items():
+        if name in {"crs"}:
+            ancillary_vars[name] = var
+        else:
+            payload_vars[name] = var
+    if len(payload_vars) > 1:
+        log.error(
+            "file must have at most one non-auxiliary variable",
+            data_vars=list(data_vars),
+        )
+    for data_var_name, data_var in payload_vars.items():
+        check_variable(data_var_name, data_var, ancillary_vars, log=log)
+    return payload_vars, ancillary_vars
+
+
 def check_coordinate_attrs(
     name: T.Hashable,
     attrs: T.Dict[T.Hashable, T.Any],
@@ -184,47 +233,21 @@ def check_coordinate_data(
             log.error("coordinate stored direction is not 'decreasing'")
 
 
-def check_variable_data(
-    data_var: xr.DataArray, log: structlog.BoundLogger = LOGGER
+def check_dataset_coords(
+    dataset_coords: T.Mapping[T.Hashable, T.Any], log: structlog.BoundLogger = LOGGER
 ) -> None:
-    for dim in data_var.dims:
-        if dim not in CDM_COORDS:
-            log.warning(f"unknown coordinate '{dim}'")
-        elif dim not in data_var.coords:
-            log.error(f"dimension with no associated coordinate '{dim}'")
-        else:
-            assert isinstance(dim, str)
-            coord_definition = CDM_COORDS[dim]
-            stored_direction = coord_definition.get("stored_direction", "increasing")
-            increasing = stored_direction == "increasing"
-            check_coordinate_data(dim, data_var.coords[dim], increasing, log=log)
-
-
-def check_variable(
-    data_var_name: str,
-    data_var: xr.DataArray,
-    log: structlog.BoundLogger = LOGGER,
-) -> None:
-    log = log.bind(data_var_name=data_var_name)
-    attrs = sanitise_mapping(data_var.attrs, log)
-    if data_var_name in CDM_DATA_VARS:
-        definition = CDM_DATA_VARS[data_var_name]
-    else:
-        log.warning("unexpected name for variable")
-        definition = guess_definition(attrs, CDM_DATA_VARS, log)
-    check_variable_attrs(data_var.attrs, definition, log=log)
-    check_variable_data(data_var, log=log)
+    for coord_name, coord in dataset_coords.items():
+        check_coordinate_attrs(coord_name, coord.attrs, coord.dtype.name, log=log)
+        # coord_definition = CDM_COORDS[dim]
+        # stored_direction = coord_definition.get("stored_direction", "increasing")
+        # increasing = stored_direction == "increasing"
+        # check_coordinate_data(dim, data_var.coords[dim], increasing, log=log)
 
 
 def check_dataset(dataset: xr.Dataset, log: structlog.BoundLogger = LOGGER) -> None:
-    data_vars = list(dataset.data_vars)
-    if len(data_vars) > 1:
-        log.error("file must have at most one variable", data_vars=data_vars)
     check_dataset_attrs(dataset.attrs)
-    for data_var_name, data_var in dataset.data_vars.items():
-        check_variable(data_var_name, data_var, log=log)
-    for coord_name, coord in dataset.coords.items():
-        check_coordinate_attrs(coord_name, coord.attrs, coord.dtype.name, log=log)
+    check_dataset_data_vars(dataset.data_vars, log)
+    check_dataset_coords(dataset.coords)
 
 
 def open_netcdf_dataset(file_path: T.Union[str, "os.PathLike[str]"]) -> xr.Dataset:
