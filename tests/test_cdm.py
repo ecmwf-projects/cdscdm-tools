@@ -121,33 +121,27 @@ def test_check_dataset_attrs(log_output: T.Any) -> None:
     assert "Conventions" in log_output.entries[7]["event"]
 
 
-def test_get_definition(log_output: T.Any) -> None:
-    res = cdm.get_definition("tas", {}, {"tas": CDM_TAS_ATTRS})
+def test_guess_definition(log_output: T.Any) -> None:
+    res = cdm.guess_definition(CDM_TAS_ATTRS, {"tas": CDM_TAS_ATTRS})
     assert res == CDM_TAS_ATTRS
+    assert len(log_output.entries) == 1
+    assert "wrong name" in log_output.entries[0]["event"]
 
-    res = cdm.get_definition("dummy", CDM_TAS_ATTRS, {"tas": CDM_TAS_ATTRS})
-    assert res == CDM_TAS_ATTRS
+    res = cdm.guess_definition({}, {})
+    assert res == {}
     assert len(log_output.entries) == 2
-    assert "unexpected name for variable" in log_output.entries[0]["event"]
-    assert "wrong name" in log_output.entries[1]["event"]
+    assert "standard_name" in log_output.entries[1]["event"]
 
-    res = cdm.get_definition("dummy", {}, {})
+    res = cdm.guess_definition(CDM_TAS_ATTRS, {})
     assert res == {}
     assert len(log_output.entries) == 3
-    assert "unexpected name for variable" in log_output.entries[2]["event"]
-
-    res = cdm.get_definition("tas", CDM_TAS_ATTRS, {})
-    assert res == {}
-    assert len(log_output.entries) == 5
-    assert "unexpected name for variable" in log_output.entries[3]["event"]
-    assert "standard_name" in log_output.entries[4]["event"]
+    assert "standard_name" in log_output.entries[2]["event"]
 
     definitions = {"tas": CDM_TAS_ATTRS, "ta": CDM_TAS_ATTRS, "time": CDM_TIME_ATTRS}
-    res = cdm.get_definition("dummy", CDM_TAS_ATTRS, definitions)
+    res = cdm.guess_definition(CDM_TAS_ATTRS, definitions)
     assert res == {}
-    assert len(log_output.entries) == 7
-    assert "unexpected name for variable" in log_output.entries[5]["event"]
-    assert "standard_name" in log_output.entries[6]["event"]
+    assert len(log_output.entries) == 4
+    assert "standard_name" in log_output.entries[3]["event"]
 
 
 def test_check_variable_attrs(log_output: T.Any) -> None:

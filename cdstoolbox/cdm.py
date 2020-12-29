@@ -50,35 +50,31 @@ def check_dataset_attrs(
             log.warning(f"missing recommended global attribute '{attr_name}'")
 
 
-def get_definition(
-    name: T.Hashable,
-    attrs: T.Dict[T.Hashable, str],
+def guess_definition(
+    attrs: T.Dict[str, str],
     definitions: T.Dict[str, T.Dict[str, str]],
     log: structlog.BoundLogger = LOGGER,
 ) -> T.Dict[str, str]:
-    if name in definitions:
-        assert isinstance(name, str)
-        return definitions[name]
+    standard_name = attrs.get("standard_name")
+    if standard_name is not None:
+        log = log.bind(standard_name=standard_name)
+        matching_variables = []
+        for var_name, var_def in definitions.items():
+            if var_def.get("standard_name") == standard_name:
+                matching_variables.append(var_name)
+        if len(matching_variables) == 0:
+            log.warning("'standard_name' attribute not valid")
+        elif len(matching_variables) == 1:
+            expected_name = matching_variables[0]
+            log.warning("wrong name for variable", expected_name=expected_name)
+            return definitions[expected_name]
+        else:
+            log.warning(
+                "variables with matching 'standard_name':",
+                matching_variables=matching_variables,
+            )
     else:
-        log.warning("unexpected name for variable")
-        standard_name = attrs.get("standard_name")
-        if standard_name is not None:
-            log = log.bind(standard_name=standard_name)
-            matching_variables = []
-            for var_name, var_def in definitions.items():
-                if var_def.get("standard_name") == standard_name:
-                    matching_variables.append(var_name)
-            if len(matching_variables) == 0:
-                log.warning("'standard_name' attribute not valid")
-            elif len(matching_variables) == 1:
-                expected_name = matching_variables[0]
-                log.warning("wrong name for variable", expected_name=expected_name)
-                return definitions[expected_name]
-            else:
-                log.warning(
-                    "variables with matching 'standard_name':",
-                    matching_variables=matching_variables,
-                )
+        log.warning("missing recommended attribute 'standard_name'")
     return {}
 
 
@@ -205,12 +201,17 @@ def check_variable_data(
 
 
 def check_variable(
-    data_var_name: T.Hashable,
+    data_var_name: str,
     data_var: xr.DataArray,
     log: structlog.BoundLogger = LOGGER,
 ) -> None:
-    log.bind(data_var_name=data_var_name)
-    definition = get_definition(data_var_name, data_var.attrs, CDM_DATA_VARS, log)
+    log = log.bind(data_var_name=data_var_name)
+    attrs = sanitise_mapping(data_var.attrs, log)
+    if data_var_name in CDM_DATA_VARS:
+        definition = CDM_DATA_VARS[data_var_name]
+    else:
+        log.warning("unexpected name for variable")
+        definition = guess_definition(attrs, CDM_DATA_VARS, log)
     check_variable_attrs(data_var.attrs, definition, log=log)
     check_variable_data(data_var, log=log)
 
