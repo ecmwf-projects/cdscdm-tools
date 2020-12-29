@@ -153,17 +153,21 @@ def test_check_variable_attrs(log_output: T.Any) -> None:
     assert "long_name" in log_output.entries[0]["event"]
     assert "units" in log_output.entries[1]["event"]
 
-    cdm.check_variable_attrs({**CDM_TAS_ATTRS, "units": "*"}, CDM_TAS_ATTRS)
-    assert len(log_output.entries) == 3
-    assert "units" in log_output.entries[2]["event"]
-
-    cdm.check_variable_attrs({**CDM_TAS_ATTRS, "units": "m"}, CDM_TAS_ATTRS)
+    attrs = {**CDM_TAS_ATTRS, "units": "*", "standard_name": None}
+    cdm.check_variable_attrs(attrs, CDM_TAS_ATTRS)
     assert len(log_output.entries) == 4
-    assert "units" in log_output.entries[3]["event"]
+    assert "units" in log_output.entries[2]["event"]
+    assert "standard_name" in log_output.entries[3]["event"]
+
+    attrs = {**CDM_TAS_ATTRS, "units": "m", "standard_name": "dummy"}
+    cdm.check_variable_attrs(attrs, CDM_TAS_ATTRS)
+    assert len(log_output.entries) == 6
+    assert "units" in log_output.entries[4]["event"]
+    assert "standard_name" in log_output.entries[5]["event"]
 
     cdm.check_variable_attrs(BAD_TA_ATTRS, CDM_TAS_ATTRS)
-    assert len(log_output.entries) == 5
-    assert "units" in log_output.entries[4]["event"]
+    assert len(log_output.entries) == 7
+    assert "units" in log_output.entries[6]["event"]
 
     assert all(e["log_level"] == "warning" for e in log_output.entries)
 
