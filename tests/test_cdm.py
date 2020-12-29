@@ -24,7 +24,7 @@ SAMPLEDIR = pathlib.Path(__file__).parent
 
 
 CDM_DATASET_ATTRS: T.Dict[T.Hashable, str] = {
-    "Conventions": "CF-1.8",
+    "Conventions": "CF-1.7",
     "title": "Test data",
     "history": "test data",
     "institution": "B-Open",
@@ -55,7 +55,14 @@ CDS_LAT_ATTRS: T.Dict[T.Hashable, str] = {
 }
 
 CDM_GRID_DATASET = xr.Dataset(
-    {"tas": (("plev", "time", "leadtime"), np.ones((2, 3, 4)), CDM_TAS_ATTRS,)},
+    {
+        "tas": (
+            ("time", "leadtime", "plev"),
+            np.ones((3, 4, 2)),
+            {**CDM_TAS_ATTRS, "grid_mapping": "crs"},
+        ),
+        "crs": ((), 1, {"grid_mapping_name": "latitude_longitude"}),
+    },
     coords={
         "plev": ("plev", np.arange(1000, 800 - 1, -200), CDM_PLEV_ATTRS),
         "time": (
@@ -112,7 +119,7 @@ BAD_GRID_DATASET = xr.Dataset(
 )
 
 
-def save_sample_files() -> None:
+def test_save_sample_files() -> None:
     CDM_GRID_DATASET.to_netcdf(SAMPLEDIR / "cdm_grid.nc")
     CDM_OBS_DATASET.to_netcdf(SAMPLEDIR / "cdm_obs.nc")
     BAD_GRID_DATASET.to_netcdf(SAMPLEDIR / "bad_grid.nc")
