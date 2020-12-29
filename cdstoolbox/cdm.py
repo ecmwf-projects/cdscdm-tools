@@ -81,30 +81,31 @@ def guess_definition(
 def check_variable_attrs(
     variable_attrs: T.Mapping[T.Hashable, T.Any],
     definition: T.Dict[str, str],
+    dtype_name: T.Optional[str] = None,
     log: structlog.BoundLogger = LOGGER,
 ) -> None:
     attrs = sanitise_mapping(variable_attrs, log)
 
     if "long_name" not in attrs:
         log.warning("missing recommended attribute 'long_name'")
-
     if "units" not in attrs:
-        log.warning("missing recommended attribute 'units'")
-
-    units = attrs.get("units")
-    expected_units = definition.get("units")
-    if expected_units is not None:
-        log = log.bind(expected_units=expected_units)
-        cf_units = cfunits.Units(units)
-        if not cf_units.isvalid:
-            log.warning("'units' attribute not valid", units=units)
-        else:
-            expected_cf_units = cfunits.Units(expected_units)
-            log = log.bind(units=units, expected_units=expected_units)
-            if not cf_units.equivalent(expected_cf_units):
-                log.warning("'units' attribute not equivalent to the expected")
-            elif not cf_units.equals(expected_cf_units):
-                log.warning("'units' attribute not equal to the expected")
+        if dtype_name not in TIME_DTYPE_NAMES:
+            log.warning("missing recommended attribute 'units'")
+    else:
+        units = attrs.get("units")
+        expected_units = definition.get("units")
+        if expected_units is not None:
+            log = log.bind(expected_units=expected_units)
+            cf_units = cfunits.Units(units)
+            if not cf_units.isvalid:
+                log.warning("'units' attribute not valid", units=units)
+            else:
+                expected_cf_units = cfunits.Units(expected_units)
+                log = log.bind(units=units, expected_units=expected_units)
+                if not cf_units.equivalent(expected_cf_units):
+                    log.warning("'units' attribute not equivalent to the expected")
+                elif not cf_units.equals(expected_cf_units):
+                    log.warning("'units' attribute not equal to the expected")
 
     standard_name = attrs.get("standard_name")
     expected_standard_name = definition.get("standard_name")
@@ -167,53 +168,6 @@ def check_dataset_data_vars(
     return payload_vars, ancillary_vars
 
 
-def check_coordinate_attrs(
-    name: T.Hashable,
-    attrs: T.Dict[T.Hashable, T.Any],
-    dtype_name: T.Optional[str] = None,
-    log: structlog.BoundLogger = LOGGER,
-) -> None:
-    log = log.bind(coord_name=name)
-
-    standard_name = attrs.get("standard_name")
-    units = attrs.get("units")
-
-    log = log.bind(standard_name=standard_name)
-
-    definition = {}
-    if name in CDM_COORDS:
-        assert isinstance(name, str)
-        definition = CDM_COORDS[name]
-    elif standard_name is not None:
-        for expected_name, coord_def in CDM_COORDS.items():
-            if coord_def.get("standard_name") == standard_name:
-                definition = coord_def
-                log.error("wrong name for coordinate", expected_name=expected_name)
-
-    if definition == {}:
-        log.error("coordinate not found in CDM")
-
-    expected_units = definition.get("units", "1")
-
-    if "long_name" not in attrs:
-        log.warning("missing recommended attribute 'long_name'")
-
-    if dtype_name in TIME_DTYPE_NAMES:
-        return
-
-    if "units" not in attrs:
-        log.error("missing required attribute 'units'")
-    else:
-        cf_units = cfunits.Units(units)
-        if not cf_units.isvalid:
-            log.error("'units' attribute not valid", units=units)
-        else:
-            expected_cf_units = cfunits.Units(expected_units)
-            log = log.bind(units=units, expected_units=expected_units)
-            if not cf_units.equals(expected_cf_units):
-                log.error("'units' attribute not equal to the expected")
-
-
 def check_coordinate_data(
     coord_name: T.Hashable,
     coord: xr.DataArray,
@@ -236,8 +190,18 @@ def check_coordinate_data(
 def check_dataset_coords(
     dataset_coords: T.Mapping[T.Hashable, T.Any], log: structlog.BoundLogger = LOGGER
 ) -> None:
-    for coord_name, coord in dataset_coords.items():
-        check_coordinate_attrs(coord_name, coord.attrs, coord.dtype.name, log=log)
+    coords = sanitise_mapping(dataset_coords)
+    for coord_name, coord in coords.items():
+        log = log.bind(coord_name=coord_name)
+        attrs = sanitise_mapping(coord.attrs, log)
+        if coord_name in CDM_COORDS:
+            definition = CDM_COORDS[coord_name]
+        else:
+            log.error("coordinate not found in CDM")
+            definition = guess_definition(attrs, CDM_COORDS, log)
+        check_variable_attrs(attrs, definition, dtype_name=coord.dtype.name, log=log)
+        # check_variable_data(data_var, log=log)
+
         # coord_definition = CDM_COORDS[dim]
         # stored_direction = coord_definition.get("stored_direction", "increasing")
         # increasing = stored_direction == "increasing"

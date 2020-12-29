@@ -43,16 +43,32 @@ CDM_PLEV_ATTRS: T.Dict[T.Hashable, str] = {
     "units": "Pa",
 }
 CDM_TIME_ATTRS: T.Dict[T.Hashable, str] = {"standard_name": "time", "long_name": "time"}
+CDM_LON_ATTRS: T.Dict[T.Hashable, str] = {
+    "long_name": "lon",
+    "standard_name": "longitude",
+    "units": "degrees_east",
+}
+CDS_LAT_ATTRS: T.Dict[T.Hashable, str] = {
+    "long_name": "lat",
+    "standard_name": "latitude",
+    "units": "degrees_north",
+}
 
 CDM_GRID_DATASET = xr.Dataset(
     {"tas": (("plev", "time", "leadtime"), np.ones((2, 3, 4)), CDM_TAS_ATTRS,)},
     coords={
         "plev": ("plev", np.arange(1000, 800 - 1, -200), CDM_PLEV_ATTRS),
-        "time": ("time", pd.date_range("2020-01-01", periods=3), CDM_TIME_ATTRS),
+        "time": (
+            "time",
+            pd.date_range("2020-01-01", periods=3),
+            CDM_TIME_ATTRS,
+            {"units": "seconds since 1970-01-01"},
+        ),
         "leadtime": (
             "leadtime",
             pd.timedelta_range(0, freq="h", periods=4),
-            {"long_name": "lead time"},
+            {"long_name": "lead time", "standard_name": "forecast_period"},
+            {"units": "hours"},
         ),
     },
     attrs=CDM_DATASET_ATTRS,
@@ -61,8 +77,8 @@ CDM_OBS_DATASET = xr.Dataset(
     {"ta": (("obs",), np.ones(4, dtype="float32"), CDM_TAS_ATTRS)},
     coords={
         "obs": ("obs", np.arange(4), {"long_name": "observation", "units": "1"}),
-        "lon": ("obs", -np.arange(4), {"long_name": "lon", "units": "degrees_east"},),
-        "lat": ("obs", -np.arange(4), {"long_name": "lat", "units": "degrees_north"},),
+        "lon": ("obs", -np.arange(4), CDM_LON_ATTRS,),
+        "lat": ("obs", -np.arange(4), CDS_LAT_ATTRS,),
     },
     attrs=CDM_DATASET_ATTRS,
 )
@@ -100,6 +116,10 @@ def save_sample_files() -> None:
     CDM_GRID_DATASET.to_netcdf(SAMPLEDIR / "cdm_grid.nc")
     CDM_OBS_DATASET.to_netcdf(SAMPLEDIR / "cdm_obs.nc")
     BAD_GRID_DATASET.to_netcdf(SAMPLEDIR / "bad_grid.nc")
+
+    assert xr.open_dataset(SAMPLEDIR / "cdm_grid.nc").equals(CDM_GRID_DATASET)
+    assert xr.open_dataset(SAMPLEDIR / "cdm_obs.nc").equals(CDM_OBS_DATASET)
+    assert xr.open_dataset(SAMPLEDIR / "bad_grid.nc").equals(BAD_GRID_DATASET)
 
 
 def test_sanitise_mapping(log_output: T.Any) -> None:
@@ -148,6 +168,11 @@ def test_check_variable_attrs(log_output: T.Any) -> None:
     cdm.check_variable_attrs(CDM_TAS_ATTRS, CDM_TAS_ATTRS)
     assert len(log_output.entries) == 0
 
+    cdm.check_variable_attrs(
+        CDM_TIME_ATTRS, CDM_TIME_ATTRS, dtype_name="datetime64[ns]"
+    )
+    assert len(log_output.entries) == 0
+
     cdm.check_variable_attrs({}, {})
     assert len(log_output.entries) == 2
     assert "long_name" in log_output.entries[0]["event"]
@@ -189,29 +214,6 @@ def test_check_variable_data(log_output: T.Any) -> None:
     assert log_output.entries[1]["log_level"] == "error"
 
 
-def test_check_coordinate_attrs(log_output: T.Any) -> None:
-    cdm.check_coordinate_attrs("plev", CDM_PLEV_ATTRS)
-    assert len(log_output.entries) == 0
-
-    cdm.check_coordinate_attrs("ref_time", CDM_TIME_ATTRS, dtype_name="datetime64[ns]")
-    assert len(log_output.entries) == 1
-    assert "coordinate" in log_output.entries[0]["event"]
-
-    cdm.check_coordinate_attrs("level", {})
-    assert len(log_output.entries) == 4
-    assert "CDM" in log_output.entries[1]["event"]
-    assert "long_name" in log_output.entries[2]["event"]
-    assert "units" in log_output.entries[3]["event"]
-
-    cdm.check_coordinate_attrs("lat", {**CDM_PLEV_ATTRS, "units": "*"})
-    assert len(log_output.entries) == 5
-    assert "units" in log_output.entries[4]["event"]
-
-    cdm.check_coordinate_attrs("lat", {**CDM_PLEV_ATTRS, "units": "m"})
-    assert len(log_output.entries) == 6
-    assert "units" in log_output.entries[5]["event"]
-
-
 def test_check_coordinate_data(log_output: T.Any) -> None:
     coords = CDM_GRID_DATASET
 
@@ -243,12 +245,18 @@ def test_check_dataset(log_output: T.Any) -> None:
     assert len(log_output.entries) == 0
 
     cdm.check_dataset(BAD_GRID_DATASET)
-    assert len(log_output.entries) == 12
+    assert len(log_output.entries) == 14
 
 
 def test_check_file(log_output: T.Any) -> None:
     cdm.check_file(SAMPLEDIR / "cdm_grid.nc")
     assert len(log_output.entries) == 0
+
+    cdm.check_file(SAMPLEDIR / "cdm_obs.nc")
+    assert len(log_output.entries) == 0
+
+    cdm.check_file(SAMPLEDIR / "bad_grid.nc")
+    assert len(log_output.entries) == 14
 
     with pytest.raises(OSError):
         cdm.check_file(SAMPLEDIR / "bad_wrong-file-format.nc")
