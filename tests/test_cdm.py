@@ -24,7 +24,7 @@ SAMPLEDIR = pathlib.Path(__file__).parent
 
 
 CDM_DATASET_ATTRS: T.Dict[T.Hashable, str] = {
-    "Conventions": "CF-1.7",
+    "Conventions": "CF-1.8",
     "title": "Test data",
     "history": "test data",
     "institution": "B-Open",
@@ -48,7 +48,7 @@ CDM_LON_ATTRS: T.Dict[T.Hashable, str] = {
     "standard_name": "longitude",
     "units": "degrees_east",
 }
-CDS_LAT_ATTRS: T.Dict[T.Hashable, str] = {
+CDM_LAT_ATTRS: T.Dict[T.Hashable, str] = {
     "long_name": "lat",
     "standard_name": "latitude",
     "units": "degrees_north",
@@ -58,13 +58,13 @@ CDM_GRID_DATASET = xr.Dataset(
     {
         "tas": (
             ("time", "leadtime", "plev"),
-            np.ones((3, 4, 2)),
+            np.ones((3, 4, 2), dtype='float32'),
             {**CDM_TAS_ATTRS, "grid_mapping": "crs"},
         ),
         "crs": ((), 1, {"grid_mapping_name": "latitude_longitude"}),
     },
     coords={
-        "plev": ("plev", np.arange(1000, 800 - 1, -200), CDM_PLEV_ATTRS),
+        "plev": ("plev", np.arange(1000, 800 - 1, -200, dtype='float32'), CDM_PLEV_ATTRS),
         "time": (
             "time",
             pd.date_range("2020-01-01", periods=3),
@@ -77,6 +77,8 @@ CDM_GRID_DATASET = xr.Dataset(
             {"long_name": "lead time", "standard_name": "forecast_period"},
             {"units": "hours"},
         ),
+        "lon": ((), 12.5, CDM_LON_ATTRS),
+        "lat": ((), 42.5, CDM_LAT_ATTRS),
     },
     attrs=CDM_DATASET_ATTRS,
 )
@@ -84,8 +86,8 @@ CDM_OBS_DATASET = xr.Dataset(
     {"ta": (("obs",), np.ones(4, dtype="float32"), CDM_TAS_ATTRS)},
     coords={
         "obs": ("obs", np.arange(4), {"long_name": "observation", "units": "1"}),
-        "lon": ("obs", -np.arange(4), CDM_LON_ATTRS,),
-        "lat": ("obs", -np.arange(4), CDS_LAT_ATTRS,),
+        "lon": ("obs", -np.arange(4, dtype='float32'), CDM_LON_ATTRS),
+        "lat": ("obs", -np.arange(4, dtype='float32'), CDM_LAT_ATTRS),
     },
     attrs=CDM_DATASET_ATTRS,
 )
@@ -119,7 +121,7 @@ BAD_GRID_DATASET = xr.Dataset(
 )
 
 
-def test_save_sample_files() -> None:
+def save_sample_files() -> None:
     CDM_GRID_DATASET.to_netcdf(SAMPLEDIR / "cdm_grid.nc")
     CDM_OBS_DATASET.to_netcdf(SAMPLEDIR / "cdm_obs.nc")
     BAD_GRID_DATASET.to_netcdf(SAMPLEDIR / "bad_grid.nc")
