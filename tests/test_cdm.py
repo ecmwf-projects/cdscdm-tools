@@ -102,6 +102,11 @@ def save_sample_files() -> None:
     BAD_GRID_DATASET.to_netcdf(SAMPLEDIR / "bad_grid.nc")
 
 
+def test_sanitise_mapping(log_output: T.Any) -> None:
+    assert cdm.sanitise_mapping({None: 1, "key": 2}) == {"None": 1, "key": 2}
+    assert len(log_output.entries) == 1
+
+
 def test_check_dataset_attrs(log_output: T.Any) -> None:
     cdm.check_dataset_attrs(CDM_DATASET_ATTRS)
     assert len(log_output.entries) == 0
@@ -114,8 +119,6 @@ def test_check_dataset_attrs(log_output: T.Any) -> None:
     cdm.check_dataset_attrs({**CDM_DATASET_ATTRS, "Conventions": "0.1"})
     assert len(log_output.entries) == 8
     assert "Conventions" in log_output.entries[7]["event"]
-
-    assert all(e["log_level"] == "warning" for e in log_output.entries)
 
 
 def test_get_definition(log_output: T.Any) -> None:

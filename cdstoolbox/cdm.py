@@ -21,13 +21,28 @@ CDM_DATA_VARS: T.Dict[str, T.Dict[str, str]] = CDM.get("data_vars", {})
 TIME_DTYPE_NAMES = {"datetime64[ns]", "timedelta64[ns]"}
 
 
+def sanitise_mapping(
+    mapping: T.Mapping[T.Hashable, T.Any], log: structlog.BoundLogger = LOGGER
+) -> T.Dict[str, T.Any]:
+    clean = {}
+    for key, value in mapping.items():
+        if isinstance(key, str):
+            clean[key] = value
+        else:
+            key_repr = repr(key)
+            log.warning("non-string key", key=key_repr)
+            clean[key_repr] = value
+    return clean
+
+
 def check_dataset_attrs(
-    attrs: T.Dict[T.Hashable, T.Any], log: structlog.BoundLogger = LOGGER
+    dataset_attrs: T.Mapping[T.Hashable, T.Any], log: structlog.BoundLogger = LOGGER
 ) -> None:
+    attrs = sanitise_mapping(dataset_attrs, log)
     conventions = attrs.get("Conventions")
     if conventions is None:
         log.warning("missing required 'Conventions' global attribute")
-    elif conventions not in ["CF-1.8", "CF-1.7", "CF-1.6"]:
+    elif conventions not in {"CF-1.8", "CF-1.7", "CF-1.6"}:
         log.warning("invalid 'Conventions' value", conventions=conventions)
 
     for attr_name in CDM_ATTRS:
@@ -68,10 +83,12 @@ def get_definition(
 
 
 def check_variable_attrs(
-    attrs: T.Dict[T.Hashable, T.Any],
+    variable_attrs: T.Mapping[T.Hashable, T.Any],
     definition: T.Dict[str, str],
     log: structlog.BoundLogger = LOGGER,
 ) -> None:
+    attrs = sanitise_mapping(variable_attrs, log)
+
     if "long_name" not in attrs:
         log.warning("missing recommended attribute 'long_name'")
 
