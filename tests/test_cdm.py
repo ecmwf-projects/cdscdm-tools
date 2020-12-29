@@ -240,8 +240,17 @@ def test_check_variable(log_output: T.Any) -> None:
     assert "variables with" in log_output.entries[1]["event"]
 
 
+def test_check_dataset_data_vars(log_output: T.Any) -> None:
+    cdm.check_dataset_data_vars(CDM_GRID_DATASET.data_vars)
+    assert len(log_output.entries) == 0
+
+    cdm.check_dataset_data_vars({**CDM_GRID_DATASET.data_vars, "ta": CDM_OBS_DATASET.data_vars["ta"]})
+    assert len(log_output.entries) == 1
+    assert "at most one" in log_output.entries[0]["event"]
+
+
 def test_check_coordinate_data(log_output: T.Any) -> None:
-    coords = CDM_GRID_DATASET
+    coords = CDM_GRID_DATASET.coords
 
     cdm.check_coordinate_data("time", coords["time"])
     assert len(log_output.entries) == 0
@@ -256,11 +265,11 @@ def test_check_coordinate_data(log_output: T.Any) -> None:
     assert len(log_output.entries) == 2
 
 
-def test_open_netcdf_dataset() -> None:
-    cdm.open_netcdf_dataset(SAMPLEDIR / "cdm_grid.nc")
+def test_check_dataset_coords(log_output: T.Any) -> None:
+    coords = CDM_GRID_DATASET.coords
 
-    with pytest.raises(OSError):
-        cdm.open_netcdf_dataset(SAMPLEDIR / "bad_wrong-file-format.nc")
+    cdm.check_dataset_coords(coords)
+    assert len(log_output.entries) == 0
 
 
 def test_check_dataset(log_output: T.Any) -> None:
@@ -274,6 +283,13 @@ def test_check_dataset(log_output: T.Any) -> None:
     assert len(log_output.entries) == 14
 
 
+def test_open_netcdf_dataset() -> None:
+    cdm.open_netcdf_dataset(SAMPLEDIR / "cdm_grid.nc")
+
+    with pytest.raises(OSError):
+        cdm.open_netcdf_dataset(SAMPLEDIR / "bad_wrong-file-format.nc")
+
+
 def test_check_file(log_output: T.Any) -> None:
     cdm.check_file(SAMPLEDIR / "cdm_grid.nc")
     assert len(log_output.entries) == 0
@@ -283,6 +299,3 @@ def test_check_file(log_output: T.Any) -> None:
 
     cdm.check_file(SAMPLEDIR / "bad_grid.nc")
     assert len(log_output.entries) == 14
-
-    with pytest.raises(OSError):
-        cdm.check_file(SAMPLEDIR / "bad_wrong-file-format.nc")
