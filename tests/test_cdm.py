@@ -168,9 +168,7 @@ def test_check_variable_attrs(log_output: T.Any) -> None:
     cdm.check_variable_attrs(CDM_TAS_ATTRS, CDM_TAS_ATTRS)
     assert len(log_output.entries) == 0
 
-    cdm.check_variable_attrs(
-        CDM_TIME_ATTRS, CDM_TIME_ATTRS, dtype_name="datetime64[ns]"
-    )
+    cdm.check_variable_attrs(CDM_TIME_ATTRS, CDM_TIME_ATTRS, dtype="datetime64[ns]")
     assert len(log_output.entries) == 0
 
     cdm.check_variable_attrs({}, {})

@@ -81,7 +81,7 @@ def guess_definition(
 def check_variable_attrs(
     variable_attrs: T.Mapping[T.Hashable, T.Any],
     definition: T.Dict[str, str],
-    dtype_name: T.Optional[str] = None,
+    dtype: T.Optional[str] = None,
     log: structlog.BoundLogger = LOGGER,
 ) -> None:
     attrs = sanitise_mapping(variable_attrs, log)
@@ -89,7 +89,7 @@ def check_variable_attrs(
     if "long_name" not in attrs:
         log.warning("missing recommended attribute 'long_name'")
     if "units" not in attrs:
-        if dtype_name not in TIME_DTYPE_NAMES:
+        if dtype not in TIME_DTYPE_NAMES:
             log.warning("missing recommended attribute 'units'")
     else:
         units = attrs.get("units")
@@ -132,17 +132,16 @@ def check_variable_data(
 def check_variable(
     data_var_name: str,
     data_var: xr.DataArray,
-    ancillary_vars: T.Dict[str, xr.DataArray],
+    definitions: T.Dict[str, T.Dict[str, str]],
     log: structlog.BoundLogger = LOGGER,
 ) -> None:
-    log = log.bind(data_var_name=data_var_name)
     attrs = sanitise_mapping(data_var.attrs, log)
-    if data_var_name in CDM_DATA_VARS:
-        definition = CDM_DATA_VARS[data_var_name]
+    if data_var_name in definitions:
+        definition = definitions[data_var_name]
     else:
         log.warning("unexpected name for variable")
-        definition = guess_definition(attrs, CDM_DATA_VARS, log)
-    check_variable_attrs(data_var.attrs, definition, log=log)
+        definition = guess_definition(attrs, definitions, log)
+    check_variable_attrs(data_var.attrs, definition, dtype=data_var.dtype.name, log=log)
     check_variable_data(data_var, log=log)
 
 
@@ -150,7 +149,7 @@ def check_dataset_data_vars(
     dataset_data_vars: T.Mapping[T.Hashable, xr.DataArray],
     log: structlog.BoundLogger = LOGGER,
 ) -> T.Tuple[T.Dict[str, xr.DataArray], T.Dict[str, xr.DataArray]]:
-    data_vars = sanitise_mapping(dataset_data_vars, log)
+    data_vars = sanitise_mapping(dataset_data_vars, log=log)
     payload_vars = {}
     ancillary_vars = {}
     for name, var in data_vars.items():
@@ -164,7 +163,8 @@ def check_dataset_data_vars(
             data_vars=list(data_vars),
         )
     for data_var_name, data_var in payload_vars.items():
-        check_variable(data_var_name, data_var, ancillary_vars, log=log)
+        log = log.bind(data_var_name=data_var_name)
+        check_variable(data_var_name, data_var, CDM_DATA_VARS, log=log)
     return payload_vars, ancillary_vars
 
 
@@ -174,7 +174,6 @@ def check_coordinate_data(
     increasing: bool = True,
     log: structlog.BoundLogger = LOGGER,
 ) -> None:
-    log = log.bind(coord_name=coord_name)
     diffs = coord.diff(coord_name).values
     zero = 0
     if coord.dtype.name in TIME_DTYPE_NAMES:
@@ -190,28 +189,16 @@ def check_coordinate_data(
 def check_dataset_coords(
     dataset_coords: T.Mapping[T.Hashable, T.Any], log: structlog.BoundLogger = LOGGER
 ) -> None:
-    coords = sanitise_mapping(dataset_coords)
+    coords = sanitise_mapping(dataset_coords, log=log)
     for coord_name, coord in coords.items():
         log = log.bind(coord_name=coord_name)
-        attrs = sanitise_mapping(coord.attrs, log)
-        if coord_name in CDM_COORDS:
-            definition = CDM_COORDS[coord_name]
-        else:
-            log.error("coordinate not found in CDM")
-            definition = guess_definition(attrs, CDM_COORDS, log)
-        check_variable_attrs(attrs, definition, dtype_name=coord.dtype.name, log=log)
-        # check_variable_data(data_var, log=log)
-
-        # coord_definition = CDM_COORDS[dim]
-        # stored_direction = coord_definition.get("stored_direction", "increasing")
-        # increasing = stored_direction == "increasing"
-        # check_coordinate_data(dim, data_var.coords[dim], increasing, log=log)
+        check_variable(coord_name, coord, CDM_COORDS, log=log)
 
 
 def check_dataset(dataset: xr.Dataset, log: structlog.BoundLogger = LOGGER) -> None:
-    check_dataset_attrs(dataset.attrs)
-    check_dataset_data_vars(dataset.data_vars, log)
-    check_dataset_coords(dataset.coords)
+    check_dataset_attrs(dataset.attrs, log=log)
+    check_dataset_coords(dataset.coords, log=log)
+    check_dataset_data_vars(dataset.data_vars, log=log)
 
 
 def open_netcdf_dataset(file_path: T.Union[str, "os.PathLike[str]"]) -> xr.Dataset:
@@ -219,9 +206,7 @@ def open_netcdf_dataset(file_path: T.Union[str, "os.PathLike[str]"]) -> xr.Datas
     return xr.decode_cf(bare_dataset, use_cftime=False)  # type: ignore
 
 
-def check_file(
-    file_path: T.Union[str, "os.PathLike[str]"], log: structlog.BoundLogger = LOGGER
-) -> None:
+def check_file(file_path: T.Union[str, "os.PathLike[str]"]) -> None:
     dataset = open_netcdf_dataset(file_path)
     check_dataset(dataset)
 
