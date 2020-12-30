@@ -17,7 +17,7 @@ CDM = json.loads(pkgutil.get_data(__name__, "cdm.json") or "")
 CDM_ATTRS: T.List[str] = CDM.get("attrs", [])
 CDM_COORDS: T.Dict[str, T.Dict[str, str]] = CDM.get("coords", {})
 CDM_DATA_VARS: T.Dict[str, T.Dict[str, str]] = CDM.get("data_vars", {})
-
+CDM_ANCILLARY_VARS: T.Set[str] = {"crs"}
 TIME_DTYPE_NAMES = {"datetime64[ns]", "timedelta64[ns]"}
 
 
@@ -153,7 +153,7 @@ def check_dataset_data_vars(
     payload_vars = {}
     ancillary_vars = {}
     for name, var in data_vars.items():
-        if name in {"crs"}:
+        if name in CDM_ANCILLARY_VARS:
             ancillary_vars[name] = var
         else:
             payload_vars[name] = var

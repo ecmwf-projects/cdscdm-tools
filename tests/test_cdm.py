@@ -244,7 +244,9 @@ def test_check_dataset_data_vars(log_output: T.Any) -> None:
     cdm.check_dataset_data_vars(CDM_GRID_DATASET.data_vars)
     assert len(log_output.entries) == 0
 
-    cdm.check_dataset_data_vars({**CDM_GRID_DATASET.data_vars, "ta": CDM_OBS_DATASET.data_vars["ta"]})
+    cdm.check_dataset_data_vars(
+        {**CDM_GRID_DATASET.data_vars, "ta": CDM_OBS_DATASET.data_vars["ta"]}
+    )
     assert len(log_output.entries) == 1
     assert "at most one" in log_output.entries[0]["event"]
 
