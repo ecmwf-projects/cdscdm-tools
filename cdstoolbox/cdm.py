@@ -143,6 +143,9 @@ def check_variable(
         definition = guess_definition(attrs, definitions, log)
     check_variable_attrs(data_var.attrs, definition, dtype=data_var.dtype.name, log=log)
     check_variable_data(data_var, log=log)
+    if data_var.dims == (data_var_name,):
+        increasing = definition.get("stored_direction", "increasing") == "increasing"
+        check_coordinate_data(data_var_name, data_var, increasing, log)
 
 
 def check_dataset_data_vars(

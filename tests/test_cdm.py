@@ -282,7 +282,7 @@ def test_check_dataset(log_output: T.Any) -> None:
     assert len(log_output.entries) == 0
 
     cdm.check_dataset(BAD_GRID_DATASET)
-    assert len(log_output.entries) == 14
+    assert len(log_output.entries) == 15
 
 
 def test_open_netcdf_dataset() -> None:
@@ -300,4 +300,4 @@ def test_check_file(log_output: T.Any) -> None:
     assert len(log_output.entries) == 0
 
     cdm.check_file(SAMPLEDIR / "bad_grid.nc")
-    assert len(log_output.entries) == 14
+    assert len(log_output.entries) == 15
