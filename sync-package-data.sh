@@ -14,4 +14,4 @@ git reset --hard && git checkout $1 && git pull
 
 cd ../..
 
-python -c "from cdstoolbox import cdm; cdm.cmor_tables_to_cdm('./tmp/cds-cmor-tables/Tables', './cdstoolbox/cdm.json')"
+cdscdm-cmor-to-cdm ./tmp/cds-cmor-tables/Tables > ./cdstoolbox/cdm.json

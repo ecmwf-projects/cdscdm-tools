@@ -13,7 +13,10 @@ import xarray as xr
 
 LOGGER = structlog.get_logger()
 
-CDM = json.loads(pkgutil.get_data(__name__, "cdm.json") or "")
+try:
+    CDM = json.loads(pkgutil.get_data(__name__, "cdm.json") or "")
+except json.JSONDecodeError:
+    CDM = {}
 CDM_ATTRS: T.List[str] = CDM.get("attrs", [])
 CDM_COORDS: T.Dict[str, T.Dict[str, str]] = CDM.get("coords", {})
 CDM_DATA_VARS: T.Dict[str, T.Dict[str, str]] = CDM.get("data_vars", {})
@@ -214,10 +217,7 @@ def check_file(file_path: T.Union[str, "os.PathLike[str]"]) -> None:
     check_dataset(dataset)
 
 
-def cmor_tables_to_cdm(
-    cmor_tables_dir: T.Union[str, "os.PathLike[str]"],
-    cdm_path: T.Union[str, "os.PathLike[str]"],
-) -> None:
+def cmor_to_cdm(cmor_tables_dir: T.Union[str, "os.PathLike[str]"],) -> str:
     cmor_tables_dir = pathlib.Path(cmor_tables_dir)
     axis_entry: T.Dict[str, T.Dict[str, str]]
     with open(cmor_tables_dir / "CDS_coordinate.json") as fp:
@@ -252,8 +252,14 @@ def cmor_tables_to_cdm(
         "coords": cdm_coords,
         "data_vars": cdm_data_vars,
     }
-    with open(cdm_path, "w") as fp:
-        json.dump(cdm, fp, separators=(",", ":"), indent=1)
+    return json.dumps(cdm, separators=(",", ":"), indent=1)
+
+
+@click.command()
+@click.argument("cmor_tables_dir", type=click.Path(exists=True))
+def cmor_to_cdm_cli(cmor_tables_dir: str) -> None:
+    cdm_json = cmor_to_cdm(cmor_tables_dir)
+    print(cdm_json)
 
 
 @click.command()

@@ -65,6 +65,9 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     entry_points={
-        "console_scripts": ["cdscdm-check-file=cdstoolbox.cdm:check_file_cli"]
+        "console_scripts": [
+            "cdscdm-check-file=cdstoolbox.cdm:check_file_cli",
+            "cdscdm-cmor-to-cdm=cdstoolbox.cdm:cmor_to_cdm_cli",
+        ]
     },
 )
