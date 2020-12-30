@@ -126,17 +126,17 @@ BAD_GRID_DATASET = xr.Dataset(
 )
 
 CMOR_DEFINITION = {
-        "axis_entry": {
-            "time": {
-                "units": "seconds since 1970-1-1",
-                "out_name": "time",
-                "stored_direction": "decreasing",
-                "standard_name": "time",
-            },
-            "leadtime": {"units": "hours", "out_name": "leadtime"},
+    "axis_entry": {
+        "time": {
+            "units": "seconds since 1970-1-1",
+            "out_name": "time",
+            "stored_direction": "decreasing",
+            "standard_name": "time",
         },
-        "variable_entry": {"ta": {"units": "K", "out_name": "ta"}},
-    }
+        "leadtime": {"units": "hours", "out_name": "leadtime"},
+    },
+    "variable_entry": {"ta": {"units": "K", "out_name": "ta"}},
+}
 
 
 def save_sample_files() -> None:
