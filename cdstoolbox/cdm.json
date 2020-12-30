@@ -23,8 +23,8 @@
    "units":"1"
   },
   "depth":{
-   "standard_name":"depth",
    "long_name":"depth",
+   "standard_name":"depth",
    "units":"m"
   },
   "dir":{
@@ -32,12 +32,12 @@
    "units":"degree"
   },
   "forecast_reference_time":{
-   "standard_name":"forecast_reference_time",
-   "long_name":"initial time of forecast"
+   "long_name":"initial time of forecast",
+   "standard_name":"forecast_reference_time"
   },
   "height":{
-   "standard_name":"height",
    "long_name":"height",
+   "standard_name":"height",
    "units":"m"
   },
   "icoads_timeseries_index":{
@@ -50,13 +50,13 @@
    "long_name":"index_coord"
   },
   "lat":{
-   "standard_name":"latitude",
    "long_name":"latitude",
+   "standard_name":"latitude",
    "units":"degrees_north"
   },
   "leadtime":{
-   "standard_name":"forecast_period",
    "long_name":"hours since forecast_reference_time",
+   "standard_name":"forecast_period",
    "units":"hours"
   },
   "leadtime_month":{
@@ -64,8 +64,8 @@
    "units":"1"
   },
   "lon":{
-   "standard_name":"longitude",
    "long_name":"longitude",
+   "standard_name":"longitude",
    "units":"degrees_east"
   },
   "month":{
@@ -89,23 +89,23 @@
    "units":"1"
   },
   "plev":{
-   "standard_name":"air_pressure",
    "long_name":"pressure",
-   "units":"Pa",
-   "stored_direction":"decreasing"
+   "standard_name":"air_pressure",
+   "stored_direction":"decreasing",
+   "units":"Pa"
   },
   "power_coord":{
    "long_name":"power",
    "units":"W"
   },
   "realization":{
-   "standard_name":"realization",
    "long_name":"realization",
+   "standard_name":"realization",
    "units":"1"
   },
   "report_id":{
-   "standard_name":"report_id",
    "long_name":"Report identifier",
+   "standard_name":"report_id",
    "units":"1"
   },
   "season":{
@@ -113,13 +113,13 @@
    "units":"1"
   },
   "shape_id_int":{
-   "standard_name":"shape_id_int",
    "long_name":"shape_id_int",
+   "standard_name":"shape_id_int",
    "units":"1"
   },
   "shape_id_str":{
-   "standard_name":"shape_id_str",
    "long_name":"shape_id_str",
+   "standard_name":"shape_id_str",
    "units":"1"
   },
   "speed_coord":{
@@ -127,19 +127,19 @@
    "units":"m s-1"
   },
   "station_id":{
-   "standard_name":"station_identifier",
-   "long_name":"station_identifier"
+   "long_name":"station_identifier",
+   "standard_name":"station_identifier"
   },
   "temperature_coord":{
    "long_name":"Temperature coordinate variable"
   },
   "time":{
-   "standard_name":"time",
-   "long_name":"time"
+   "long_name":"time",
+   "standard_name":"time"
   },
   "time_since_launch":{
-   "standard_name":"time_since_launch",
    "long_name":"seconds since launch of observation craft",
+   "standard_name":"time_since_launch",
    "units":"s"
   },
   "weekofyear":{
@@ -153,13 +153,13 @@
  },
  "data_vars":{
   "aaod":{
-   "standard_name":"atmosphere_absorption_optical_thickness_due_to_ambient_aerosol_particles",
    "long_name":"Aerosol absorption optical depth",
+   "standard_name":"atmosphere_absorption_optical_thickness_due_to_ambient_aerosol_particles",
    "units":"1"
   },
   "aex":{
-   "standard_name":"volume_extinction_coefficient_in_air_due_to_ambient_aerosol_particles",
    "long_name":"Aerosol extinction coefficient",
+   "standard_name":"volume_extinction_coefficient_in_air_due_to_ambient_aerosol_particles",
    "units":"m-1"
   },
   "ahurs":{
@@ -167,18 +167,18 @@
    "units":"%"
   },
   "albedo":{
-   "standard_name":"surface_albedo",
    "long_name":"Surface Albedo",
+   "standard_name":"surface_albedo",
    "units":"1"
   },
   "aod":{
-   "standard_name":"atmosphere_optical_thickness_due_to_ambient_aerosol_particles",
    "long_name":"Aerosol Optical Depth",
+   "standard_name":"atmosphere_optical_thickness_due_to_ambient_aerosol_particles",
    "units":"1"
   },
   "aou":{
-   "standard_name":"apparent_oxygen_utilization",
    "long_name":"Apparent Oxygen Utilisation",
+   "standard_name":"apparent_oxygen_utilization",
    "units":"mol kg-1"
   },
   "area":{
@@ -186,83 +186,83 @@
    "units":"m2"
   },
   "asiconca":{
-   "standard_name":"sea_ice_area_fraction_anomaly",
    "long_name":"Sea Ice Area Fraction (Atmospheric Grid) anomaly",
+   "standard_name":"sea_ice_area_fraction_anomaly",
    "units":"1"
   },
   "aswvl1":{
-   "standard_name":"volumetric_soil_water_anomaly",
    "long_name":"Volumetric soil moisture of soil layer 1 anomaly.",
+   "standard_name":"volumetric_soil_water_anomaly",
    "units":"m3 m-3"
   },
   "atas":{
-   "standard_name":"air_temperature_anomaly",
    "long_name":"Near-Surface Air Temperature Anomaly",
+   "standard_name":"air_temperature_anomaly",
    "units":"K"
   },
   "atasmax":{
-   "standard_name":"air_temperature_anomaly",
    "long_name":"Daily Maximum Near-Surface Air Temperature Anomaly",
+   "standard_name":"air_temperature_anomaly",
    "units":"K"
   },
   "atasmin":{
-   "standard_name":"air_temperature_anomaly",
    "long_name":"Daily Minimum Near-Surface Air Temperature Anomaly",
+   "standard_name":"air_temperature_anomaly",
    "units":"K"
   },
   "atos":{
-   "standard_name":"sea_surface_temperature_anomaly",
    "long_name":"Sea Surface Temperature Anomaly",
+   "standard_name":"sea_surface_temperature_anomaly",
    "units":"K"
   },
   "atprate":{
-   "standard_name":"lwe_precipitation_rate_anomaly",
    "long_name":"Total precipitation rate anomaly",
+   "standard_name":"lwe_precipitation_rate_anomaly",
    "units":"m s-1"
   },
   "auas":{
-   "standard_name":"eastward_wind_anomaly",
    "long_name":"Eastward Near-Surface Wind Anomaly",
+   "standard_name":"eastward_wind_anomaly",
    "units":"m s-1"
   },
   "avas":{
-   "standard_name":"northward_wind_anomaly",
    "long_name":"Northward Near-Surface Wind Anomaly",
+   "standard_name":"northward_wind_anomaly",
    "units":"m s-1"
   },
   "boundary_layer_dissipation":{
-   "standard_name":"kinetic_energy_dissipation_in_atmosphere_boundary_layer",
    "long_name":"Dissipation in the atmosphere boundary layer.",
+   "standard_name":"kinetic_energy_dissipation_in_atmosphere_boundary_layer",
    "units":"W m-2"
   },
   "burned_area":{
-   "standard_name":"burned_area",
    "long_name":"Total area that is Covered by Burnt Vegetation (All Classes)",
+   "standard_name":"burned_area",
    "units":"m2"
   },
   "cach4":{
-   "standard_name":"dry_atmosphere_mole_fraction_of_methane",
    "long_name":"Column-average dry-air mole fraction of atmospheric methane",
+   "standard_name":"dry_atmosphere_mole_fraction_of_methane",
    "units":"mol mol-1"
   },
   "caco2":{
-   "standard_name":"dry_atmosphere_mole_fraction_of_carbon_dioxide",
    "long_name":"Column-average dry-air mole fraction of atmospheric carbon dioxide",
+   "standard_name":"dry_atmosphere_mole_fraction_of_carbon_dioxide",
    "units":"mol mol-1"
   },
   "ch4":{
-   "standard_name":"mass_fraction_of_methane_in_air",
    "long_name":"Mole fraction of atmospheric methane",
+   "standard_name":"mass_fraction_of_methane_in_air",
    "units":"mol mol-1"
   },
   "chlor_a":{
-   "standard_name":"mass_concentration_of_chlorophyll_a_in_sea_water",
    "long_name":"Chlorophyll-a concentration in seawater (not log-transformed), generated by SeaDAS using a blended combination of OCI (OC4v6 + Hu's CI), OC3 and OC5, depending on water class memberships",
+   "standard_name":"mass_concentration_of_chlorophyll_a_in_sea_water",
    "units":"kg m-3"
   },
   "chlos":{
-   "standard_name":"mass_concentration_of_phytoplankton_expressed_as_chlorophyll_in_sea_water",
    "long_name":"Surface Mass Concentration of Total Phytoplankton Expressed as Chlorophyll in Sea Water",
+   "standard_name":"mass_concentration_of_phytoplankton_expressed_as_chlorophyll_in_sea_water",
    "units":"kg m-3"
   },
   "chnk_cdm":{
@@ -270,28 +270,28 @@
    "units":"mol mol-1"
   },
   "clice":{
-   "standard_name":"atmosphere_mass_content_of_cloud_ice",
    "long_name":"Total atmospheric column of cloud ice",
+   "standard_name":"atmosphere_mass_content_of_cloud_ice",
    "units":"kg m-2"
   },
   "clt":{
-   "standard_name":"cloud_area_fraction",
    "long_name":"Total Cloud Fraction",
+   "standard_name":"cloud_area_fraction",
    "units":"%"
   },
   "clwv":{
-   "standard_name":"atmosphere_mass_content_of_cloud_liquid_water",
    "long_name":"Total atmospheric column of cloud liquid water",
+   "standard_name":"atmosphere_mass_content_of_cloud_liquid_water",
    "units":"kg m-2"
   },
   "co2":{
-   "standard_name":"mole_fraction_of_carbon_dioxide_in_air",
    "long_name":"Mole Fraction of atmospheric carbon dioxide",
+   "standard_name":"mole_fraction_of_carbon_dioxide_in_air",
    "units":"mol mol-1"
   },
   "concco":{
-   "standard_name":"mass_concentration_of_carbon_monoxide_in_air",
    "long_name":"Mass concentration of carbon monoxide in air",
+   "standard_name":"mass_concentration_of_carbon_monoxide_in_air",
    "units":"kg m-3"
   },
   "concnitrogen_river":{
@@ -299,13 +299,13 @@
    "units":"kg m-3"
   },
   "concno2":{
-   "standard_name":"mass_concentration_of_nitrogen_dioxide_in_air",
    "long_name":"Mass concentration of nitrogen dioxide in air",
+   "standard_name":"mass_concentration_of_nitrogen_dioxide_in_air",
    "units":"kg m-3"
   },
   "conco3":{
-   "standard_name":"mass_concentration_of_ozone_in_air",
    "long_name":"Mass concentration of ozone in air",
+   "standard_name":"mass_concentration_of_ozone_in_air",
    "units":"kg m-3"
   },
   "concphosphorus_river":{
@@ -313,8 +313,8 @@
    "units":"kg m-3"
   },
   "concso2":{
-   "standard_name":"mass_concentration_of_sulfur_dioxide_in_air",
    "long_name":"Mass concentration of sulphur dioxide in air",
+   "standard_name":"mass_concentration_of_sulfur_dioxide_in_air",
    "units":"kg m-3"
   },
   "cossza":{
@@ -330,13 +330,13 @@
    "units":"euros"
   },
   "cot_ice":{
-   "standard_name":"atmosphere_optical_thickness_due_to_clouds",
    "long_name":"ice cloud optical thickness",
+   "standard_name":"atmosphere_optical_thickness_due_to_clouds",
    "units":"1"
   },
   "cot_liq":{
-   "standard_name":"atmosphere_optical_thickness_due_to_clouds",
    "long_name":"water cloud optical thickness",
+   "standard_name":"atmosphere_optical_thickness_due_to_clouds",
    "units":"1"
   },
   "count":{
@@ -348,65 +348,65 @@
    "units":"year-1"
   },
   "cp":{
-   "standard_name":"lwe_thickness_of_convective_precipitation_amount",
    "long_name":"Thickness of the liquid water equivalent convective precipitation",
+   "standard_name":"lwe_thickness_of_convective_precipitation_amount",
    "units":"m"
   },
   "cprate":{
-   "standard_name":"convective_precipitation_rate",
    "long_name":"Convective precipitation rate",
+   "standard_name":"convective_precipitation_rate",
    "units":"m s-1"
   },
   "critical":{
-   "standard_name":"volume_fraction_of_condensed_water_in_soil_at_critical_point",
    "long_name":"Critical Point",
+   "standard_name":"volume_fraction_of_condensed_water_in_soil_at_critical_point",
    "units":"%"
   },
   "crs":{
-   "standard_name":"crs",
-   "long_name":"coordinate reference system"
+   "long_name":"coordinate reference system",
+   "standard_name":"crs"
   },
   "csw":{
-   "standard_name":"canopy_and_surface_water_amount",
    "long_name":"Total Canopy and Surface Water Storage",
+   "standard_name":"canopy_and_surface_water_amount",
    "units":"kg m-2"
   },
   "ct_ref_ice":{
-   "standard_name":"effective_radius_of_cloud_condensed_water_particles_at_cloud_top",
    "long_name":"effective radius of ice particles at cloud top",
+   "standard_name":"effective_radius_of_cloud_condensed_water_particles_at_cloud_top",
    "units":"m"
   },
   "ct_ref_liq":{
-   "standard_name":"effective_radius_of_cloud_liquid_water_particles_at_liquid_water_cloud_top",
    "long_name":"effective radius of liquid droplets at cloud top",
+   "standard_name":"effective_radius_of_cloud_liquid_water_particles_at_liquid_water_cloud_top",
    "units":"m"
   },
   "cth":{
-   "standard_name":"cloud_top_altitude",
    "long_name":"cloud top height",
+   "standard_name":"cloud_top_altitude",
    "units":"m"
   },
   "ctp":{
-   "standard_name":"air_pressure_at_cloud_top",
    "long_name":"cloud top pressure",
+   "standard_name":"air_pressure_at_cloud_top",
    "units":"hPa"
   },
   "ctt":{
-   "standard_name":"air_temperature_at_cloud_top",
    "long_name":"Air Temperature at Cloud Top",
+   "standard_name":"air_temperature_at_cloud_top",
    "units":"K"
   },
   "custom":{
    "long_name":"Custom variable"
   },
   "cw":{
-   "standard_name":"canopy_water_amount",
    "long_name":"Total Canopy Water Storage",
+   "standard_name":"canopy_water_amount",
    "units":"kg m-2"
   },
   "daod":{
-   "standard_name":"atmosphere_optical_thickness_due_to_dust_ambient_aerosol_particles",
    "long_name":"Dust aerosol optical depth",
+   "standard_name":"atmosphere_optical_thickness_due_to_dust_ambient_aerosol_particles",
    "units":"1"
   },
   "degree_days":{
@@ -414,13 +414,13 @@
    "units":"degree_Celsius"
   },
   "depth":{
-   "standard_name":"depth",
    "long_name":"Depth below the surface, positive down",
+   "standard_name":"depth",
    "units":"m"
   },
   "dissoc":{
-   "standard_name":"mole_concentration_of_dissolved_organic_carbon_in_sea_water",
    "long_name":"Dissolved Organic Carbon Concentration",
+   "standard_name":"mole_concentration_of_dissolved_organic_carbon_in_sea_water",
    "units":"mol m-3"
   },
   "doy":{
@@ -428,8 +428,8 @@
    "units":"day"
   },
   "dpt":{
-   "standard_name":"dew_point_temperature",
    "long_name":"2m dewpoint temperature",
+   "standard_name":"dew_point_temperature",
    "units":"K"
   },
   "dtr":{
@@ -437,18 +437,18 @@
    "units":"K"
   },
   "dwis":{
-   "standard_name":"wind_direction",
    "long_name":"10 metre wind direction",
+   "standard_name":"wind_direction",
    "units":"degrees"
   },
   "e":{
-   "standard_name":"surface_water_evaporation_flux",
    "long_name":"Evaporation flux of water",
+   "standard_name":"surface_water_evaporation_flux",
    "units":"kg m-2 s-1"
   },
   "elevation":{
-   "standard_name":"height_above_mean_sea_level",
    "long_name":"Elevation",
+   "standard_name":"height_above_mean_sea_level",
    "units":"m"
   },
   "energy":{
@@ -456,58 +456,58 @@
    "units":"J"
   },
   "eow":{
-   "standard_name":"surface_water_evaporation_flux",
    "long_name":"Open water evaporation flux",
+   "standard_name":"surface_water_evaporation_flux",
    "units":"kg m-2 s-1"
   },
   "esn":{
-   "standard_name":"water_evapotranspiration_flux",
    "long_name":"Snow Evaporation",
+   "standard_name":"water_evapotranspiration_flux",
    "units":"kg m-2 s-1"
   },
   "eswv":{
-   "standard_name":"eastward_sea_water_velocity",
    "long_name":"eastward sea water velocity",
+   "standard_name":"eastward_sea_water_velocity",
    "units":"m s-1"
   },
   "eva":{
-   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "long_name":"Thickness of the liquid water equivalent evapouration amount",
+   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "units":"m"
   },
   "eva_rate":{
-   "standard_name":"lwe_water_evaporation_rate",
    "long_name":"Evaporation rate of water",
+   "standard_name":"lwe_water_evaporation_rate",
    "units":"m s-1"
   },
   "evabs":{
-   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "long_name":"Thickness of the liquid water equivalent evapouration amount from bare soil",
+   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "units":"m"
   },
   "evaow":{
-   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "long_name":"Thickness of the liquid water equivalent evapouration amount from open water surfaces excluding oceans",
+   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "units":"m"
   },
   "evasn":{
-   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "long_name":"Thickness of the liquid water equivalent evapouration amount from snow",
+   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "units":"m"
   },
   "evatc":{
-   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "long_name":"Thickness of the liquid water equivalent evapouration amount from the top of canopy",
+   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "units":"m"
   },
   "evavt":{
-   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "long_name":"Thickness of the liquid water equivalent evapouration amount from vegetation transpiration",
+   "standard_name":"lwe_thickness_of_water_evaporation_amount",
    "units":"m"
   },
   "evspsblpot":{
-   "standard_name":"water_potential_evaporation_flux",
    "long_name":"Potential Evapotranspiration",
+   "standard_name":"water_potential_evaporation_flux",
    "units":"kg m-2 s-1"
   },
   "factor":{
@@ -515,8 +515,8 @@
    "units":"1"
   },
   "fapar":{
-   "standard_name":"fraction_of_surface_downwelling_photosynthetic_radiative_flux_absorbed_by_vegetation",
    "long_name":"Fraction of Absorbed Photosynthetically Active Radiation",
+   "standard_name":"fraction_of_surface_downwelling_photosynthetic_radiative_flux_absorbed_by_vegetation",
    "units":"1"
   },
   "fire_weather_index":{
@@ -524,13 +524,13 @@
    "units":"1"
   },
   "fldcapacity":{
-   "standard_name":"volume_fraction_of_condensed_water_in_soil_at_field_capacity",
    "long_name":"Field Capacity",
+   "standard_name":"volume_fraction_of_condensed_water_in_soil_at_field_capacity",
    "units":"%"
   },
   "flood_depth":{
-   "standard_name":"flood_water_thickness",
    "long_name":"Vertical distance between flood water surface and the ground surface",
+   "standard_name":"flood_water_thickness",
    "units":"m"
   },
   "flood_extent":{
@@ -538,8 +538,8 @@
    "units":"m2"
   },
   "flood_speed":{
-   "standard_name":"flood_water_speed",
    "long_name":"Speed of the flood water",
+   "standard_name":"flood_water_speed",
    "units":"m s-1"
   },
   "force_magnitude":{
@@ -559,13 +559,13 @@
    "units":"$"
   },
   "geopotential":{
-   "standard_name":"geopotential",
    "long_name":"Geopotential",
+   "standard_name":"geopotential",
    "units":"m2 s-2"
   },
   "geopotential_anomaly":{
-   "standard_name":"geopotential",
    "long_name":"Geopotential",
+   "standard_name":"geopotential",
    "units":"m2 s-2"
   },
   "gni":{
@@ -577,8 +577,8 @@
    "units":"W m-2"
   },
   "height":{
-   "standard_name":"height",
    "long_name":"Height above the surface",
+   "standard_name":"height",
    "units":"m"
   },
   "height_station":{
@@ -586,48 +586,48 @@
    "units":"m"
   },
   "hfls":{
-   "standard_name":"surface_upward_latent_heat_flux",
    "long_name":"Surface Upward Latent Heat Flux",
+   "standard_name":"surface_upward_latent_heat_flux",
    "units":"W m-2"
   },
   "hfls_accumulated":{
-   "standard_name":"integral_wrt_time_of_surface_upward_latent_heat_flux",
    "long_name":"Accumulated Surface Upward Latent Heat Flux",
+   "standard_name":"integral_wrt_time_of_surface_upward_latent_heat_flux",
    "units":"J m-2"
   },
   "hfss":{
-   "standard_name":"surface_upward_sensible_heat_flux",
    "long_name":"Surface Upward Sensible Heat Flux",
+   "standard_name":"surface_upward_sensible_heat_flux",
    "units":"W m-2"
   },
   "hfss_accumulated":{
-   "standard_name":"integral_wrt_time_of_surface_upward_sensible_heat_flux",
    "long_name":"Accumulated Surface Upward Sensible Heat Flux",
+   "standard_name":"integral_wrt_time_of_surface_upward_sensible_heat_flux",
    "units":"J m-2"
   },
   "humidity_mixing_ratio":{
-   "standard_name":"humidity_mixing_ratio",
    "long_name":"water_vapor_volume_mixing_ratio",
+   "standard_name":"humidity_mixing_ratio",
    "units":"1"
   },
   "hur":{
-   "standard_name":"relative_humidity",
    "long_name":"Relative Humidity",
+   "standard_name":"relative_humidity",
    "units":"%"
   },
   "hurs":{
-   "standard_name":"relative_humidity",
    "long_name":"Near-Surface Relative Humidity",
+   "standard_name":"relative_humidity",
    "units":"%"
   },
   "hus":{
-   "standard_name":"specific_humidity",
    "long_name":"Specific Humidity",
+   "standard_name":"specific_humidity",
    "units":"1.0"
   },
   "huss":{
-   "standard_name":"specific_humidity",
    "long_name":"Near-Surface Specific Humidity",
+   "standard_name":"specific_humidity",
    "units":"1.0"
   },
   "index":{
@@ -635,38 +635,38 @@
    "units":"1"
   },
   "istl1":{
-   "standard_name":"sea_ice_temperature",
    "long_name":"Ice temperature of Layer 1",
+   "standard_name":"sea_ice_temperature",
    "units":"K"
   },
   "istl2":{
-   "standard_name":"sea_ice_temperature",
    "long_name":"Ice temperature of Layer 2",
+   "standard_name":"sea_ice_temperature",
    "units":"K"
   },
   "istl3":{
-   "standard_name":"sea_ice_temperature",
    "long_name":"Ice temperature of Layer 3",
+   "standard_name":"sea_ice_temperature",
    "units":"K"
   },
   "istl4":{
-   "standard_name":"sea_ice_temperature",
    "long_name":"Ice temperature of Layer 4",
+   "standard_name":"sea_ice_temperature",
    "units":"K"
   },
   "lai":{
-   "standard_name":"leaf_area_index",
    "long_name":"Leaf Area Index",
+   "standard_name":"leaf_area_index",
    "units":"1"
   },
   "lake_ice_temperature":{
-   "standard_name":"lake_ice_temperature",
    "long_name":"Lake ice temperature ",
+   "standard_name":"lake_ice_temperature",
    "units":"K"
   },
   "land_cover_lccs":{
-   "standard_name":"land_cover_lccs",
    "long_name":"Land cover class defined in the LCCS",
+   "standard_name":"land_cover_lccs",
    "units":"1"
   },
   "land_ice_speed":{
@@ -674,23 +674,23 @@
    "units":"m s-1"
   },
   "land_ice_temperature":{
-   "standard_name":"land_ice_temperature",
    "long_name":"Land ice temperature ",
+   "standard_name":"land_ice_temperature",
    "units":"K"
   },
   "land_ice_u":{
-   "standard_name":"eastward_land_ice_velocity",
    "long_name":"Eastward Land Ice Velocity",
+   "standard_name":"eastward_land_ice_velocity",
    "units":"m s-1"
   },
   "land_ice_upward_velocity":{
-   "standard_name":"land_ice_surface_upward_velocity",
    "long_name":"Land ice upward velocity",
+   "standard_name":"land_ice_surface_upward_velocity",
    "units":"m s-1"
   },
   "land_ice_v":{
-   "standard_name":"northward_land_ice_velocity",
    "long_name":"Northward Land Ice Velocity",
+   "standard_name":"northward_land_ice_velocity",
    "units":"m s-1"
   },
   "length":{
@@ -698,18 +698,18 @@
    "units":"m"
   },
   "lsp":{
-   "standard_name":"lwe_thickness_of_stratiform_precipitation_amount",
    "long_name":"Thickness of the liquid water equivalent large-scale (stratiform) precipitation",
+   "standard_name":"lwe_thickness_of_stratiform_precipitation_amount",
    "units":"m"
   },
   "lsprate":{
-   "standard_name":"stratiform_precipitation_rate",
    "long_name":"Large-scale (stratiform) precipitation rate",
+   "standard_name":"stratiform_precipitation_rate",
    "units":"m s-1"
   },
   "lswt":{
-   "standard_name":"surface_temperature",
    "long_name":"Lake Surface Water Temperature",
+   "standard_name":"surface_temperature",
    "units":"K"
   },
   "mask":{
@@ -729,38 +729,38 @@
    "units":"K"
   },
   "mmrbc":{
-   "standard_name":"mass_fraction_of_elemental_carbon_dry_aerosol_particles_in_air",
    "long_name":"Elemental Carbon Mass Mixing Ratio",
+   "standard_name":"mass_fraction_of_elemental_carbon_dry_aerosol_particles_in_air",
    "units":"kg kg-1"
   },
   "mmrdust":{
-   "standard_name":"mass_fraction_of_dust_dry_aerosol_particles_in_air",
    "long_name":"Dust Aerosol Mass Mixing Ratio",
+   "standard_name":"mass_fraction_of_dust_dry_aerosol_particles_in_air",
    "units":"kg kg-1"
   },
   "mmroa":{
-   "standard_name":"mass_fraction_of_particulate_organic_matter_dry_aerosol_particles_in_air",
    "long_name":"Total Organic Aerosol Mass Mixing Ratio",
+   "standard_name":"mass_fraction_of_particulate_organic_matter_dry_aerosol_particles_in_air",
    "units":"kg kg-1"
   },
   "mmrpm10":{
-   "standard_name":"mass_concentration_of_pm10_ambient_aerosol_particles_in_air",
    "long_name":"particulate matter d < 10 um",
+   "standard_name":"mass_concentration_of_pm10_ambient_aerosol_particles_in_air",
    "units":"kg kg-1"
   },
   "mmrpm2p5":{
-   "standard_name":"mass_concentration_of_pm2p5_ambient_aerosol_particles_in_air",
    "long_name":"particulate matter d < 2.5 um",
+   "standard_name":"mass_concentration_of_pm2p5_ambient_aerosol_particles_in_air",
    "units":"kg kg-1"
   },
   "mmrso4":{
-   "standard_name":"mass_fraction_of_sulfate_dry_aerosol_particles_in_air",
    "long_name":"Aerosol Sulfate Mass Mixing Ratio",
+   "standard_name":"mass_fraction_of_sulfate_dry_aerosol_particles_in_air",
    "units":"kg kg-1"
   },
   "mmrss":{
-   "standard_name":"mass_fraction_of_sea_salt_dry_aerosol_particles_in_air",
    "long_name":"Sea-Salt Aerosol Mass Mixing Ratio",
+   "standard_name":"mass_fraction_of_sea_salt_dry_aerosol_particles_in_air",
    "units":"kg kg-1"
   },
   "mortality":{
@@ -768,38 +768,38 @@
    "units":"year-1"
   },
   "mrro":{
-   "standard_name":"runoff_flux",
    "long_name":"Total Runoff",
+   "standard_name":"runoff_flux",
    "units":"kg m-2 s-1"
   },
   "mrrob":{
-   "standard_name":"subsurface_runoff_flux",
    "long_name":"Subsurface Runoff",
+   "standard_name":"subsurface_runoff_flux",
    "units":"kg m-2 s-1"
   },
   "mrros":{
-   "standard_name":"surface_runoff_flux",
    "long_name":"Surface Runoff",
+   "standard_name":"surface_runoff_flux",
    "units":"kg m-2 s-1"
   },
   "mrso":{
-   "standard_name":"soil_moisture_content",
    "long_name":"Total Soil Moisture Content",
+   "standard_name":"soil_moisture_content",
    "units":"kg m-2"
   },
   "msmr":{
-   "standard_name":"snowmelt_rate",
    "long_name":"Mean Snowmelt Rate",
+   "standard_name":"snowmelt_rate",
    "units":"kg m-2 s-1"
   },
   "mwd":{
-   "standard_name":"mean_wave_direction",
    "long_name":"Direction of combined wind waves and swell",
+   "standard_name":"mean_wave_direction",
    "units":"degrees"
   },
   "mwp":{
-   "standard_name":"mean_wave_period",
    "long_name":"Mean period of combined wind waves and swell",
+   "standard_name":"mean_wave_period",
    "units":"s"
   },
   "nitrogen_amount":{
@@ -807,26 +807,26 @@
    "units":"kg"
   },
   "no2":{
-   "standard_name":"mass_fraction_of_nitrogen_dioxide_in_air",
    "long_name":"Nitrogen dioxide mass fraction",
+   "standard_name":"mass_fraction_of_nitrogen_dioxide_in_air",
    "units":"kg kg-1"
   },
   "no3_dissolved":{
-   "standard_name":"mole_concentration_of_nitrate_in_sea_water",
    "long_name":"Dissolved Nitrate Concentration",
+   "standard_name":"mole_concentration_of_nitrate_in_sea_water",
    "units":"mol m-3"
   },
   "nobs":{
-   "standard_name":"number_of_observations",
    "long_name":"Number of observations",
+   "standard_name":"number_of_observations",
    "units":"day"
   },
   "normalised_value":{
    "units":"1"
   },
   "nswv":{
-   "standard_name":"northward_sea_water_velocity",
    "long_name":"northward sea water velocity",
+   "standard_name":"northward_sea_water_velocity",
    "units":"m s-1"
   },
   "number_of_days":{
@@ -834,23 +834,23 @@
    "units":"day"
   },
   "number_of_days_tasgt":{
-   "standard_name":"number_of_days_with_air_temperature_above_threshold",
    "long_name":"Length of time in days that the air temperature is above a given threshold",
+   "standard_name":"number_of_days_with_air_temperature_above_threshold",
    "units":"day"
   },
   "number_of_days_taslt":{
-   "standard_name":"number_of_days_with_air_temperature_below_threshold",
    "long_name":"Length of time in days that the air temperature is above a given threshold",
+   "standard_name":"number_of_days_with_air_temperature_below_threshold",
    "units":"day"
   },
   "number_of_days_tpgt":{
-   "standard_name":"number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold",
    "long_name":"Length of time in days that the daily total precpitation is above a given threshold",
+   "standard_name":"number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold",
    "units":"day"
   },
   "number_of_days_tplt":{
-   "standard_name":"number_of_days_with_lwe_thickness_of_precipitation_amount_below_threshold",
    "long_name":"Length of time in days that the daily total precpitation is below a given threshold",
+   "standard_name":"number_of_days_with_lwe_thickness_of_precipitation_amount_below_threshold",
    "units":"day"
   },
   "number_of_hours":{
@@ -865,28 +865,28 @@
    "long_name":"NUTS regions"
   },
   "o2_dissolved":{
-   "standard_name":"mole_concentration_of_dissolved_molecular_oxygen_in_sea_water",
    "long_name":"Dissolved Oxygen Concentration",
+   "standard_name":"mole_concentration_of_dissolved_molecular_oxygen_in_sea_water",
    "units":"mol m-3"
   },
   "o3":{
-   "standard_name":"mole_fraction_of_ozone_in_air",
    "long_name":"Mole Fraction of O3",
+   "standard_name":"mole_fraction_of_ozone_in_air",
    "units":"mol mol-1"
   },
   "ocean_reflectance":{
-   "standard_name":"surface_ratio_of_upwelling_radiance_emerging_from_sea_water_to_downwelling_radiative_flux_in_air",
    "long_name":"Sea surface reflectance defined as the ratio of water-leaving radiance to surface irradiance",
+   "standard_name":"surface_ratio_of_upwelling_radiance_emerging_from_sea_water_to_downwelling_radiative_flux_in_air",
    "units":"sr-1"
   },
   "orog":{
-   "standard_name":"surface_altitude",
    "long_name":"Surface Altitude",
+   "standard_name":"surface_altitude",
    "units":"m"
   },
   "p":{
-   "standard_name":"air_pressure",
    "long_name":"Air Pressure",
+   "standard_name":"air_pressure",
    "units":"Pa"
   },
   "percentage":{
@@ -910,28 +910,28 @@
    "units":"%"
   },
   "pev":{
-   "standard_name":"lwe_thickness_of_water_potential_evaporation_amount",
    "long_name":"Thickness of the liquid water equivalent potential evapouration amount",
+   "standard_name":"lwe_thickness_of_water_potential_evaporation_amount",
    "units":"m"
   },
   "pfull":{
-   "standard_name":"air_pressure",
    "long_name":"Pressure at Model Full-Levels",
+   "standard_name":"air_pressure",
    "units":"Pa"
   },
   "pfullo":{
-   "standard_name":"air_pressure",
    "long_name":"air_pressure",
+   "standard_name":"air_pressure",
    "units":"Pa"
   },
   "pfullo_tu":{
-   "standard_name":"air_pressure_total_uncertainty",
    "long_name":"air_pressure_total_uncertainty",
+   "standard_name":"air_pressure_total_uncertainty",
    "units":"Pa"
   },
   "ph":{
-   "standard_name":"sea_water_ph_reported_on_total_scale",
    "long_name":"pH",
+   "standard_name":"sea_water_ph_reported_on_total_scale",
    "units":"1"
   },
   "phosphorus_amount":{
@@ -939,13 +939,13 @@
    "units":"kg"
   },
   "phyc":{
-   "standard_name":"mole_concentration_of_phytoplankton_expressed_as_carbon_in_sea_water",
    "long_name":"Phytoplankton Carbon Concentration",
+   "standard_name":"mole_concentration_of_phytoplankton_expressed_as_carbon_in_sea_water",
    "units":"mol m-3"
   },
   "phypp":{
-   "standard_name":"tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production",
    "long_name":"Primary Carbon Production by Phytoplankton",
+   "standard_name":"tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production",
    "units":"mol m-3 s-1"
   },
   "pixels":{
@@ -953,28 +953,28 @@
    "units":"1"
   },
   "platform_course":{
-   "standard_name":"platform_course",
    "long_name":"Platform course",
+   "standard_name":"platform_course",
    "units":"degrees"
   },
   "plsg":{
-   "standard_name":"platform_speed_wrt_ground",
    "long_name":"Platform speed with respect to ground",
+   "standard_name":"platform_speed_wrt_ground",
    "units":"m s-1"
   },
   "pm10":{
-   "standard_name":"mass_concentration_of_pm10_ambient_aerosol_particles_in_air",
    "long_name":"particulate matter d < 10 um",
+   "standard_name":"mass_concentration_of_pm10_ambient_aerosol_particles_in_air",
    "units":"kg m-3"
   },
   "pm25":{
-   "standard_name":"mass_concentration_of_pm2p5_ambient_aerosol_particles_in_air",
    "long_name":"particulate matter d < 2.5 um",
+   "standard_name":"mass_concentration_of_pm2p5_ambient_aerosol_particles_in_air",
    "units":"kg m-3"
   },
   "po4_dissolved":{
-   "standard_name":"mole_concentration_of_phosphate_in_sea_water",
    "long_name":"Dissolved Phosphate Concentration",
+   "standard_name":"mole_concentration_of_phosphate_in_sea_water",
    "units":"mol m-3"
   },
   "population":{
@@ -990,28 +990,28 @@
    "units":"W"
   },
   "pp1d":{
-   "standard_name":"sea_surface_wave_period_at_variance_spectral_density_maximum",
    "long_name":"Sea surface wave period at variance spectral density maximum",
+   "standard_name":"sea_surface_wave_period_at_variance_spectral_density_maximum",
    "units":"s"
   },
   "pr":{
-   "standard_name":"precipitation_flux",
    "long_name":"Precipitation",
+   "standard_name":"precipitation_flux",
    "units":"kg m-2 s-1"
   },
   "pr_amount":{
-   "standard_name":"precipitation_amount",
    "long_name":"Total precipitation amount",
+   "standard_name":"precipitation_amount",
    "units":"kg m-2"
   },
   "prc":{
-   "standard_name":"convective_precipitation_flux",
    "long_name":"Convective Precipitation",
+   "standard_name":"convective_precipitation_flux",
    "units":"kg m-2 s-1"
   },
   "prls":{
-   "standard_name":"stratiform_precipitation_flux",
    "long_name":"Large-scale (stratiform) Precipitation Flux",
+   "standard_name":"stratiform_precipitation_flux",
    "units":"kg m-2 s-1"
   },
   "probability":{
@@ -1027,38 +1027,38 @@
    "units":"1"
   },
   "prra":{
-   "standard_name":"rainfall_flux",
    "long_name":"Rainfall Flux",
+   "standard_name":"rainfall_flux",
    "units":"kg m-2 s-1"
   },
   "prsn":{
-   "standard_name":"snowfall_flux",
    "long_name":"Snowfall Flux",
+   "standard_name":"snowfall_flux",
    "units":"kg m-2 s-1"
   },
   "prsn_amount":{
-   "standard_name":"snowfall_amount",
    "long_name":"Snowfall Amount",
+   "standard_name":"snowfall_amount",
    "units":"kg m-2"
   },
   "prsnc":{
-   "standard_name":"convective_snowfall_flux",
    "long_name":"Convective Snowfall Flux",
+   "standard_name":"convective_snowfall_flux",
    "units":"kg m-2 s-1"
   },
   "prsnls":{
-   "standard_name":"stratiform_snowfall_flux",
    "long_name":"Stratiform Snowfall Flux",
+   "standard_name":"stratiform_snowfall_flux",
    "units":"kg m-2 s-1"
   },
   "ps":{
-   "standard_name":"surface_air_pressure",
    "long_name":"Surface Air Pressure",
+   "standard_name":"surface_air_pressure",
    "units":"Pa"
   },
   "psl":{
-   "standard_name":"air_pressure_at_sea_level",
    "long_name":"Sea Level Pressure",
+   "standard_name":"air_pressure_at_sea_level",
    "units":"Pa"
   },
   "ratio":{
@@ -1070,67 +1070,67 @@
    "units":"%"
   },
   "report_timestamp":{
-   "standard_name":"report_timestamp",
-   "long_name":"report_timespamp"
+   "long_name":"report_timespamp",
+   "standard_name":"report_timestamp"
   },
   "rivo":{
-   "standard_name":"outgoing_water_volume_transport_along_river_channel",
    "long_name":"River Discharge",
+   "standard_name":"outgoing_water_volume_transport_along_river_channel",
    "units":"m3 s-1"
   },
   "rlds":{
-   "standard_name":"surface_downwelling_longwave_flux_in_air",
    "long_name":"Surface Downwelling Longwave Radiation",
+   "standard_name":"surface_downwelling_longwave_flux_in_air",
    "units":"W m-2"
   },
   "rlds_accumulated":{
-   "standard_name":"integral_wrt_time_of_surface_downwelling_longwave_flux_in_air",
    "long_name":"Accumulated Surface Downwelling Longwave Radiation",
+   "standard_name":"integral_wrt_time_of_surface_downwelling_longwave_flux_in_air",
    "units":"J m-2"
   },
   "rldscs":{
-   "standard_name":"surface_downwelling_longwave_flux_in_air_assuming_clear_sky",
    "long_name":"Surface Downwelling Clear-Sky Longwave Radiation",
+   "standard_name":"surface_downwelling_longwave_flux_in_air_assuming_clear_sky",
    "units":"W m-2"
   },
   "rls":{
-   "standard_name":"surface_net_downward_longwave_flux",
    "long_name":"Net Longwave Surface Radiation",
+   "standard_name":"surface_net_downward_longwave_flux",
    "units":"W m-2"
   },
   "rls_accumulated":{
-   "standard_name":"integral_wrt_time_of_surface_net_downward_longwave_flux",
    "long_name":"Accumulated Net Longwave Surface Radiation",
+   "standard_name":"integral_wrt_time_of_surface_net_downward_longwave_flux",
    "units":"J m-2"
   },
   "rlscs":{
-   "standard_name":"surface_net_downward_longwave_flux_assuming_clear_sky",
    "long_name":"Net longwave surface radiation assuming clear sky",
+   "standard_name":"surface_net_downward_longwave_flux_assuming_clear_sky",
    "units":"W m-2"
   },
   "rlt":{
-   "standard_name":"toa_net_downward_longwave_flux",
    "long_name":"Net Longwave Radiation at the top of the atmosphere",
+   "standard_name":"toa_net_downward_longwave_flux",
    "units":"W m-2"
   },
   "rlt_accumulated":{
-   "standard_name":"integral_wrt_time_of_toa_net_downward_longwave_flux",
    "long_name":"Accumulated Net Longwave Radiation at the top of the atmosphere",
+   "standard_name":"integral_wrt_time_of_toa_net_downward_longwave_flux",
    "units":"J m-2"
   },
   "rltcs":{
-   "standard_name":"toa_net_downward_longwave_flux_assuming_clear_sky",
    "long_name":"Net Longwave Radiation at the top of the atmosphere assuming clear sky conditions",
+   "standard_name":"toa_net_downward_longwave_flux_assuming_clear_sky",
    "units":"W m-2"
   },
   "rlus":{
-   "standard_name":"surface_upwelling_longwave_flux_in_air",
    "long_name":"Surface Upwelling Longwave Radiation",
+   "standard_name":"surface_upwelling_longwave_flux_in_air",
    "units":"W m-2"
   },
   "ro_amount":{
-   "standard_name":"runoff_amount",
    "long_name":"Total Runoff amount",
+   "standard_name":"runoff_amount",
    "units":"kg m-2"
   },
   "roara":{
@@ -1138,33 +1138,33 @@
    "units":"m s-1"
   },
   "rob_amount":{
-   "standard_name":"subsurface_runoff_amount",
    "long_name":"Subsurface Runoff amount",
+   "standard_name":"subsurface_runoff_amount",
    "units":"kg m-2"
   },
   "ros_amount":{
-   "standard_name":"surface_runoff_amount",
    "long_name":"Subsurface Runoff amount",
+   "standard_name":"surface_runoff_amount",
    "units":"kg m-2"
   },
   "roughness_length":{
-   "standard_name":"surface_roughness_length",
    "long_name":"Surface Roughness Length",
+   "standard_name":"surface_roughness_length",
    "units":"m"
   },
   "rsd":{
-   "standard_name":"downwelling_shortwave_flux_in_air",
    "long_name":"Downwelling Shortwave Radiation",
+   "standard_name":"downwelling_shortwave_flux_in_air",
    "units":"W m-2"
   },
   "rsd_accumulated":{
-   "standard_name":"integral_wrt_time_of_downwelling_shortwave_flux_in_air",
    "long_name":"Accumulated Downwelling Shortwave Radiation",
+   "standard_name":"integral_wrt_time_of_downwelling_shortwave_flux_in_air",
    "units":"J m-2"
   },
   "rsdds":{
-   "standard_name":"surface_direct_downwelling_shortwave_flux_in_air",
    "long_name":"Surface direct downwelling shortwave radiation",
+   "standard_name":"surface_direct_downwelling_shortwave_flux_in_air",
    "units":"W m-2"
   },
   "rsddscs":{
@@ -1172,68 +1172,68 @@
    "units":"W m-2"
   },
   "rsds":{
-   "standard_name":"surface_downwelling_shortwave_flux_in_air",
    "long_name":"Surface Downwelling Shortwave Radiation",
+   "standard_name":"surface_downwelling_shortwave_flux_in_air",
    "units":"W m-2"
   },
   "rsds_accumulated":{
-   "standard_name":"integral_wrt_time_of_surface_downwelling_shortwave_flux_in_air",
    "long_name":"Accumulated Surface Downwelling Shortwave Radiation",
+   "standard_name":"integral_wrt_time_of_surface_downwelling_shortwave_flux_in_air",
    "units":"J m-2"
   },
   "rsdscs":{
-   "standard_name":"surface_downwelling_shortwave_flux_in_air_assuming_clear_sky",
    "long_name":"Surface Downwelling Clear-Sky Shortwave Radiation",
+   "standard_name":"surface_downwelling_shortwave_flux_in_air_assuming_clear_sky",
    "units":"W m-2"
   },
   "rsdscs_accumulated":{
-   "standard_name":"integral_wrt_time_of_surface_downwelling_shortwave_flux_in_assuming_clear_sky",
    "long_name":"Accumulated Surface Clear-Sky Downwelling Shortwave Radiation",
+   "standard_name":"integral_wrt_time_of_surface_downwelling_shortwave_flux_in_assuming_clear_sky",
    "units":"J m-2"
   },
   "rsdt":{
-   "standard_name":"toa_incoming_shortwave_flux",
    "long_name":"TOA Incident Shortwave Radiation",
+   "standard_name":"toa_incoming_shortwave_flux",
    "units":"W m-2"
   },
   "rsdt_accumulated":{
-   "standard_name":"accumulated_toa_incoming_shortwave_flux",
    "long_name":"Accumulated TOA Incident Shortwave Radiation",
+   "standard_name":"accumulated_toa_incoming_shortwave_flux",
    "units":"J m-2"
   },
   "rss":{
-   "standard_name":"surface_net_downward_shortwave_flux",
    "long_name":"Net Shortwave Surface Radiation",
+   "standard_name":"surface_net_downward_shortwave_flux",
    "units":"W m-2"
   },
   "rss_accumulated":{
-   "standard_name":"integral_wrt_time_of_surface_net_downward_shortwave_flux",
    "long_name":"Accumulated Net Shortwave Surface Radiation",
+   "standard_name":"integral_wrt_time_of_surface_net_downward_shortwave_flux",
    "units":"J m-2"
   },
   "rsscs":{
-   "standard_name":"surface_net_downward_shortwave_flux_assuming_clear_sky",
    "long_name":"Net shortwave surface radiation assuming clear sky conditions",
+   "standard_name":"surface_net_downward_shortwave_flux_assuming_clear_sky",
    "units":"W m-2"
   },
   "rst":{
-   "standard_name":"toa_net_downward_shortwave_flux",
    "long_name":"Net Shortwave Radiation at the top of the atsmosphere",
+   "standard_name":"toa_net_downward_shortwave_flux",
    "units":"W m-2"
   },
   "rst_accumulated":{
-   "standard_name":"integral_wrt_time_of_toa_net_downward_shortwave_flux",
    "long_name":"Accumulated Net Shortwave Radiation at the top of the atsmosphere",
+   "standard_name":"integral_wrt_time_of_toa_net_downward_shortwave_flux",
    "units":"J m-2"
   },
   "rstcs":{
-   "standard_name":"toa_net_downward_shortwave_flux_assuming_clear_sky",
    "long_name":"Net Shortwave Radiation at the top of the atsmosphere assuming clear sky conditions",
+   "standard_name":"toa_net_downward_shortwave_flux_assuming_clear_sky",
    "units":"W m-2"
   },
   "rsus":{
-   "standard_name":"surface_upwelling_shortwave_flux_in_air",
    "long_name":"Surface Upwelling Shortwave Radiation",
+   "standard_name":"surface_upwelling_shortwave_flux_in_air",
    "units":"W m-2"
   },
   "ruvds":{
@@ -1241,18 +1241,18 @@
    "units":"W m-2"
   },
   "rv":{
-   "standard_name":"atmosphere_relative_vorticity",
    "long_name":"Relative Vorticity",
+   "standard_name":"atmosphere_relative_vorticity",
    "units":"s-1"
   },
   "sf":{
-   "standard_name":"lwe_thickness_of_snowfall_amount",
    "long_name":"Thickness of the liquid water equivalent snowfall",
+   "standard_name":"lwe_thickness_of_snowfall_amount",
    "units":"m"
   },
   "sfcWind":{
-   "standard_name":"wind_speed",
    "long_name":"Near-Surface Wind Speed",
+   "standard_name":"wind_speed",
    "units":"m s-1"
   },
   "sfcWind_poe":{
@@ -1260,48 +1260,48 @@
    "units":"1"
   },
   "sfrate":{
-   "standard_name":"lwe_snowfall_rate",
    "long_name":"Snowfall rate",
+   "standard_name":"lwe_snowfall_rate",
    "units":"m s-1"
   },
   "sftlf":{
-   "standard_name":"land_area_fraction",
    "long_name":"Land Area Fraction",
+   "standard_name":"land_area_fraction",
    "units":"1"
   },
   "sftof":{
-   "standard_name":"sea_area_fraction",
    "long_name":"Sea Area Percentage",
+   "standard_name":"sea_area_fraction",
    "units":"%"
   },
   "si_dissolved":{
-   "standard_name":"mole_concentration_of_dissolved_inorganic_silicon_in_sea_water",
    "long_name":"Total Dissolved Inorganic Silicon Concentration",
+   "standard_name":"mole_concentration_of_dissolved_inorganic_silicon_in_sea_water",
    "units":"mol m-3"
   },
   "siclass":{
-   "standard_name":"sea_ice_classification",
    "long_name":"Sea Ice Classification",
+   "standard_name":"sea_ice_classification",
    "units":"1"
   },
   "siconca":{
-   "standard_name":"sea_ice_area_fraction",
    "long_name":"Sea Ice Area Fraction (Atmospheric Grid)",
+   "standard_name":"sea_ice_area_fraction",
    "units":"1"
   },
   "siedge":{
-   "standard_name":"sea_ice_classification",
    "long_name":"Sea Ice Edge Classification",
+   "standard_name":"sea_ice_classification",
    "units":"1"
   },
   "sithick":{
-   "standard_name":"sea_ice_thickness",
    "long_name":"Sea Ice Thickness",
+   "standard_name":"sea_ice_thickness",
    "units":"m"
   },
   "sitype":{
-   "standard_name":"sea_ice_classification",
    "long_name":"Sea Ice Type Classification",
+   "standard_name":"sea_ice_classification",
    "units":"1"
   },
   "skill":{
@@ -1309,28 +1309,28 @@
    "units":"1"
   },
   "snc":{
-   "standard_name":"surface_snow_area_fraction",
    "long_name":"Snow Area Percentage",
+   "standard_name":"surface_snow_area_fraction",
    "units":"%"
   },
   "snd":{
-   "standard_name":"surface_snow_thickness",
    "long_name":"Snow Depth",
+   "standard_name":"surface_snow_thickness",
    "units":"m"
   },
   "snd_lwe":{
-   "standard_name":"lwe_thickness_of_surface_snow_amount",
    "long_name":"Liquid water equivalent Snow Depth",
+   "standard_name":"lwe_thickness_of_surface_snow_amount",
    "units":"m"
   },
   "snow_albedo":{
-   "standard_name":"surface_albedo_assuming_deep_snow",
    "long_name":"Snow Albedo",
+   "standard_name":"surface_albedo_assuming_deep_snow",
    "units":"1"
   },
   "snow_density":{
-   "standard_name":"snow_density",
    "long_name":"Snow Density",
+   "standard_name":"snow_density",
    "units":"kg m-3"
   },
   "snow_density_anomaly":{
@@ -1338,23 +1338,23 @@
    "units":"kg m-3"
   },
   "snow_melt_amount":{
-   "standard_name":"surface_snow_melt_amount",
    "long_name":"Snow Melt Amount",
+   "standard_name":"surface_snow_melt_amount",
    "units":"kg m^-2"
   },
   "snow_melt_amount_lwe":{
-   "standard_name":"lwe_thickness_of_surface_snow_melt_amount",
    "long_name":"Liquid Water Equivalent of Snow Melt Amount",
+   "standard_name":"lwe_thickness_of_surface_snow_melt_amount",
    "units":"kg m^-2"
   },
   "snw":{
-   "standard_name":"surface_snow_amount",
    "long_name":"Snow Amount",
+   "standard_name":"surface_snow_amount",
    "units":"kg m^-2"
   },
   "so":{
-   "standard_name":"sea_water_salinity",
    "long_name":"Sea water salinity",
+   "standard_name":"sea_water_salinity",
    "units":"0.001"
   },
   "soil_loss":{
@@ -1370,23 +1370,23 @@
    "units":"day"
   },
   "spell_length_tasgt":{
-   "standard_name":"spell_length_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold",
    "long_name":"Length of time in consecutive days that LWE total precipitation is above a given condition",
+   "standard_name":"spell_length_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold",
    "units":"day"
   },
   "spell_length_taslt":{
-   "standard_name":"spell_length_of_days_with_lwe_thickness_of_precipitation_amount_below_threshold",
    "long_name":"Length of time in consecutive days that LWE total precipitation is below a given condition",
+   "standard_name":"spell_length_of_days_with_lwe_thickness_of_precipitation_amount_below_threshold",
    "units":"day"
   },
   "ssa":{
-   "standard_name":"single_scattering_albedo_in_air_due_to_ambient_aerosol_particles",
    "long_name":"Single scattering albedo",
+   "standard_name":"single_scattering_albedo_in_air_due_to_ambient_aerosol_particles",
    "units":"1"
   },
   "st":{
-   "standard_name":"soil_temperature",
    "long_name":"Soil Temperature",
+   "standard_name":"soil_temperature",
    "units":"K"
   },
   "sta":{
@@ -1402,28 +1402,28 @@
    "units":"K"
   },
   "stasmin":{
-   "standard_name":"air_temperature_spread",
    "long_name":"Daily Minimum Near-Surface Air Temperature Spread",
+   "standard_name":"air_temperature_spread",
    "units":"K"
   },
   "stl1":{
-   "standard_name":"soil_temperature",
    "long_name":"Top soil layer",
+   "standard_name":"soil_temperature",
    "units":"K"
   },
   "stl2":{
-   "standard_name":"soil_temperature",
    "long_name":"Soil layer 2",
+   "standard_name":"soil_temperature",
    "units":"K"
   },
   "stl3":{
-   "standard_name":"soil_temperature",
    "long_name":"Soil layer 3",
+   "standard_name":"soil_temperature",
    "units":"K"
   },
   "stl4":{
-   "standard_name":"soil_temperature",
    "long_name":"Soil layer 4",
+   "standard_name":"soil_temperature",
    "units":"K"
   },
   "stos":{
@@ -1439,23 +1439,23 @@
    "units":"m s-1"
   },
   "surface_radiation_budget":{
-   "standard_name":"surface_net_downward_radiative_flux",
    "long_name":"Surface Radiation Budget",
+   "standard_name":"surface_net_downward_radiative_flux",
    "units":"W m-2"
   },
   "surge_height":{
-   "standard_name":"surge_height",
    "long_name":"Storm surge contribution to water height",
+   "standard_name":"surge_height",
    "units":"m"
   },
   "sw_satfrac":{
-   "standard_name":"soil_water_as_fraction_of_saturation",
    "long_name":"Soil water content as fraction of saturation.",
+   "standard_name":"soil_water_as_fraction_of_saturation",
    "units":"1"
   },
   "swh":{
-   "standard_name":"significant_wave_height",
    "long_name":"Significant height of wind and swell waves",
+   "standard_name":"significant_wave_height",
    "units":"m"
   },
   "swh_poe":{
@@ -1463,88 +1463,88 @@
    "units":"1"
   },
   "swvl":{
-   "standard_name":"volume_fraction_of_condensed_water_in_soil",
    "long_name":"Volumetric soil moisture of soil layer.",
+   "standard_name":"volume_fraction_of_condensed_water_in_soil",
    "units":"m3 m-3"
   },
   "swvl1":{
-   "standard_name":"volumetric_soil_water",
    "long_name":"Volumetric soil moisture of soil layer 1.",
+   "standard_name":"volumetric_soil_water",
    "units":"m3 m-3"
   },
   "swvl2":{
-   "standard_name":"volumetric_soil_water",
    "long_name":"Volumetric soil moisture of soil layer 2.",
+   "standard_name":"volumetric_soil_water",
    "units":"m3 m-3"
   },
   "swvl3":{
-   "standard_name":"volumetric_soil_water",
    "long_name":"Volumetric soil moisture of soil layer 3.",
+   "standard_name":"volumetric_soil_water",
    "units":"m3 m-3"
   },
   "swvl4":{
-   "standard_name":"volumetric_soil_water",
    "long_name":"Volumetric soil moisture of soil layer 4.",
+   "standard_name":"volumetric_soil_water",
    "units":"m3 m-3"
   },
   "sza":{
-   "standard_name":"solar_zenith_angle",
    "long_name":"Solar zenith angle",
+   "standard_name":"solar_zenith_angle",
    "units":"degrees"
   },
   "ta":{
-   "standard_name":"air_temperature",
    "long_name":"Air temperature",
+   "standard_name":"air_temperature",
    "units":"K"
   },
   "ta_tu":{
-   "standard_name":"air_temperature_total_uncertainty",
    "long_name":"Air Temperature total uncertainty",
+   "standard_name":"air_temperature_total_uncertainty",
    "units":"K"
   },
   "tas":{
-   "standard_name":"air_temperature",
    "long_name":"Near-Surface Air Temperature",
+   "standard_name":"air_temperature",
    "units":"K"
   },
   "tas_delta":{
-   "standard_name":"air_temperature",
    "long_name":"Change in Near-Surface Air Temperature",
+   "standard_name":"air_temperature",
    "units":"K"
   },
   "tas_diurnal":{
-   "standard_name":"air_temperature_diurnal",
    "long_name":"Diurnal range of the Near-Surface Air Temperature",
+   "standard_name":"air_temperature_diurnal",
    "units":"K"
   },
   "tasmax":{
-   "standard_name":"air_temperature",
    "long_name":"Daily Maximum Near-Surface Air Temperature",
+   "standard_name":"air_temperature",
    "units":"K"
   },
   "tasmin":{
-   "standard_name":"air_temperature",
    "long_name":"Daily Minimum Near-Surface Air Temperature",
+   "standard_name":"air_temperature",
    "units":"K"
   },
   "tauu":{
-   "standard_name":"surface_downward_eastward_stress",
    "long_name":"Surface Downward Eastward Wind Stress",
+   "standard_name":"surface_downward_eastward_stress",
    "units":"Pa"
   },
   "tauu_accumulated":{
-   "standard_name":"integral_wrt_time_of_surface_downward_eastward_stress",
    "long_name":"Accumulated Surface Downward Eastward Wind Stress",
+   "standard_name":"integral_wrt_time_of_surface_downward_eastward_stress",
    "units":"Pa s"
   },
   "tauv":{
-   "standard_name":"surface_downward_northward_stress",
    "long_name":"Surface Downward Northward Wind Stress",
+   "standard_name":"surface_downward_northward_stress",
    "units":"Pa"
   },
   "tauv_accumulated":{
-   "standard_name":"integral_wrt_time_of_surface_downward_northward_stress",
    "long_name":"Accumulated Surface Downward Northward Wind Stress",
+   "standard_name":"integral_wrt_time_of_surface_downward_northward_stress",
    "units":"Pa s"
   },
   "tc_active_points":{
@@ -1552,58 +1552,58 @@
    "units":"1"
   },
   "tcwv":{
-   "standard_name":"atmosphere_mass_content_of_water",
    "long_name":"Total Column Water Vapour",
+   "standard_name":"atmosphere_mass_content_of_water",
    "units":"kg m-2"
   },
   "temperature":{
-   "standard_name":"temperature",
    "long_name":"Temperature",
+   "standard_name":"temperature",
    "units":"K"
   },
   "temperature_gradient":{
-   "standard_name":"temperature_gradient",
    "long_name":"Temperature gradient",
+   "standard_name":"temperature_gradient",
    "units":"K"
   },
   "thetao":{
-   "standard_name":"sea_water_potential_temperature",
    "long_name":"Sea Water Potential Temperature",
+   "standard_name":"sea_water_potential_temperature",
    "units":"K"
   },
   "tide_height":{
-   "standard_name":"sea_surface_height_amplitude_due_to_tide",
    "long_name":"Barotropic tidal signal containing astronomic tide, self-attraction and loading, radiational tides and mean sea-level",
+   "standard_name":"sea_surface_height_amplitude_due_to_tide",
    "units":"m"
   },
   "time_since_launch":{
-   "standard_name":"time_since_launch",
    "long_name":"Time since launch",
+   "standard_name":"time_since_launch",
    "units":"s"
   },
   "tos":{
-   "standard_name":"sea_surface_temperature",
    "long_name":"Sea Surface Temperature",
+   "standard_name":"sea_surface_temperature",
    "units":"K"
   },
   "tosk":{
-   "standard_name":"sea_surface_skin_temperature",
    "long_name":"Sea Surface Skin Temperature",
+   "standard_name":"sea_surface_skin_temperature",
    "units":"K"
   },
   "toz":{
-   "standard_name":"equivalent_thickness_at_stp_of_atmosphere_ozone_content",
    "long_name":"Total Column Ozone",
+   "standard_name":"equivalent_thickness_at_stp_of_atmosphere_ozone_content",
    "units":"m"
   },
   "toz_std":{
-   "standard_name":"std_of_equivalent_thickness_at_stp_of_atmosphere_ozone_content",
    "long_name":"Total Column Ozone Standard Deviation",
+   "standard_name":"std_of_equivalent_thickness_at_stp_of_atmosphere_ozone_content",
    "units":"m"
   },
   "tp":{
-   "standard_name":"lwe_thickness_of_precipitation_amount",
    "long_name":"Thickness of the liquid water equivalent total precipitation",
+   "standard_name":"lwe_thickness_of_precipitation_amount",
    "units":"m"
   },
   "tpara":{
@@ -1611,8 +1611,8 @@
    "units":"m s-1"
   },
   "tprate":{
-   "standard_name":"lwe_precipitation_rate",
    "long_name":"Total precipitation rate",
+   "standard_name":"lwe_precipitation_rate",
    "units":"m s-1"
   },
   "track":{
@@ -1624,38 +1624,38 @@
    "units":"s"
   },
   "ts":{
-   "standard_name":"surface_temperature",
    "long_name":"Surface Temperature",
+   "standard_name":"surface_temperature",
    "units":"K"
   },
   "tsn":{
-   "standard_name":"temperature_in_surface_snow",
    "long_name":"Snow Internal Temperature",
+   "standard_name":"temperature_in_surface_snow",
    "units":"K"
   },
   "u_geosvel":{
-   "standard_name":"surface_geostrophic_eastward_sea_water_velocity",
    "long_name":"Absolute geostrophic velocity: eastward component",
+   "standard_name":"surface_geostrophic_eastward_sea_water_velocity",
    "units":"m s-1"
   },
   "u_geosvel_anomaly":{
-   "standard_name":"surface_geostrophic_eastward_sea_water_velocity_assuming_sea_level_for_geoid",
    "long_name":"Geostrophic velocity anomalies: eastward component",
+   "standard_name":"surface_geostrophic_eastward_sea_water_velocity_assuming_sea_level_for_geoid",
    "units":"m s-1"
   },
   "ua":{
-   "standard_name":"eastward_wind",
    "long_name":"Eastward Wind",
+   "standard_name":"eastward_wind",
    "units":"m s-1"
   },
   "ua100":{
-   "standard_name":"eastward_wind",
    "long_name":"Eastward Wind",
+   "standard_name":"eastward_wind",
    "units":"m s-1"
   },
   "uas":{
-   "standard_name":"eastward_wind",
    "long_name":"Eastward Near-Surface Wind",
+   "standard_name":"eastward_wind",
    "units":"m s-1"
   },
   "utci":{
@@ -1663,28 +1663,28 @@
    "units":"K"
   },
   "v_geosvel":{
-   "standard_name":"surface_geostrophic_northward_sea_water_velocity",
    "long_name":"Absolute geostrophic velocity: northward component",
+   "standard_name":"surface_geostrophic_northward_sea_water_velocity",
    "units":"m s-1"
   },
   "v_geosvel_anomaly":{
-   "standard_name":"surface_geostrophic_northward_sea_water_velocity_assuming_sea_level_for_geoid",
    "long_name":"Geostrophic velocity anomalies: northward component",
+   "standard_name":"surface_geostrophic_northward_sea_water_velocity_assuming_sea_level_for_geoid",
    "units":"m s-1"
   },
   "va":{
-   "standard_name":"northward_wind",
    "long_name":"Northward Wind",
+   "standard_name":"northward_wind",
    "units":"m s-1"
   },
   "va100":{
-   "standard_name":"northward_wind",
    "long_name":"Northward Wind",
+   "standard_name":"northward_wind",
    "units":"m s-1"
   },
   "vas":{
-   "standard_name":"northward_wind",
    "long_name":"Northward Near-Surface Wind",
+   "standard_name":"northward_wind",
    "units":"m s-1"
   },
   "vertically_integrated_moisture_divergence":{
@@ -1696,13 +1696,13 @@
    "units":"m**3"
   },
   "water_surface_height":{
-   "standard_name":"water_surface_height_above_reference_datum",
    "long_name":"Water surface height above geoid",
+   "standard_name":"water_surface_height_above_reference_datum",
    "units":"m"
   },
   "water_vapour_pressure":{
-   "standard_name":"water_vapor_partial_pressure_in_air",
    "long_name":"Water vapor partial pressure in air",
+   "standard_name":"water_vapor_partial_pressure_in_air",
    "units":"Pa"
   },
   "wave_rose":{
@@ -1710,28 +1710,28 @@
    "units":"1"
   },
   "wdw":{
-   "standard_name":"wave_spectral_directional_width",
    "long_name":"Wave spectral directional width",
+   "standard_name":"wave_spectral_directional_width",
    "units":"1"
   },
   "wilt":{
-   "standard_name":"volume_fraction_of_condensed_water_in_soil_at_wilting_point",
    "long_name":"Wilting Point",
+   "standard_name":"volume_fraction_of_condensed_water_in_soil_at_wilting_point",
    "units":"%"
   },
   "wind":{
-   "standard_name":"wind_speed",
    "long_name":"Wind Speed",
+   "standard_name":"wind_speed",
    "units":"m s-1"
   },
   "wind_direction":{
-   "standard_name":"wind_to_direction",
    "long_name":"Wind to direction",
+   "standard_name":"wind_to_direction",
    "units":"degrees"
   },
   "wind_gust":{
-   "standard_name":"wind_speed_of_gust",
    "long_name":"Wind Speed of gust",
+   "standard_name":"wind_speed_of_gust",
    "units":"m s-1"
   },
   "wind_rose":{
@@ -1739,38 +1739,38 @@
    "units":"1"
   },
   "xgwdparam":{
-   "standard_name":"atmosphere_eastward_stress_due_to_gravity_wave_drag",
    "long_name":"Eastward Gravity Wave Drag",
+   "standard_name":"atmosphere_eastward_stress_due_to_gravity_wave_drag",
    "units":"Pa"
   },
   "ygwdparam":{
-   "standard_name":"atmosphere_northward_stress_due_to_gravity_wave_drag",
    "long_name":"Northward Gravity Wave Drag",
+   "standard_name":"atmosphere_northward_stress_due_to_gravity_wave_drag",
    "units":"Pa"
   },
   "zg":{
-   "standard_name":"geopotential_height",
    "long_name":"Geopotential Height",
+   "standard_name":"geopotential_height",
    "units":"m"
   },
   "zooc":{
-   "standard_name":"mole_concentration_of_zooplankton_expressed_as_carbon_in_sea_water",
    "long_name":"Zooplankton Carbon Concentration",
+   "standard_name":"mole_concentration_of_zooplankton_expressed_as_carbon_in_sea_water",
    "units":"mol m-3"
   },
   "zoosp":{
-   "standard_name":"tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_secondary_production",
    "long_name":"Secondary Carbon Production by Zooplankton",
+   "standard_name":"tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_secondary_production",
    "units":"mol m-3 s-1"
   },
   "zos_anomaly":{
-   "standard_name":"sea_surface_height_above_mean_sea_level",
    "long_name":"Sea Surface Height Above Sea Level",
+   "standard_name":"sea_surface_height_above_mean_sea_level",
    "units":"m"
   },
   "zos_geoid":{
-   "standard_name":"sea_surface_height_above_geoid",
    "long_name":"Sea Surface Height Above Geoid",
+   "standard_name":"sea_surface_height_above_geoid",
    "units":"m"
   }
  }
