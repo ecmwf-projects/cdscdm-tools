@@ -163,7 +163,7 @@ def check_dataset_data_vars(
     if len(payload_vars) > 1:
         log.error(
             "file must have at most one non-auxiliary variable",
-            data_vars=list(data_vars),
+            data_vars=list(payload_vars),
         )
     for data_var_name, data_var in payload_vars.items():
         log = log.bind(data_var_name=data_var_name)
