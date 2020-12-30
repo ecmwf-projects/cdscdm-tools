@@ -1,0 +1,1 @@
+{"axis_entry": {"time": {"units": "seconds since 1970-1-1", "out_name": "time", "stored_direction": "decreasing", "standard_name": "time"}, "leadtime": {"units": "hours", "out_name": "leadtime"}}, "variable_entry": {"ta": {"units": "K", "out_name": "ta"}}}

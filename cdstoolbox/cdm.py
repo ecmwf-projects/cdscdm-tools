@@ -13,10 +13,7 @@ import xarray as xr
 
 LOGGER = structlog.get_logger()
 
-try:
-    CDM = json.loads(pkgutil.get_data(__name__, "cdm.json") or "")
-except json.JSONDecodeError:
-    CDM = {}
+CDM = json.loads(pkgutil.get_data(__name__, "cdm.json") or "")
 CDM_ATTRS: T.List[str] = CDM.get("attrs", [])
 CDM_COORDS: T.Dict[str, T.Dict[str, str]] = CDM.get("coords", {})
 CDM_DATA_VARS: T.Dict[str, T.Dict[str, str]] = CDM.get("data_vars", {})
@@ -201,65 +198,77 @@ def check_dataset_coords(
         check_variable(coord_name, coord, CDM_COORDS, log=log)
 
 
+def open_netcdf_dataset(file_path: T.Union[str, "os.PathLike[str]"]) -> xr.Dataset:
+    bare_dataset = xr.open_dataset(file_path, decode_cf=False)  # type: ignore
+    return xr.decode_cf(bare_dataset, use_cftime=False)  # type: ignore
+
+
 def check_dataset(dataset: xr.Dataset, log: structlog.BoundLogger = LOGGER) -> None:
     check_dataset_attrs(dataset.attrs, log=log)
     check_dataset_coords(dataset.coords, log=log)
     check_dataset_data_vars(dataset.data_vars, log=log)
 
 
-def open_netcdf_dataset(file_path: T.Union[str, "os.PathLike[str]"]) -> xr.Dataset:
-    bare_dataset = xr.open_dataset(file_path, decode_cf=False)  # type: ignore
-    return xr.decode_cf(bare_dataset, use_cftime=False)  # type: ignore
-
-
-def check_file(file_path: T.Union[str, "os.PathLike[str]"]) -> None:
-    dataset = open_netcdf_dataset(file_path)
-    check_dataset(dataset)
-
-
-def cmor_to_cdm(cmor_tables_dir: T.Union[str, "os.PathLike[str]"],) -> str:
+def open_cmor_tables(
+    cmor_tables_dir: T.Union[str, "os.PathLike[str]"]
+) -> T.List[T.Dict[str, T.Any]]:
     cmor_tables_dir = pathlib.Path(cmor_tables_dir)
+    cmor_table_paths = [
+        cmor_tables_dir / "CDS_coordinate.json",
+        cmor_tables_dir / "CDS_variable.json",
+    ]
+    cmor_objects = []
+    for path in cmor_table_paths:
+        with open(path) as fp:
+            cmor_objects.append(json.load(fp))
+    return cmor_objects
+
+
+def cmor_to_cdm(cmor_objects: T.List[T.Dict[str, T.Any]]) -> T.Dict[str, T.Any]:
     axis_entry: T.Dict[str, T.Dict[str, str]]
-    with open(cmor_tables_dir / "CDS_coordinate.json") as fp:
-        axis_entry = json.load(fp).get("axis_entry", {})
-
-    cdm_coords: T.Dict[str, T.Any] = {}
-    for coord in sorted(axis_entry.values(), key=lambda x: x["out_name"]):
-        cdm_coord = {
-            k: v for k, v in coord.items() if v and k in {"standard_name", "long_name"}
-        }
-        if coord.get("units", "") and "since" not in coord["units"]:
-            cdm_coord["units"] = coord["units"]
-        if coord.get("stored_direction", "") not in {"increasing", ""}:
-            cdm_coord["stored_direction"] = coord["stored_direction"]
-        cdm_coords[coord["out_name"]] = cdm_coord
-
     variable_entry: T.Dict[str, T.Dict[str, str]]
-    with open(cmor_tables_dir / "CDS_variable.json") as fp:
-        variable_entry = json.load(fp).get("variable_entry", {})
-
+    cdm_coords: T.Dict[str, T.Any] = {}
     cdm_data_vars = {}
-    for coord in sorted(variable_entry.values(), key=lambda x: x["out_name"]):
-        cdm_data_var = {
-            k: v for k, v in coord.items() if v and k in {"standard_name", "long_name"}
-        }
-        if coord.get("units", "") and "since" not in coord["units"]:
-            cdm_data_var["units"] = coord["units"]
-        cdm_data_vars[coord["out_name"]] = cdm_data_var
+    for cmor_object in cmor_objects:
+        axis_entry = cmor_object.get("axis_entry", {})
+        variable_entry = cmor_object.get("variable_entry", {})
+
+        for _, coord in sorted(
+            axis_entry.items(), key=lambda x: x[1].get("out_name", x[0])
+        ):
+            cdm_coord = {
+                k: v
+                for k, v in coord.items()
+                if v and k in {"standard_name", "long_name"}
+            }
+            if coord.get("units", "") and "since" not in coord["units"]:
+                cdm_coord["units"] = coord["units"]
+            if coord.get("stored_direction", "") not in {"increasing", ""}:
+                cdm_coord["stored_direction"] = coord["stored_direction"]
+            cdm_coords[coord["out_name"]] = cdm_coord
+
+        for coord in sorted(variable_entry.values(), key=lambda x: x["out_name"]):
+            cdm_data_var = {
+                k: v
+                for k, v in coord.items()
+                if v and k in {"standard_name", "long_name", "units"}
+            }
+            cdm_data_vars[coord["out_name"]] = cdm_data_var
 
     cdm = {
         "attrs": ["title", "history", "institution", "source", "comment", "references"],
         "coords": cdm_coords,
         "data_vars": cdm_data_vars,
     }
-    return json.dumps(cdm, separators=(",", ":"), indent=1)
+    return cdm
 
 
 @click.command()
 @click.argument("cmor_tables_dir", type=click.Path(exists=True))
 def cmor_to_cdm_cli(cmor_tables_dir: str) -> None:
-    cdm_json = cmor_to_cdm(cmor_tables_dir)
-    print(cdm_json)
+    cmor_objects = open_cmor_tables(cmor_tables_dir)
+    cdm_objects = cmor_to_cdm(cmor_objects)
+    print(json.dumps(cdm_objects, separators=(",", ":"), indent=1, sort_keys=True))
 
 
 @click.command()
@@ -267,4 +276,5 @@ def cmor_to_cdm_cli(cmor_tables_dir: str) -> None:
 def check_file_cli(file_path: str) -> None:
     logging.basicConfig(level=logging.INFO)
     structlog.configure(logger_factory=structlog.stdlib.LoggerFactory())
-    check_file(file_path)
+    dataset = open_netcdf_dataset(file_path)
+    check_dataset(dataset)
