@@ -67,7 +67,7 @@ setuptools.setup(
     entry_points={
         "console_scripts": [
             "cdscdm-check-file=cdstoolbox.cdm:check_file_cli",
-            "cdscdm-cmor-to-cdm=cdstoolbox.cdm:cmor_to_cdm_cli",
+            "cdscdm-cmor-to-cdm=cdstoolbox.cmor_to_cdm:cmor_to_cdm_cli",
         ]
     },
 )
