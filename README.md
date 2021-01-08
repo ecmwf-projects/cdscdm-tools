@@ -1,4 +1,4 @@
-# cdstoolbox
+# cdscdm-tools
 
 Remote API to the Climate Data Store Toolbox
 
@@ -6,17 +6,17 @@ Remote API to the Climate Data Store Toolbox
 
 First time setup:
 ```
-git clone https://github.com/bopen/cdstoolbox
-cd cdstoolbox
-conda env create -n CDSTOOLBOX -f environment.in.yml
-conda activate CDSTOOLBOX
+git clone https://github.com/bopen/cdscdm-tools
+cd cdscdm-tools
+conda env create -n CDSCDM-TOOLS -f environment.in.yml
+conda activate CDSCDM-TOOLS
 pip install -e .
 ```
 
 New shell setup:
 ```
-cd cdstoolbox
-conda activate CDSTOOLBOX
+cd cdscdm-tools
+conda activate CDSCDM-TOOLS
 conda env update -f environment.in.yml
 ```
 

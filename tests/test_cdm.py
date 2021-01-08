@@ -7,7 +7,7 @@ import pytest
 import structlog  # type: ignore
 import xarray as xr
 
-from cdstoolbox import cdm
+from cdscdm_tools import cdm
 
 
 @pytest.fixture(name="log_output")

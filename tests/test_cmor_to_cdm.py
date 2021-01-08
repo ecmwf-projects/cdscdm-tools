@@ -5,7 +5,7 @@ import typing as T
 import pytest
 import structlog  # type: ignore
 
-from cdstoolbox import cmor_to_cdm
+from cdscdm_tools import cmor_to_cdm
 
 
 @pytest.fixture(name="log_output")

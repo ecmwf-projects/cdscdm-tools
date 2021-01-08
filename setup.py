@@ -37,15 +37,15 @@ def parse_version_from(path: str) -> str:
 
 
 setuptools.setup(
-    name="cdstoolbox",
-    version=parse_version_from("cdstoolbox/__init__.py"),
+    name="cdscdm-tools",
+    version=parse_version_from("cdscdm_tools/__init__.py"),
     description="Remote API to the Climate Data Store Toolbox",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     author="European Centre for Medium-Range Weather Forecasts (ECMWF)",
     author_email="software.support@ecmwf.int",
     license="Apache License Version 2.0",
-    url="https://github.com/bopen/cdstoolbox",
+    url="https://github.com/bopen/cdscdm-tools",
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=["cfunits", "click", "netcdf4", "structlog", "xarray"],
@@ -67,8 +67,8 @@ setuptools.setup(
     ],
     entry_points={
         "console_scripts": [
-            "cdscdm-check-file=cdstoolbox.cdm:check_file_cli",
-            "cdscdm-cmor-to-cdm=cdstoolbox.cmor_to_cdm:cmor_to_cdm_cli",
+            "cdscdm-check-file=cdscdm_tools.cdm:check_file_cli",
+            "cdscdm-cmor-to-cdm=cdscdm_tools.cmor_to_cdm:cmor_to_cdm_cli",
         ]
     },
 )

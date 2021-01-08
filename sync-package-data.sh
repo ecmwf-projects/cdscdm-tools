@@ -14,4 +14,4 @@ git reset --hard && git checkout $1 && git pull
 
 cd ../..
 
-(cdscdm-cmor-to-cdm ./tmp/cds-cmor-tables/Tables > ./cdstoolbox/cdm.json~) && mv ./cdstoolbox/cdm.json~ ./cdstoolbox/cdm.json
+(cdscdm-cmor-to-cdm ./tmp/cds-cmor-tables/Tables > ./cdscdm-tools/cdm.json~) && mv ./cdscdm-tools/cdm.json~ ./cdscdm-tools/cdm.json
