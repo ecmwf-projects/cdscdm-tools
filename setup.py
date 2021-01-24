@@ -39,7 +39,7 @@ def parse_version_from(path: str) -> str:
 setuptools.setup(
     name="cdscdm-tools",
     version=parse_version_from("cdscdm_tools/__init__.py"),
-    description="Remote API to the Climate Data Store Toolbox",
+    description="Tools to check compliance to the Common Data Model of the Climate Data Store",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     author="European Centre for Medium-Range Weather Forecasts (ECMWF)",
