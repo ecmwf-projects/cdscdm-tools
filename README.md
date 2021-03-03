@@ -1,12 +1,12 @@
 # cdscdm-tools
 
-Remote API to the Climate Data Store Toolbox
+Compliance checker to the CDS Common Data Model
 
 # Develop
 
 First time setup:
 ```
-git clone https://github.com/bopen/cdscdm-tools
+git clone https://github.com/ecmwf-projects/cdscdm-tools
 cd cdscdm-tools
 conda env create -n CDSCDM-TOOLS -f environment.in.yml
 conda activate CDSCDM-TOOLS

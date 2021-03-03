@@ -45,7 +45,7 @@ setuptools.setup(
     author="European Centre for Medium-Range Weather Forecasts (ECMWF)",
     author_email="software.support@ecmwf.int",
     license="Apache License Version 2.0",
-    url="https://github.com/bopen/cdscdm-tools",
+    url="https://github.com/ecmwf-projects/cdscdm-tools",
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=["cfunits", "click", "netcdf4", "structlog", "xarray"],
