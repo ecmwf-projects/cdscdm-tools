@@ -52,7 +52,8 @@ jobs:
       shell: bash -l {0}
       run: |
         conda install mypy pytest
-        mypy --strict .
+        mypy --strict cdscds_tools
+        mypy .
 
   code-style:
     runs-on: ubuntu-latest
