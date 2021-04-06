@@ -50,10 +50,10 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Type check with mypy
       shell: bash -l {0}
+      if: ${{ false }}
       run: |
         conda install mypy pytest
-        mypy --strict cdscds_tools
-        mypy .
+        mypy --strict .
 
   code-style:
     runs-on: ubuntu-latest

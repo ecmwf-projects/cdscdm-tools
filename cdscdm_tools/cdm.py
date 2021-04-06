@@ -7,7 +7,7 @@ import typing as T
 import cfunits  # type: ignore
 import click
 import numpy as np  # type: ignore
-import structlog  # type: ignore
+import structlog
 import xarray as xr
 
 LOGGER = structlog.get_logger()

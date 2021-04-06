@@ -5,7 +5,7 @@ import pathlib
 import typing as T
 
 import click
-import structlog  # type: ignore
+import structlog
 
 LOGGER = structlog.get_logger()
 
