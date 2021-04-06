@@ -1051,6 +1051,11 @@
    "standard_name":"stratiform_snowfall_flux",
    "units":"kg m-2 s-1"
   },
+  "prw":{
+   "long_name":"Water Vapor Path",
+   "standard_name":"atmosphere_mass_content_of_water_vapor",
+   "units":"kg m-2"
+  },
   "ps":{
    "long_name":"Surface Air Pressure",
    "standard_name":"surface_air_pressure",
@@ -1551,6 +1556,11 @@
    "long_name":"tropical cyclones active points",
    "units":"1"
   },
+  "tco3":{
+   "long_name":"Total Column Ozone",
+   "standard_name":"atmosphere_mass_content_of_ozone",
+   "units":"kg m-2"
+  },
   "tcwv":{
    "long_name":"Total Column Water Vapour",
    "standard_name":"atmosphere_mass_content_of_water",
@@ -1559,6 +1569,10 @@
   "temperature":{
    "long_name":"Temperature",
    "standard_name":"temperature",
+   "units":"K"
+  },
+  "temperature_anomaly":{
+   "long_name":"Temperature Anomaly",
    "units":"K"
   },
   "temperature_gradient":{
@@ -1713,6 +1727,10 @@
    "long_name":"Wave spectral directional width",
    "standard_name":"wave_spectral_directional_width",
    "units":"1"
+  },
+  "wetness_amount":{
+   "long_name":"Wetness amount",
+   "units":"kg m-2"
   },
   "wilt":{
    "long_name":"Wilting Point",
